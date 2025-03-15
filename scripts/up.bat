@@ -1,4 +1,4 @@
-REM "./scripts/up.bat" remark
+REM "./scripts/up.bat" comment
 
 git add .
 git commit -m "%*"
