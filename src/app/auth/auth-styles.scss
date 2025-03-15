@@ -1,31 +1,36 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  header {
-    background-color: #f0f0f0;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  footer {
-    background-color: #e0e0e0;
-    padding: 10px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  }
+header {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
 
-  .android__footer {
-    background-color: red;
-    padding-bottom: 64px;
-  }
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+footer {
+  background-color: #e0e0e0;
+  padding: 10px;
+  text-align: center;
+  padding-bottom: 150px;
+}
+
+.android__footer {
+  background-color: red;
+  padding-bottom: 64px;
+}
+
+.iphone__footer {
+  background-color: yellow !important;
+  padding-bottom: 200px;
+}
