@@ -12,7 +12,7 @@ export const authRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'password-reset', component: PasswordResetComponent },
-  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  { path: '', redirectTo: 'start', pathMatch: 'full' },
 ];
 
 @NgModule({
