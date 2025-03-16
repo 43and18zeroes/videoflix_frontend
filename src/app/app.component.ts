@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DeviceService } from './auth/services/device/device.service';
+import { DeviceService } from './services/device/device.service';
 
 @Component({
   selector: 'app-root',
