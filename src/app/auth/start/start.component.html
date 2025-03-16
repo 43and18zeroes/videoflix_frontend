@@ -4,8 +4,10 @@
 <main>
   <h1>Movies, TV shows, and more</h1>
   <p>Enter your email to create or restart your subscription.</p>
-  <input type="email">
-  <button>Sign Up ></button>
+  <form (ngSubmit)="submitEmail()">
+    <input type="email" placeholder="Email Address" id="email" name="email" [(ngModel)]="email" required>
+    <button type="submit">Sign Up ></button>
+  </form>
 </main>
 <footer>
   <p>&copy; 2024 Videoflix</p>
