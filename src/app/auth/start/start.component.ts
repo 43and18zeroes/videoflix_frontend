@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-start',
@@ -12,7 +13,16 @@ import { CommonModule } from '@angular/common';
 export class StartComponent {
   email: string = '';
 
+  constructor(private authService: AuthService) { }
+
   submitEmail() {
-    console.log('E-Mail-Adresse:', this.email);
+    this.authService.registerUser(this.email).subscribe(
+      response => {
+        console.log('Registrierung erfolgreich', response);
+      },
+      error => {
+        console.error('Registrierung fehlgeschlagen', error);
+      }
+    );
   }
 }
