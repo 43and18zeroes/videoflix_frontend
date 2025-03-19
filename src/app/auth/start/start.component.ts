@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { AuthHeaderComponent } from '../components/auth-header/auth-header.component';
 
 @Component({
   selector: 'app-start',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AuthHeaderComponent],
   templateUrl: './start.component.html',
   styleUrl: './start.component.scss',
 })
