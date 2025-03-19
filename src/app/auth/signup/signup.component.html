@@ -1,1 +1,10 @@
-<p>signup works!</p>
+<app-auth-header></app-auth-header>
+<main>
+  <h1>Movies, TV shows, and more</h1>
+  <p>Enter your email to create or restart your subscription.</p>
+  <form (ngSubmit)="submitPasswd()">
+    <input type="email" placeholder="Email Address" id="email" name="email" [(ngModel)]="email" required>
+    <button type="submit">Sign Up ></button>
+  </form>
+</main>
+<app-auth-footer></app-auth-footer>
