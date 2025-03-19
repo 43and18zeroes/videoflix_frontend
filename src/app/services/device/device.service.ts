@@ -26,7 +26,7 @@ export class DeviceService {
 
   private applyDeviceClassToFooter(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const footer = document.querySelector('footer');
+      const footer = document.querySelector('app-auth-footer');
 
       if (footer) {
         if (this.isAndroid) {
