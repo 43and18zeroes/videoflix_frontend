@@ -10,6 +10,11 @@ main {
   justify-content: center;
   align-items: center;
   padding: 20px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .android__footer {
