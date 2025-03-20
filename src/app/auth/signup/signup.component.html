@@ -1,25 +1,28 @@
 <app-auth-header></app-auth-header>
 <main>
-  <!-- <form (ngSubmit)="submitPasswd()">
-    <h1>Sign up</h1>
-    <p>Choose a save password</p>
+  <div *ngIf="successMessage">{{ successMessage }}</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <form
+    *ngIf="showPasswordForm"
+    [formGroup]="setPasswordForm"
+    (ngSubmit)="onSubmit()"
+  >
     <input
-      type="email"
-      placeholder="Password"
-      id="email"
-      name="email"
-      [(ngModel)]="email"
+      type="password"
+      formControlName="password"
+      placeholder="Passwort"
       required
     />
     <input
-      type="email"
-      placeholder="Confirm password"
-      id="email"
-      name="email"
-      [(ngModel)]="email"
+      type="password"
+      formControlName="confirmPassword"
+      placeholder="Passwort bestätigen"
       required
     />
-    <button type="submit">Sign Up ></button>
-  </form> -->
+    <button type="submit" [disabled]="setPasswordForm.invalid">
+      Passwort festlegen
+    </button>
+  </form>
 </main>
 <app-auth-footer></app-auth-footer>
