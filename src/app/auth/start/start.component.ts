@@ -20,10 +20,10 @@ export class StartComponent {
   submitEmail() {
     this.authService.registerUser(this.email).subscribe(
       response => {
-        console.log('Registrierung erfolgreich', response);
+        console.log('Registration successful', response);
       },
       error => {
-        console.error('Registrierung fehlgeschlagen', error);
+        console.error('Registration failed', error);
       }
     );
   }
