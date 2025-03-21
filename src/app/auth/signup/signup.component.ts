@@ -65,6 +65,9 @@ export class SignupComponent {
         response => {
           this.successMessage = 'Password set successfully';
           this.router.navigate(['/login']);
+          localStorage.setItem('access_token', response.access);
+          localStorage.setItem('refresh_token', response.refresh);
+          this.router.navigate(['/video-offer']);
         },
         error => {
           this.errorMessage = 'Password setting failed';
