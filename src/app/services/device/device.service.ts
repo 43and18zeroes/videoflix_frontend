@@ -11,23 +11,23 @@ export class DeviceService {
 
   constructor(
     rendererFactory: RendererFactory2,
-    @Inject(PLATFORM_ID) private platformId: Object // Überprüft, ob es der Browser ist
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
 
-    // Prüfen, ob der Code im Browser läuft
     if (isPlatformBrowser(this.platformId)) {
       this.isAndroid = /Android/i.test(navigator.userAgent);
       this.isiPhone = /iPhone|iPod/i.test(navigator.userAgent);
 
-      this.applyDeviceClassToFooter();
+      window.addEventListener('DOMContentLoaded', () => {
+        this.applyDeviceClassToFooter();
+      });
     }
   }
 
   private applyDeviceClassToFooter(): void {
     if (isPlatformBrowser(this.platformId)) {
       const footer = document.querySelector('app-auth-footer');
-
       if (footer) {
         if (this.isAndroid) {
           this.renderer.addClass(footer, 'android__footer');
