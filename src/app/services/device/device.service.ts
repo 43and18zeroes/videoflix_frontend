@@ -22,10 +22,11 @@ export class DeviceService {
     this.renderer = rendererFactory.createRenderer(null, null);
 
     if (isPlatformBrowser(this.platformId)) {
-      this.isAndroid = /Android/i.test(navigator.userAgent);
-      this.isiPhone = /iPhone|iPod/i.test(navigator.userAgent);
+      const userAgent = navigator.userAgent;
+      this.isAndroid = /Android/i.test(userAgent);
+      this.isiPhone = /iPhone|iPad|iPod/i.test(userAgent) || /iOS/i.test(userAgent);
 
-      window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener('load', () => { // verwendet window.onload
         this.applyDeviceClassToFooter();
       });
     }
