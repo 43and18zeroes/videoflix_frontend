@@ -1,8 +1,14 @@
-import { Injectable, Renderer2, RendererFactory2, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Injectable,
+  Renderer2,
+  RendererFactory2,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DeviceService {
   private renderer: Renderer2;
@@ -26,15 +32,13 @@ export class DeviceService {
   }
 
   private applyDeviceClassToFooter(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const footer = document.querySelector('app-auth-footer');
-      if (footer) {
-        if (this.isAndroid) {
-          this.renderer.addClass(footer, 'android__footer');
-        } 
-        if (this.isiPhone) {
-          this.renderer.addClass(footer, 'iphone__footer');
-        }
+    const footer = document.querySelector('app-auth-footer');
+    if (footer) {
+      if (this.isAndroid) {
+        this.renderer.addClass(footer, 'android__footer');
+      }
+      if (this.isiPhone) {
+        this.renderer.addClass(footer, 'iphone__footer');
       }
     }
   }
