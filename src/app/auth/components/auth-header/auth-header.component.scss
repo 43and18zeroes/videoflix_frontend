@@ -1,5 +1,11 @@
 :host {
-  background-color: #f0f0f0;
-  padding: 20px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+menu {
+  flex: 1;
+  margin: 32px 100px;
+  display: flex;
+  justify-content: space-between;
 }
