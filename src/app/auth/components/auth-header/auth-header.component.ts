@@ -9,7 +9,7 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrl: './auth-header.component.scss',
 })
 export class AuthHeaderComponent {
-  showLoginButton: boolean = false;
+  showLoginButton = true;
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
@@ -20,7 +20,7 @@ export class AuthHeaderComponent {
   }
 
   updateLoginButtonVisibility(url: string) {
-    this.showLoginButton = url === '/';
+    this.showLoginButton = url !== '/login';
   }
 
   navigateToLogin() {
