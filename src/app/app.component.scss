@@ -1,7 +1,14 @@
+@mixin background-cover($image-url) {
+  background-image: url($image-url);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .start-background {
-  background-image: url("/assets/img/auth/start-background-1200.webp");
+  @include background-cover("/assets/img/auth/start-background-1200.webp");
 }
 
 .auth-background {
-  background-image: url("/assets/img/auth/auth-background-1280.webp");
+  @include background-cover("/assets/img/auth/auth-background-1280.webp");
 }
