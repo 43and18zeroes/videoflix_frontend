@@ -24,7 +24,7 @@ export class AppComponent {
   updateBackgroundClass(url: string) {
     if (url === '/') {
       this.backgroundClass = 'start-background';
-    } else if (url.startsWith('/signup') || url.startsWith('/forgot-password') || url.startsWith('/login') || url.startsWith('/password-reset')) {
+    } else if (url.startsWith('/sign-up') || url.startsWith('/forgot-password') || url.startsWith('/login') || url.startsWith('/password-reset')) {
       this.backgroundClass = 'auth-background';
     } else {
       this.backgroundClass = '';

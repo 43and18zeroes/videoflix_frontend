@@ -7,12 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-sign-up',
   imports: [AuthHeaderComponent, AuthFooterComponent, FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.scss'
 })
-export class SignupComponent {
+export class SignUpComponent {
   token = '';
   setPasswordForm: FormGroup;
   successMessage: string = '';
