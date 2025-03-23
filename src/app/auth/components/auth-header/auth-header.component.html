@@ -1,4 +1,4 @@
 <menu>
   <img src="assets/img/auth/logo-text.webp" alt="" />
-  <button>Login</button>
+  <button *ngIf="showLoginButton" (click)="navigateToLogin()">Login</button>
 </menu>
