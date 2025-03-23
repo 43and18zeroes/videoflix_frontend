@@ -1,7 +1,36 @@
+@font-face {
+  font-family: 'DM Sans';
+  // src: url('/assets/fonts/dm_sans/') format('woff2'),
+  src: url('./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@mixin dm-sans-font {
+  font-family: 'DM Sans', sans-serif;
+}
+
 html,
 body {
+  @include dm-sans-font;
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
+}
+
+button.common__button {
+  @include dm-sans-font;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.75px;
+  color: white;
+  background-color: #2E3EDF;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 50px;
+  
+  &:disabled {
+    background-color: #2E3EDF80;
+  }
 }
