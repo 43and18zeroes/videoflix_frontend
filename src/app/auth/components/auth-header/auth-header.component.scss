@@ -21,4 +21,15 @@ menu {
   @include vars.for-phone-only {
     margin: 0 vars.$page-margin-small;
   }
+
+  picture {
+    display: inherit;
+    align-items: center;
+
+    @include vars.for-phone-only {
+      img {
+        height: 40px; // kleiner auf Handy
+      }
+    }
+  }
 }

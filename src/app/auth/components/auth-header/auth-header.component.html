@@ -1,4 +1,13 @@
 <menu>
-  <img src="assets/img/auth/logo-text.svg" alt="" />
-  <button class="common__button" *ngIf="showLoginButton" (click)="navigateToLogin()">Log in</button>
+  <picture>
+    <source media="(max-width: 576px)" srcset="assets/img/logo.svg" />
+    <img src="assets/img/auth/logo-text.svg" alt="Logo" />
+  </picture>
+  <button
+    class="common__button"
+    *ngIf="showLoginButton"
+    (click)="navigateToLogin()"
+  >
+    Log in
+  </button>
 </menu>
