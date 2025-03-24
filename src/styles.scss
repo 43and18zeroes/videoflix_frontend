@@ -5,8 +5,17 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'DM Sans Extra Light';
+  src: url('./assets/fonts/dm_sans/static/DMSans-ExtraLight.ttf') format('truetype');
+}
+
 @mixin dm-sans-font {
   font-family: 'DM Sans', sans-serif;
+}
+
+@mixin dm-sans-font-extra-light {
+  font-family: 'DM Sans Extra Light', sans-serif;
 }
 
 :root {

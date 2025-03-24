@@ -1,3 +1,4 @@
+@use "../../../styles.scss" as styles;
 @use "../auth-styles.scss";
 
 form {
@@ -13,16 +14,21 @@ form {
   }
 
   p {
+    @include styles.dm-sans-font-extra-light;
     font-size: 18px;
   }
 
   div {
+    display: flex;
+    gap: 32px;
+    
     input {
+      @include styles.dm-sans-font-extra-light;
       background-color: transparent;
       border: 1px solid white;
       font-size: 18px;
       color: white;
-      padding: 16px 24px;
+      padding: 10px 24px;
       border-radius: 50px;
 
       &::placeholder {
