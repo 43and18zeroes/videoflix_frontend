@@ -1,5 +1,7 @@
+@use "../../../../variables" as vars;
+
 :host {
-  height: var(--header-footer-height);
+  height: vars.$header-footer-height;
   display: flex;
   justify-content: center;
   align-items: center;
