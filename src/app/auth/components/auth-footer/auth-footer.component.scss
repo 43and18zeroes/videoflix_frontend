@@ -1,3 +1,11 @@
 :host {
-  padding: 10px;
+  height: 108px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+a {
+  color: white;
 }
