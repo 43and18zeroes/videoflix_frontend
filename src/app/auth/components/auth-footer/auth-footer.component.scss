@@ -1,5 +1,5 @@
 :host {
-  height: 108px;
+  height: var(--header-footer-height);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,6 +1,5 @@
 @font-face {
   font-family: 'DM Sans';
-  // src: url('/assets/fonts/dm_sans/') format('woff2'),
   src: url('./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
@@ -8,6 +7,10 @@
 
 @mixin dm-sans-font {
   font-family: 'DM Sans', sans-serif;
+}
+
+:root {
+  --header-footer-height: 108px;
 }
 
 html,
