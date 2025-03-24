@@ -1,4 +1,5 @@
 @use "../../../styles.scss" as styles;
+@use "../../../_variables.scss" as vars;
 @use "../auth-styles.scss";
 
 form {
@@ -12,6 +13,10 @@ form {
     font-size: 48px;
     letter-spacing: 2px;
     text-align: center;
+
+    @include vars.for-tablet-landscape-down {
+      width: 430px;
+    }
   }
 
   p {

@@ -1,0 +1,28 @@
+$breakpoint-small: 576px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 992px;
+$breakpoint-xlarge: 1200px;
+
+@mixin for-phone-only {
+  @media (max-width: $breakpoint-small) {
+    @content;
+  }
+}
+
+@mixin for-tablet-portrait-down {
+  @media (max-width: $breakpoint-medium) {
+    @content;
+  }
+}
+
+@mixin for-tablet-landscape-down {
+  @media (max-width: $breakpoint-large) {
+    @content;
+  }
+}
+
+@mixin for-desktop-down {
+  @media (max-width: $breakpoint-xlarge) {
+    @content;
+  }
+}
