@@ -15,4 +15,19 @@ form {
   p {
     font-size: 18px;
   }
+
+  div {
+    input {
+      background-color: transparent;
+      border: 1px solid white;
+      font-size: 18px;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 50px;
+
+      &::placeholder {
+        color: white;
+      }
+    }
+  }
 }
