@@ -3,8 +3,17 @@
   <form (ngSubmit)="submitEmail()">
     <h1>Movies, TV shows, and more</h1>
     <p>Enter your email to create or restart your subscription.</p>
-    <input type="email" placeholder="Email Address" id="email" name="email" [(ngModel)]="email" required>
-    <button type="submit">Sign Up ></button>
+    <div>
+      <input
+        type="email"
+        placeholder="Email Address"
+        id="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+      />
+      <button type="submit">Sign Up ></button>
+    </div>
   </form>
 </main>
 <app-auth-footer></app-auth-footer>

@@ -1,1 +1,18 @@
-@use '../auth-styles.scss';
+@use "../auth-styles.scss";
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  h1 {
+    margin: 0 0 0 0;
+    font-size: 48px;
+    letter-spacing: 2px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+}
