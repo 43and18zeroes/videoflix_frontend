@@ -19,11 +19,14 @@ form {
   }
 
   div {
+    width: 100%;
     display: flex;
-    gap: 32px;
+    justify-content: center;
+    gap: 16px;
     
     input {
       @include styles.dm-sans-font-extra-light;
+      width: 50%;
       background-color: transparent;
       border: 1px solid white;
       font-size: 18px;
