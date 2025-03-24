@@ -43,8 +43,22 @@ button.common__button {
   border-radius: 50px;
   white-space: nowrap;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #3f50ff; // heller Blau-Ton
+    box-shadow: 0 4px 12px rgba(46, 62, 223, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: 0 2px 6px rgba(46, 62, 223, 0.3);
+    transform: translateY(0);
+  }
 
   &:disabled {
     background-color: #979FEF;
+    cursor: not-allowed;
+    box-shadow: none;
   }
 }
