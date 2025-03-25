@@ -58,6 +58,10 @@ body {
   }
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 button.common__button {
   @include dm-sans-font;
   font-weight: 700;

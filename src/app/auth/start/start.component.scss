@@ -31,6 +31,10 @@ form {
     @include styles.dm-sans-font-extra-light;
     font-size: 18px;
     text-align: center;
+
+    @include vars.for-phone-only {
+      font-size: 20px;
+    }
   }
 
   div {
@@ -55,6 +59,10 @@ form {
 
       &::placeholder {
         color: white;
+      }
+
+      @include vars.for-phone-only {
+        font-size: 20px;
       }
     }
 
