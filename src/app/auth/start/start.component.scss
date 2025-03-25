@@ -38,6 +38,10 @@ form {
     display: flex;
     justify-content: center;
     gap: 16px;
+
+    @include vars.for-phone-only {
+      gap: 24px;
+    }
     
     input {
       @include styles.dm-sans-font-extra-light;
