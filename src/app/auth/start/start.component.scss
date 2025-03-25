@@ -15,7 +15,11 @@ form {
     text-align: center;
 
     @include vars.for-tablet-landscape-down {
-      width: 430px;
+      max-width: 442px;
+    }
+
+    @include vars.for-phone-only {
+      font-size: 40px;
     }
   }
 
