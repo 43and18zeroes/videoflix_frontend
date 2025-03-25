@@ -30,6 +30,7 @@ form {
   p {
     @include styles.dm-sans-font-extra-light;
     font-size: 18px;
+    text-align: center;
   }
 
   div {
