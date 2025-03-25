@@ -14,6 +14,7 @@ import { AuthFooterComponent } from '../components/auth-footer/auth-footer.compo
 })
 export class StartComponent {
   email: string = '';
+  emailPattern: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
 
   constructor(private authService: AuthService) { }
 
