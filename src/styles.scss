@@ -27,41 +27,14 @@
 }
 
 @font-face {
-  font-family: "Material Icons Rounded";
+  font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: url("assets/fonts/material_icons/sykg-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190Fjzag.woff2");
+  src: url("assets/fonts/material_icons/MaterialIcons-Regular.ttf");
 }
 
 .material-symbols-outlined {
-  font-family: "Material Icons Rounded";
-}
-
-.material__symbols__outlined {
-  font-family: "Material Icons Rounded";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "liga";
-
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-
-  &:focus {
-    outline: none !important;
-  }
+  font-family: "Material Icons";
 }
 
 html,
