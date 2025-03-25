@@ -64,6 +64,12 @@ form {
       }
     }
 
+    @include vars.for-tablet-landscape-down {
+      input {
+        width: 50%;
+      }
+    }
+
     @include vars.for-phone-only {
       flex-direction: column;
       align-items: center;
