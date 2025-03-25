@@ -1,7 +1,11 @@
+@use "_variables.scss" as vars;
+
 @font-face {
   font-family: "DM Sans";
-  src: url("./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.woff2") format("woff2"),
-    url("./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.woff") format("woff"),
+  src: url("./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.woff2")
+      format("woff2"),
+    url("./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.woff")
+      format("woff"),
     url("./assets/fonts/dm_sans/DMSans-VariableFont_opsz,wght.ttf")
       format("truetype");
   font-weight: normal;
@@ -31,6 +35,18 @@ body {
   overflow: hidden;
 }
 
+@mixin page__padding {
+  padding: 0 100px;
+
+  @include vars.for-tablet-landscape-down {
+    padding: 0 50px;
+  }
+
+  @include vars.for-phone-only {
+    padding: 0 25px;
+  }
+}
+
 button.common__button {
   @include dm-sans-font;
   font-weight: 700;
@@ -43,7 +59,8 @@ button.common__button {
   border-radius: 50px;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.2s ease;
 
   &:hover:not(:disabled) {
     background-color: #3f50ff; // heller Blau-Ton
@@ -57,7 +74,7 @@ button.common__button {
   }
 
   &:disabled {
-    background-color: #979FEF;
+    background-color: #979fef;
     cursor: not-allowed;
     box-shadow: none;
   }

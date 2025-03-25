@@ -9,18 +9,9 @@
 
 menu {
   flex: 1;
-  margin: 0 vars.$page-margin-large;
   display: flex;
   justify-content: space-between;
   padding-inline-start: 0;
-
-  @include vars.for-tablet-landscape-down {
-    margin: 0 vars.$page-margin-medium;
-  }
-
-  @include vars.for-phone-only {
-    margin: 0 vars.$page-margin-small;
-  }
 
   picture {
     display: inherit;

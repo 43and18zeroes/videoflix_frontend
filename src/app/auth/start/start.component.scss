@@ -2,6 +2,10 @@
 @use "../../../_variables.scss" as vars;
 @use "../auth-styles.scss";
 
+:host {
+  @include styles.page__padding;
+}
+
 form {
   display: flex;
   justify-content: center;
@@ -9,7 +13,7 @@ form {
   color: white;
 
   h1 {
-    margin: 0 0 0 0;
+    margin: 0;
     font-size: 48px;
     letter-spacing: 2px;
     text-align: center;
