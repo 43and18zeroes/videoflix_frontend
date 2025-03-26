@@ -23,7 +23,9 @@
       </button>
     </div>
   </form>
-
+  <div class="loading-overlay" [class.visible]="loading">
+    <div class="spinner"></div>
+  </div>
   <div *ngIf="showPopup" color="#ffffff" class="popup">
     <p>Bitte prüfe dein Postfach.</p>
     <button (click)="closePopup()">Schließen</button>

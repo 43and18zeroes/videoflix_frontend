@@ -22,18 +22,22 @@ import { AuthFooterComponent } from '../components/auth-footer/auth-footer.compo
 export class StartComponent {
   email = '';
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  loading = false;
   showPopup = false;
 
   constructor(private authService: AuthService) { }
 
   submitEmail() {
+    this.loading = true;
     this.authService.registerUser(this.email).subscribe(
       response => {
         console.log('Registration successful', response);
+        this.loading = false;
         this.showPopup = true;
       },
       error => {
         console.error('Registration failed', error);
+        this.loading = false;
       }
     );
   }
