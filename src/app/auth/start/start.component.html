@@ -24,10 +24,7 @@
     </div>
   </form>
 
-  <div *ngIf="isLoading" class="loading-spinner">
-    Loading...
-  </div>
-  <div *ngIf="showPopup" class="popup">
+  <div *ngIf="showPopup" color="#ffffff" class="popup">
     <p>Bitte prüfe dein Postfach.</p>
     <button (click)="closePopup()">Schließen</button>
   </div>

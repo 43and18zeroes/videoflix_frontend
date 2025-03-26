@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-auth-header',
+  standalone: true,
   imports: [ CommonModule ],
   templateUrl: './auth-header.component.html',
   styleUrl: './auth-header.component.scss',
