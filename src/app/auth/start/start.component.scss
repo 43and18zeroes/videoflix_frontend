@@ -5,94 +5,115 @@
 :host {
   @include styles.page__padding;
 }
-
-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-
-  h1 {
-    margin: 0;
-    font-size: 48px;
-    letter-spacing: 2px;
-    text-align: center;
-
-    @include vars.for-tablet-landscape-down {
-      max-width: 442px;
-    }
-
-    @include vars.for-phone-only {
-      font-size: 40px;
-    }
-  }
-
-  p {
-    @include styles.dm-sans-font-extra-light;
-    font-size: 18px;
-    text-align: center;
-
-    @include vars.for-phone-only {
-      font-size: 20px;
-    }
-  }
-
-  div {
-    width: 100%;
+main {
+  form {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    align-items: center;
+    color: white;
 
-    @include vars.for-phone-only {
-      gap: 24px;
-    }
-    
-    input {
-      @include styles.dm-sans-font-extra-light;
-      width: 50%;
-      background-color: transparent;
-      border: 1px solid white;
-      font-size: 18px;
-      color: white;
-      padding: 10px 24px;
-      border-radius: 50px;
+    h1 {
+      margin: 0;
+      font-size: 48px;
+      letter-spacing: 2px;
+      text-align: center;
 
-      &::placeholder {
-        color: white;
+      @include vars.for-tablet-landscape-down {
+        max-width: 442px;
       }
+
+      @include vars.for-phone-only {
+        font-size: 40px;
+      }
+    }
+
+    p {
+      @include styles.dm-sans-font-extra-light;
+      font-size: 18px;
+      text-align: center;
 
       @include vars.for-phone-only {
         font-size: 20px;
       }
     }
 
-    button {
+    div {
+      width: 100%;
       display: flex;
-      align-items: center;
+      justify-content: center;
+      gap: 16px;
 
-      span {
-        font-size: 14px;
-        padding-left: 8px;
+      @include vars.for-phone-only {
+        gap: 24px;
       }
-    }
 
-    @include vars.for-tablet-landscape-down {
       input {
+        @include styles.dm-sans-font-extra-light;
         width: 50%;
-      }
-    }
+        background-color: transparent;
+        border: 1px solid white;
+        font-size: 18px;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 50px;
 
-    @include vars.for-phone-only {
-      flex-direction: column;
-      align-items: center;
+        &::placeholder {
+          color: white;
+        }
 
-      input {
-        width: 80%;
+        @include vars.for-phone-only {
+          font-size: 20px;
+        }
       }
 
       button {
-        width: 140px;
+        display: flex;
+        align-items: center;
+
+        span {
+          font-size: 14px;
+          padding-left: 8px;
+        }
+      }
+
+      @include vars.for-tablet-landscape-down {
+        input {
+          width: 50%;
+        }
+      }
+
+      @include vars.for-phone-only {
+        flex-direction: column;
+        align-items: center;
+
+        input {
+          width: 80%;
+        }
+
+        button {
+          width: 140px;
+        }
       }
     }
+  }
+
+  .loading-spinner {
+    /* Hier deine Ladeanimationsstile einfügen */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .popup {
+    /* Hier deine Popup-Stile einfügen */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid black;
+    z-index: 1000;
   }
 }

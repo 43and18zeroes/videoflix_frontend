@@ -23,6 +23,14 @@
       </button>
     </div>
   </form>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    Loading...
+  </div>
+  <div *ngIf="showPopup" class="popup">
+    <p>Bitte prüfe dein Postfach.</p>
+    <button (click)="closePopup()">Schließen</button>
+  </div>
   
 </main>
 <app-auth-footer></app-auth-footer>

@@ -13,8 +13,10 @@ import { AuthFooterComponent } from '../components/auth-footer/auth-footer.compo
   styleUrl: './start.component.scss',
 })
 export class StartComponent {
-  email: string = '';
-  emailPattern: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  email = '';
+  emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  isLoading = false;
+  showPopup = false;
 
   constructor(private authService: AuthService) { }
 
@@ -22,10 +24,17 @@ export class StartComponent {
     this.authService.registerUser(this.email).subscribe(
       response => {
         console.log('Registration successful', response);
+        this.isLoading = false;
+        this.showPopup = true;
       },
       error => {
         console.error('Registration failed', error);
+        this.isLoading = false;
       }
     );
+  }
+
+  closePopup() {
+    this.showPopup = false;
   }
 }
