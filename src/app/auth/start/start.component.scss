@@ -111,12 +111,12 @@ main {
     opacity: 0;
     pointer-events: none;
     transition: opacity 300ms ease-in-out;
-  
+
     &.visible {
       opacity: 1;
       pointer-events: all;
     }
-  
+
     .spinner {
       width: 64px;
       height: 64px;
@@ -126,23 +126,68 @@ main {
       animation: spin 1s linear infinite;
     }
   }
-  
+
   @keyframes spin {
     to {
       transform: rotate(360deg);
     }
   }
-  
-  
-  .popup {
-    /* Hier deine Popup-Stile einfügen */
+
+  .success-popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid black;
-    z-index: 1000;
+    transform: translate(-50%, -50%) scale(0.95);
+    background: rgba(25, 25, 35, 0.98);
+    color: white;
+    border-radius: 16px;
+    padding: 32px;
+    z-index: 3000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    animation: popupFadeIn 300ms ease forwards;
+
+    .popup-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      span.material-symbols-outlined {
+        font-size: 48px;
+        color: #3f50ff;
+      }
+
+      p {
+        font-size: 18px;
+        margin: 0;
+        text-align: center;
+      }
+
+      button {
+        margin-top: 12px;
+        padding: 10px 24px;
+        background-color: #3f50ff;
+        color: white;
+        border: none;
+        border-radius: 24px;
+        cursor: pointer;
+        transition: background-color 200ms ease;
+
+        &:hover {
+          background-color: lighten(#3f50ff, 10%);
+        }
+      }
+    }
+  }
+
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -40%) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
   }
 }
