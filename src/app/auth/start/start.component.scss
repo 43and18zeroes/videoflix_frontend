@@ -10,7 +10,6 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
 
     h1 {
       margin: 0;
@@ -53,12 +52,12 @@ main {
         background-color: transparent;
         border: 1px solid white;
         font-size: 18px;
-        color: white;
+        color: inherit;
         padding: 10px 24px;
         border-radius: 50px;
 
         &::placeholder {
-          color: white;
+          color: inherit;
         }
 
         @include vars.for-phone-only {
@@ -139,7 +138,7 @@ main {
     left: 50%;
     transform: translate(-50%, -50%) scale(0.95);
     background: rgba(25, 25, 35, 1);
-    color: white;
+    // color: white;
     border-radius: 16px;
     padding: 32px;
     z-index: 3000;
