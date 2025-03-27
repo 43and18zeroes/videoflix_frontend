@@ -1,0 +1,7 @@
+@use "../../auth-styles.scss";
+@use "../../../../styles.scss" as styles;
+
+:host {
+    background-color: black;
+    @include styles.page__padding;
+}
