@@ -138,7 +138,7 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.95);
-    background: rgba(25, 25, 35, 0.98);
+    background: rgba(25, 25, 35, 1);
     color: white;
     border-radius: 16px;
     padding: 32px;
@@ -158,25 +158,12 @@ main {
       }
 
       p {
+        @include styles.dm-sans-font-extra-light;
         font-size: 18px;
         margin: 0;
         text-align: center;
       }
-
-      button {
-        margin-top: 12px;
-        padding: 10px 24px;
-        background-color: #3f50ff;
-        color: white;
-        border: none;
-        border-radius: 24px;
-        cursor: pointer;
-        transition: background-color 200ms ease;
-
-        &:hover {
-          background-color: lighten(#3f50ff, 10%);
-        }
-      }
+      
     }
   }
 
