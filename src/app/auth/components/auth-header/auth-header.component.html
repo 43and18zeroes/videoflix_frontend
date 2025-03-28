@@ -1,7 +1,17 @@
 <menu>
   <picture>
     <source media="(max-width: 576px)" srcset="assets/img/logo.svg" />
-    <img src="assets/img/auth/logo-text.svg" alt="Logo" (click)="navigateToStart()" />
+    <img
+    src="assets/img/auth/logo-text.svg"
+    alt="Logo"
+    *ngIf="!isOnStartPage"
+    (click)="navigateToStart()"
+  />
+  <img
+    src="assets/img/auth/logo-text.svg"
+    alt="Logo"
+    *ngIf="isOnStartPage"
+  />
   </picture>
   <button
     class="common__button"

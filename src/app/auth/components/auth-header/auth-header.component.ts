@@ -10,12 +10,14 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrl: './auth-header.component.scss',
 })
 export class AuthHeaderComponent {
+  isOnStartPage = false;
   showLoginButton = true;
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateLoginButtonVisibility(event.url);
+        this.isOnStartPage = event.url === '/';
       }
     });
   }
