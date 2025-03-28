@@ -6,6 +6,8 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,8 @@ export class DeviceService {
 
   constructor(
     rendererFactory: RendererFactory2,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
 
@@ -26,13 +29,19 @@ export class DeviceService {
       this.isAndroid = /Android/i.test(userAgent);
       this.isiPhone = /iPhone|iPad|iPod/i.test(userAgent) || /iOS/i.test(userAgent);
 
-      window.addEventListener('load', () => { // verwendet window.onload
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe(() => {
         this.applyDeviceClassToFooter();
       });
+
+      // Beim Initialisieren auch einmal ausführen
+      this.applyDeviceClassToFooter();
     }
   }
 
   private applyDeviceClassToFooter(): void {
+    console.log('footer device');
     const footer = document.querySelector('app-auth-footer');
     if (footer) {
       if (this.isAndroid) {

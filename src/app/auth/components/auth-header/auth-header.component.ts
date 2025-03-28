@@ -20,6 +20,10 @@ export class AuthHeaderComponent {
     });
   }
 
+  navigateToStart() {
+    this.router.navigate(['/']);
+  }
+
   updateLoginButtonVisibility(url: string) {
     this.showLoginButton = url !== '/login';
   }
