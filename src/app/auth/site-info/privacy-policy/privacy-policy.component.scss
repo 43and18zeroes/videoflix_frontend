@@ -5,3 +5,12 @@
     background-color: #000;
     @include styles.page__padding;
 }
+
+main {
+    flex-direction: column;
+    align-items: flex-start;
+
+    a {
+        color: white;
+    }
+}
