@@ -1,12 +1,11 @@
 body {
     color: #000;
 
-    header {
-        display: flex;
-        justify-content: center;
+    img, p {
+        margin-bottom: 16px;
     }
 
-    button {
+    .link__button {
         font-weight: 700;
         font-size: 18px;
         letter-spacing: 0.75px;
@@ -17,5 +16,6 @@ body {
         border-radius: 50px;
         white-space: nowrap;
         cursor: pointer;
+        text-decoration: none;
     }
 }
