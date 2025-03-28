@@ -50,9 +50,3 @@ a {
     z-index: 1;
   }
 }
-
-@include vars.for-phone-only {
-  a {
-    font-size: 20px;
-  }
-}
