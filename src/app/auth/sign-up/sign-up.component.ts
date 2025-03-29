@@ -40,6 +40,14 @@ export class SignUpComponent {
     }
   }
 
+  navigateToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
+
+  navigateToSignUp() {
+    this.router.navigate(['/start']);
+  }
+
   onSubmit() {
     if (this.setPasswordForm.valid) {
       const password = this.setPasswordForm.value.password;
