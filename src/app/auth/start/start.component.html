@@ -23,7 +23,7 @@
       </button>
     </div>
   </form>
-  <div class="loading-overlay" [class.visible]="loading">
+  <div class="loading-overlay" [class.visible]="loading || showPopup">
     <div class="spinner"></div>
   </div>
   <div *ngIf="showPopup" class="popup success-popup">
