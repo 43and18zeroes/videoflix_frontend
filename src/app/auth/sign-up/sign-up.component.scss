@@ -1,1 +1,6 @@
-@use '../auth-styles.scss';
+@use "../../../styles.scss" as styles;
+@use "../auth-styles.scss";
+
+:host {
+  @include styles.page__padding;
+}

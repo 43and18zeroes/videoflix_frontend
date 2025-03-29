@@ -15,9 +15,6 @@ import { CommonModule } from '@angular/common';
 export class SignUpComponent {
   token = '';
   setPasswordForm: FormGroup;
-  successMessage: string = '';
-  errorMessage: string = '';
-  showPasswordForm: boolean = false;
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private fb: FormBuilder, private router: Router) {
     this.setPasswordForm = this.fb.group({
@@ -29,22 +26,7 @@ export class SignUpComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.token = params['token'];
-      this.confirmEmail();
     });
-  }
-
-  confirmEmail() {
-    this.authService.confirmEmail(this.token).subscribe(
-      response => {
-        console.log('Email confirmed', response);
-        this.successMessage = 'Email confirmed';
-        this.showPasswordForm = true;
-      },
-      error => {
-        console.error('Email confirmation failed', error);
-        this.errorMessage = 'Email confirmation failed';
-      }
-    );
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
@@ -63,14 +45,13 @@ export class SignUpComponent {
       const password = this.setPasswordForm.value.password;
       this.authService.setPassword(this.token, password).subscribe(
         response => {
-          this.successMessage = 'Password set successfully';
           this.router.navigate(['/login']);
           localStorage.setItem('access_token', response.access);
           localStorage.setItem('refresh_token', response.refresh);
           this.router.navigate(['/video-offer']);
         },
         error => {
-          this.errorMessage = 'Password setting failed';
+          console.log("Password error")
         }
       );
     }

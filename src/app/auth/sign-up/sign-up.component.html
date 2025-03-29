@@ -1,13 +1,11 @@
 <app-auth-header></app-auth-header>
 <main>
-  <div *ngIf="successMessage">{{ successMessage }}</div>
-  <div *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <form
-    *ngIf="showPasswordForm"
     [formGroup]="setPasswordForm"
     (ngSubmit)="onSubmit()"
   >
+  <h1>Sign up</h1>
     <input
       type="password"
       formControlName="password"
