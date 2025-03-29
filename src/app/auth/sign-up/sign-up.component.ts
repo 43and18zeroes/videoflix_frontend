@@ -28,6 +28,8 @@ export class SignUpComponent {
   token = '';
   setPasswordForm: FormGroup;
 
+  
+
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -47,6 +49,8 @@ export class SignUpComponent {
       this.token = params['token'];
     });
   }
+
+  
 
   onSubmit() {
     if (this.setPasswordForm.valid) {
