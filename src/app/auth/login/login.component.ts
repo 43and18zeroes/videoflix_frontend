@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthHeaderComponent } from '../components/auth-header/auth-header.component';
 import { AuthFooterComponent } from '../components/auth-footer/auth-footer.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,5 +10,13 @@ import { AuthFooterComponent } from '../components/auth-footer/auth-footer.compo
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  constructor(private router: Router) {}
+  
+  navigateToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
 
+  navigateToSignUp() {
+    this.router.navigate(['/start']);
+  }
 }
