@@ -1,12 +1,9 @@
 <app-auth-header></app-auth-header>
 <main>
-
-  <form
-    [formGroup]="setPasswordForm"
-    (ngSubmit)="onSubmit()"
-  >
-  <h1>Sign up</h1>
+  <form [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
+    <h1>Sign up</h1>
     <input
+      class="form__margin__bottom"
       type="password"
       formControlName="password"
       placeholder="Password"
@@ -18,6 +15,7 @@
       placeholder="Confirm Password"
       required
     />
+    <span class="form__margin__bottom">Passwords must match.</span>
     <button type="submit" [disabled]="setPasswordForm.invalid">
       Set password
     </button>
