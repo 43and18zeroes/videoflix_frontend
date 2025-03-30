@@ -11,6 +11,10 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {
+  passwordComplexityValidator,
+  passwordMatchValidator,
+} from '../validators/sign-up-password.validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -28,8 +32,6 @@ export class SignUpComponent {
   token = '';
   setPasswordForm: FormGroup;
 
-  
-
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -38,9 +40,10 @@ export class SignUpComponent {
   ) {
     this.setPasswordForm = this.fb.group(
       {
-        password: ['', Validators.required],
+        password: ['', [Validators.required, passwordComplexityValidator]],
         confirmPassword: ['', Validators.required],
-      }
+      },
+      { validators: passwordMatchValidator }
     );
   }
 
@@ -49,8 +52,6 @@ export class SignUpComponent {
       this.token = params['token'];
     });
   }
-
-  
 
   onSubmit() {
     if (this.setPasswordForm.valid) {

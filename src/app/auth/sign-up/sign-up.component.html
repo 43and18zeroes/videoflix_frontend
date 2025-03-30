@@ -1,24 +1,40 @@
 <app-auth-header></app-auth-header>
 <main>
   <form [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
-    <h1>Sign up</h1>
-    <input
-      class="form__margin__bottom"
-      type="password"
-      formControlName="password"
-      placeholder="Password"
-      required
-    />
+    <input type="password" formControlName="password" placeholder="Passwort" />
+    <div
+      *ngIf="
+        setPasswordForm.get('password')?.errors &&
+        setPasswordForm.get('password')?.touched
+      "
+    >
+      <small *ngIf="setPasswordForm.get('password')?.errors?.['minLength']"
+        >Mindestens 8 Zeichen</small
+      >
+
+      <small *ngIf="setPasswordForm.get('password')?.errors?.['uppercase']"
+        >Mindestens 1 Großbuchstabe</small
+      >
+      <small *ngIf="setPasswordForm.get('password')?.errors?.['lowercase']"
+        >Mindestens 1 Kleinbuchstabe</small
+      >
+      <small *ngIf="setPasswordForm.get('password')?.errors?.['specialChar']"
+        >Mindestens 1 Sonderzeichen</small
+      >
+    </div>
+
     <input
       type="password"
       formControlName="confirmPassword"
-      placeholder="Confirm Password"
-      required
+      placeholder="Passwort bestätigen"
     />
-    <span class="form__margin__bottom"></span>
-    <button type="submit">
-      Set password
-    </button>
+    <div
+      *ngIf="setPasswordForm.errors?.['passwordMismatch'] && setPasswordForm.get('confirmPassword')?.touched"
+    >
+      <small>Passwörter stimmen nicht überein</small>
+    </div>
+
+    <button type="submit">Absenden</button>
   </form>
 </main>
 <app-auth-footer></app-auth-footer>
