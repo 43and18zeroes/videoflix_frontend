@@ -1,6 +1,7 @@
 <app-auth-header></app-auth-header>
 <main>
-  <form [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
+  <form class="form__white__bg" [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
+    <h1>Sign up</h1>
     <input type="password" formControlName="password" placeholder="Passwort" />
     <div
       *ngIf="setPasswordForm.get('password')?.errors && setPasswordForm.get('password')?.touched"

@@ -1,3 +1,4 @@
+@use "../../styles.scss" as styles;
 @use "../../_variables.scss" as vars;
 
 :host {
@@ -15,19 +16,27 @@ main {
   .form__white__bg {
     display: flex;
     flex-direction: column;
-    // align-items: center;
-    // background-color: #FFF;
-    // color: vars.$accent-color;
-    // padding: 48px 56px;
-    // border: 48px;
+    align-items: center;
+    background-color: #FFF;
+    color: vars.$accent-color;
+    padding: 48px 56px;
+    border-radius: 48px;
+
+    .form__margin__bottom {
+      margin-bottom: 32px;
+    }
 
     h1 {
       font-size: 48px;
       margin: 0 0 32px 0;
     }
 
-    .form__margin__bottom {
-      margin-bottom: 32px;
+    input {
+      @include styles.dm-sans-font-extra-light;
+      border: 1px solid vars.$accent-color;
+      font-size: 18px;
+      padding: 10px 24px;
+      border-radius: 50px;
     }
   }
 }
