@@ -54,6 +54,8 @@ export class SignUpComponent {
   }
 
   onSubmit() {
+    this.setPasswordForm.markAllAsTouched();
+    this.setPasswordForm.updateValueAndValidity();
     if (this.setPasswordForm.valid) {
       const password = this.setPasswordForm.value.password;
       this.authService.setPassword(this.token, password).subscribe(

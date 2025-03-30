@@ -3,24 +3,11 @@
   <form [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
     <input type="password" formControlName="password" placeholder="Passwort" />
     <div
-      *ngIf="
-        setPasswordForm.get('password')?.errors &&
-        setPasswordForm.get('password')?.touched
-      "
+      *ngIf="setPasswordForm.get('password')?.errors && setPasswordForm.get('password')?.touched"
     >
-      <small *ngIf="setPasswordForm.get('password')?.errors?.['minLength']"
-        >Mindestens 8 Zeichen</small
-      >
-
-      <small *ngIf="setPasswordForm.get('password')?.errors?.['uppercase']"
-        >Mindestens 1 Großbuchstabe</small
-      >
-      <small *ngIf="setPasswordForm.get('password')?.errors?.['lowercase']"
-        >Mindestens 1 Kleinbuchstabe</small
-      >
-      <small *ngIf="setPasswordForm.get('password')?.errors?.['specialChar']"
-        >Mindestens 1 Sonderzeichen</small
-      >
+      <small>
+        The password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one special character (e.g., !, &#64;, #, $ or %).
+      </small>
     </div>
 
     <input
@@ -34,7 +21,7 @@
       <small>Passwörter stimmen nicht überein</small>
     </div>
 
-    <button type="submit">Absenden</button>
+    <button type="submit">Set password</button>
   </form>
 </main>
 <app-auth-footer></app-auth-footer>
