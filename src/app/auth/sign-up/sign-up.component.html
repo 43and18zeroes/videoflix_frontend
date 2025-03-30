@@ -1,18 +1,37 @@
 <app-auth-header></app-auth-header>
 <main>
-  <form class="form__white__bg" [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
+  <form
+    class="form__white__bg"
+    [formGroup]="setPasswordForm"
+    (ngSubmit)="onSubmit()"
+  >
     <h1>Sign up</h1>
-    <input type="password" formControlName="password" placeholder="Enter a Password" />
-      <small *ngIf="setPasswordForm.get('password')?.errors && setPasswordForm.get('password')?.touched">
-        At least 8 characters incl. upper, lower & special char (!, &#64;, or %).
-      </small>
+    <input
+      type="password"
+      formControlName="password"
+      placeholder="Enter a Password"
+    />
+    <small
+      [class.hidden]="
+        !(
+          setPasswordForm.get('password')?.errors &&
+          setPasswordForm.get('password')?.touched
+        )
+      "
+    >
+      At least 8 characters incl. upper, lower & special char (!, &#64;, or %).
+    </small>
 
     <input
       type="password"
       formControlName="confirmPassword"
       placeholder="Confirm Password"
     />
-      <small *ngIf="setPasswordForm.errors?.['passwordMismatch'] && setPasswordForm.get('confirmPassword')?.touched">Passwords don't match</small>
+    <small
+      [class.hidden]="!(setPasswordForm.errors?.['passwordMismatch'] && setPasswordForm.get('confirmPassword')?.touched)"
+    >
+      Passwords don't match
+    </small>
 
     <button class="common__button" type="submit">Set Password</button>
   </form>
