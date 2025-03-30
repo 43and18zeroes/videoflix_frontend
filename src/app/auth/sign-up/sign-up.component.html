@@ -2,7 +2,7 @@
 <main>
   <form class="form__white__bg" [formGroup]="setPasswordForm" (ngSubmit)="onSubmit()">
     <h1>Sign up</h1>
-    <input type="password" formControlName="password" placeholder="Passwort" />
+    <input type="password" formControlName="password" placeholder="Enter a Password" />
     <div
       *ngIf="setPasswordForm.get('password')?.errors && setPasswordForm.get('password')?.touched"
     >
@@ -14,15 +14,15 @@
     <input
       type="password"
       formControlName="confirmPassword"
-      placeholder="Passwort bestätigen"
+      placeholder="Confirm Password"
     />
     <div
       *ngIf="setPasswordForm.errors?.['passwordMismatch'] && setPasswordForm.get('confirmPassword')?.touched"
     >
-      <small>Passwörter stimmen nicht überein</small>
+      <small>Passwords don't match</small>
     </div>
 
-    <button type="submit">Set password</button>
+    <button class="common__button" type="submit">Set Password</button>
   </form>
 </main>
 <app-auth-footer></app-auth-footer>
