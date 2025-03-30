@@ -38,6 +38,12 @@ main {
       font-size: 18px;
       padding: 10px 24px;
       border-radius: 12px;
+
+      &:focus {
+        outline: none;
+        border-color: vars.$accent-color;
+        box-shadow: none;
+      }
     }
 
     small {
@@ -46,7 +52,7 @@ main {
       font-size: 10px;
       color: #ff002e;
       min-height: 18px;
-      line-height: 0.95;
+      line-height: 0.99;
       padding-top: 4px;
     }
 
@@ -62,4 +68,12 @@ main {
 
 .iphone__footer {
   padding-bottom: 116px;
+}
+
+@include vars.for-phone-only {
+  main {
+  
+    .form__white__bg {
+      padding: 44px 24px;
+    }}
 }
