@@ -16,6 +16,7 @@ menu {
   picture {
     display: inherit;
     align-items: center;
+    cursor: pointer;
 
     @include vars.for-phone-only {
       img {
