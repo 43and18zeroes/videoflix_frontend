@@ -7,10 +7,23 @@
 
 main {
   form {
-
     a {
-        font-weight: 700;
-        cursor: pointer;
+      font-weight: 700;
+      display: inline-block;
+      cursor: pointer;
+      transition: transform 0.15s ease; // Füge einen schnellen Übergang hinzu
+
+      &:hover:not(:disabled) {
+        transform: scale(1.05); // Skaliere die Schriftgröße auf 1.1 beim Hovern
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(1); // Setze die Skalierung beim Aktivieren zurück
+      }
+
+      &:disabled {
+        cursor: not-allowed; // Setze den Cursor beim Deaktivieren
+      }
     }
     div {
       margin-top: 24px;
