@@ -1,11 +1,12 @@
 <app-auth-header></app-auth-header>
 <main>
 
-  <form (submit)="login()">
+  <form class="form__white__bg" (submit)="login()">
     <h1>Login</h1>
-    <input type="email" name="email" [(ngModel)]="credentials.email" placeholder="Email" required>
+    <input class="form__margin__bottom" type="email" name="email" [(ngModel)]="credentials.email" placeholder="Email" required>
     <input type="password" name="password" [(ngModel)]="credentials.password" placeholder="Password" required>
-    <button type="submit">Login</button>
+    <small>Invalid email or password.</small>
+    <button class="common__button" type="submit">Login</button>
     <a (click)="navigateToForgotPassword()">Forgot password</a>
     <div>
       New to Videoflix? <a (click)="navigateToSignUp()">Sign Up now</a>
