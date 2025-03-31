@@ -22,4 +22,30 @@ export class AuthService {
   setPassword(token: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}set-password/`, { token: token, password: password });
   }
+
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}login/`, credentials);
+  }
+
+  setTokens(tokens: any): void {
+    localStorage.setItem('access_token', tokens.access);
+    localStorage.setItem('refresh_token', tokens.refresh);
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refresh_token');
+  }
+
+  clearTokens(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  }
+
+  refreshToken(refresh: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}token/refresh/`, refresh);
+  }
 }
