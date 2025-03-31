@@ -4,3 +4,13 @@
 :host {
   @include styles.page__padding;
 }
+
+main {
+    form {
+        div {
+            span {
+                color: black;
+            }
+        }
+    }
+}
