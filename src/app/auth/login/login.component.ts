@@ -16,6 +16,7 @@ export class LoginComponent {
     email: '',
     password: '',
   };
+  loginError = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -24,9 +25,11 @@ export class LoginComponent {
       (response) => {
         this.authService.setTokens(response);
         this.router.navigate(['/dashboard']);
+        this.loginError = false;
       },
       (error) => {
         console.error('Login failed:', error);
+        this.loginError = true;
       }
     );
   }
