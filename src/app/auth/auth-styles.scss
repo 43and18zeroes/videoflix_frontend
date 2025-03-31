@@ -33,7 +33,7 @@ main {
     }
 
     input {
-      @include styles.dm-sans-font-extra-light;
+      // @include styles.dm-sans-font-extra-light;
       border: 1px solid vars.$accent-color;
       font-size: 18px;
       padding: 10px 24px;
@@ -44,6 +44,10 @@ main {
         border-color: vars.$accent-color;
         box-shadow: none;
       }
+    }
+
+    input::placeholder {
+      color: vars.$accent-color;
     }
 
     small {
@@ -75,5 +79,9 @@ main {
   
     .form__white__bg {
       padding: 44px 24px;
+
+      input {
+        width: 77%;
+      }
     }}
 }
