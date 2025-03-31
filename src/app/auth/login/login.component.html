@@ -6,10 +6,10 @@
     <input class="form__margin__bottom" type="email" name="email" [(ngModel)]="credentials.email" placeholder="Email" required>
     <input type="password" name="password" [(ngModel)]="credentials.password" placeholder="Password" required>
     <small [class.hidden]="!(loginError || emailError)" class="error-message">Invalid email or password.</small>
-    <button class="common__button" type="submit">Login</button>
-    <a (click)="navigateToForgotPassword()">Forgot password</a>
-    <div>
-      <span>New to Videoflix?</span> <a (click)="navigateToSignUp()">Sign Up now</a>
+    <button class="common__button form__margin__bottom" type="submit">Login</button>
+    <a class="form__text" (click)="navigateToForgotPassword()">Forgot password</a>
+    <div class="form__text">
+      <span>New to Videoflix? </span> <a (click)="navigateToSignUp()">Sign Up now</a>
     </div>
   </form>
 </main>

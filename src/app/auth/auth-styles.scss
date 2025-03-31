@@ -14,7 +14,7 @@ main {
   align-items: center;
 
   .form__white__bg {
-    width: 270px;;
+    width: 270px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,6 +61,10 @@ main {
       align-self: flex-start;
     }
 
+    .form__text {
+      font-size: 18px;
+    }
+
     .hidden {
       visibility: hidden;
     }
@@ -77,12 +81,16 @@ main {
 
 @include vars.for-phone-only {
   main {
-  
     .form__white__bg {
       padding: 44px 24px;
 
       input {
         width: 77%;
       }
-    }}
+
+      .form__text {
+        font-size: 16px;
+      }
+    }
+  }
 }
