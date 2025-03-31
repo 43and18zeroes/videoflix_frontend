@@ -17,10 +17,17 @@ export class LoginComponent {
     password: '',
   };
   loginError = false;
+  emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  emailError = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login(): void {
+    if (!this.validateEmail(this.credentials.email)) {
+      this.emailError = true;
+      return;
+    }
+
     this.authService.login(this.credentials).subscribe(
       (response) => {
         this.authService.setTokens(response);
@@ -32,6 +39,11 @@ export class LoginComponent {
         this.loginError = true;
       }
     );
+  }
+
+  validateEmail(email: string): boolean {
+    const regex = new RegExp(this.emailPattern);
+    return regex.test(email);
   }
 
   navigateToForgotPassword() {
