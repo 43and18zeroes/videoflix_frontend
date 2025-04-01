@@ -13,6 +13,6 @@ export class VideoOfferComponent {
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    this.router.navigate(['/login']); // Weiterleitung zur Login-Seite
+    this.router.navigate(['/login']);
   }
 }
