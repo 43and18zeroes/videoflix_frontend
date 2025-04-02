@@ -7,24 +7,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://127.0.0.1:8000/auth/';
+  private baseUrl = 'http://127.0.0.1:8000/';
+  authCustomSegment = "auth/"
+  authJWTSegments = "api/v1/auth/"
 
   constructor(private http: HttpClient) { }
 
   registerUser(email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}register/`, { email: email });
+    return this.http.post(`${this.baseUrl}${this.authCustomSegment}register/`, { email: email });
   }
 
   confirmEmail(token: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}confirm-email/`, { token: token });
+    return this.http.post(`${this.baseUrl}${this.authCustomSegment}confirm-email/`, { token: token });
   }
   
   setPassword(token: string, password: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}set-password/`, { token: token, password: password });
+    return this.http.post(`${this.baseUrl}${this.authCustomSegment}set-password/`, { token: token, password: password });
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}login/`, credentials);
+    return this.http.post(`${this.baseUrl}${this.authJWTSegments}login/`, credentials);
   }
 
   setTokens(tokens: any): void {

@@ -31,7 +31,7 @@ export class LoginComponent {
     this.authService.login(this.credentials).subscribe(
       (response) => {
         this.authService.setTokens(response);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/video-offer']);
         this.loginError = false;
       },
       (error) => {
