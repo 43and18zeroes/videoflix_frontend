@@ -3,7 +3,7 @@
 
   <form class="form__white__bg" (submit)="login()">
     <h1>Login</h1>
-    <input class="form__margin__bottom" type="email" name="email" [(ngModel)]="credentials.email" placeholder="Email" required>
+    <input class="form__margin__bottom" type="email" name="email" [(ngModel)]="credentials.email" placeholder="Email Address" required>
     <input type="password" name="password" [(ngModel)]="credentials.password" placeholder="Password" required>
     <small [class.hidden]="!(loginError || emailError)" class="error-message">Invalid email or password.</small>
     <button class="common__button form__margin__bottom" type="submit">Login</button>

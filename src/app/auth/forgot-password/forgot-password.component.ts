@@ -10,4 +10,7 @@ import { AuthHeaderComponent } from '../components/auth-header/auth-header.compo
 })
 export class ForgotPasswordComponent {
 
+  sendEmail() {
+    
+  }
 }
