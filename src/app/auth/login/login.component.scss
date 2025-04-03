@@ -13,19 +13,6 @@ main {
       display: inline-block;
       color: vars.$accent-color;
       cursor: pointer;
-      transition: transform 0.15s ease; 
-
-      &:hover:not(:disabled) {
-        transform: scale(1.05);
-      }
-
-      &:active:not(:disabled) {
-        transform: scale(1);
-      }
-
-      &:disabled {
-        cursor: not-allowed;
-      }
     }
     div {
       margin-top: 24px;
