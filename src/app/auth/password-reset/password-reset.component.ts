@@ -15,10 +15,18 @@ import {
   passwordMatchValidator,
 } from '../validators/sign-up-password.validator';
 import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-password-reset',
-  imports: [AuthHeaderComponent, AuthFooterComponent, LoadingOverlayComponent],
+  imports: [
+    AuthHeaderComponent,
+    AuthFooterComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    LoadingOverlayComponent
+  ],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
 })
@@ -40,6 +48,12 @@ export class PasswordResetComponent {
       },
       { validators: passwordMatchValidator }
     );
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.token = params['token'];
+    });
   }
 
   resetPW() {
