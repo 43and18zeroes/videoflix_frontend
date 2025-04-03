@@ -56,7 +56,7 @@ export class SignUpComponent {
     });
   }
 
-  onSubmit() {
+  setPW() {
     this.setPasswordForm.markAllAsTouched();
     this.setPasswordForm.updateValueAndValidity();
     if (this.setPasswordForm.valid) {
