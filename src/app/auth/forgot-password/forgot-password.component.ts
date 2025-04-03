@@ -4,10 +4,11 @@ import { AuthHeaderComponent } from '../components/auth-header/auth-header.compo
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [CommonModule, AuthHeaderComponent, AuthFooterComponent, LoadingOverlayComponent],
+  imports: [CommonModule, AuthHeaderComponent, AuthFooterComponent, LoadingOverlayComponent, FormsModule],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })
