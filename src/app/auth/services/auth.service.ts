@@ -50,4 +50,8 @@ export class AuthService {
   refreshToken(refresh: any): Observable<any> {
     return this.http.post(`${this.baseUrl}token/refresh/`, refresh);
   }
+
+  resetPassword(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}${this.authJWTSegments}password/reset/`, { email: email });
+  }
 }

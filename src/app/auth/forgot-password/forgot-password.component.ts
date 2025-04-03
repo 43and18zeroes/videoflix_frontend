@@ -20,16 +20,31 @@ export class ForgotPasswordComponent {
 
   constructor(private authService: AuthService) { }
 
+  // sendEmail() {
+  //   this.loading = true;
+  //   this.authService.registerUser(this.email).subscribe(
+  //     response => {
+  //       console.log('Mail sent successful', response);
+  //       this.loading = false;
+  //       this.showPopup = true;
+  //     },
+  //     error => {
+  //       console.error('Registration failed', error);
+  //       this.loading = false;
+  //     }
+  //   );
+  // }
+
   sendEmail() {
     this.loading = true;
-    this.authService.registerUser(this.email).subscribe(
+    this.authService.resetPassword(this.email).subscribe( // Korrigierter Aufruf
       response => {
         console.log('Mail sent successful', response);
         this.loading = false;
         this.showPopup = true;
       },
       error => {
-        console.error('Registration failed', error);
+        console.error('Password reset failed', error); // Korrigierte Fehlermeldung
         this.loading = false;
       }
     );
