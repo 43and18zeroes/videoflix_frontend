@@ -23,9 +23,9 @@
       </button>
     </div>
   </form>
-  <div class="loading-overlay" [class.visible]="loading || showPopup">
-    <div class="spinner"></div>
-  </div>
+
+
+  <app-loading-overlay [loading]="loading || showPopup"></app-loading-overlay>
   <div *ngIf="showPopup" class="popup success-popup">
     <div class="popup-content">
       <span class="material-symbols-outlined">mark_email_read</span>

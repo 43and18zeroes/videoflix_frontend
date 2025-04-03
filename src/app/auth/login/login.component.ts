@@ -4,10 +4,11 @@ import { AuthFooterComponent } from '../components/auth-footer/auth-footer.compo
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
 
 @Component({
   selector: 'app-login',
-  imports: [AuthHeaderComponent, AuthFooterComponent, FormsModule],
+  imports: [AuthHeaderComponent, AuthFooterComponent, FormsModule, LoadingOverlayComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -19,6 +20,7 @@ export class LoginComponent {
   loginError = false;
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   emailError = false;
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 

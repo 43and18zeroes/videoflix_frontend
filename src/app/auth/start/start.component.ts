@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthHeaderComponent } from '../components/auth-header/auth-header.component';
 import { AuthFooterComponent } from '../components/auth-footer/auth-footer.component';
+import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
 
 
 @Component({
@@ -14,7 +15,8 @@ import { AuthFooterComponent } from '../components/auth-footer/auth-footer.compo
     CommonModule,
     FormsModule,
     AuthHeaderComponent,
-    AuthFooterComponent
+    AuthFooterComponent,
+    LoadingOverlayComponent
   ],
   templateUrl: './start.component.html',
   styleUrl: './start.component.scss',

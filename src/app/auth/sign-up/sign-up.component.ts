@@ -15,6 +15,7 @@ import {
   passwordComplexityValidator,
   passwordMatchValidator,
 } from '../validators/sign-up-password.validator';
+import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -24,6 +25,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    LoadingOverlayComponent
   ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
@@ -31,6 +33,7 @@ import {
 export class SignUpComponent {
   token = '';
   setPasswordForm: FormGroup;
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
