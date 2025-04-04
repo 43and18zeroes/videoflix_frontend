@@ -1,0 +1,7 @@
+<div *ngIf="isVisible" class="popup success-popup">
+    <div class="popup-content">
+      <span class="material-symbols-outlined">{{ icon }}</span>
+      <p>{{ message }}</p>
+      <button class="common__button" (click)="close()">Close</button>
+    </div>
+  </div>

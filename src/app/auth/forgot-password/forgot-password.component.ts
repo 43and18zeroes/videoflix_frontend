@@ -5,10 +5,11 @@ import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
 import { FormsModule } from '@angular/forms';
+import { SuccessPopupComponent } from '../../global-components/success-popup/success-popup.component';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [CommonModule, AuthHeaderComponent, AuthFooterComponent, LoadingOverlayComponent, FormsModule],
+  imports: [CommonModule, AuthHeaderComponent, AuthFooterComponent, LoadingOverlayComponent, FormsModule, SuccessPopupComponent],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })
@@ -20,31 +21,16 @@ export class ForgotPasswordComponent {
 
   constructor(private authService: AuthService) { }
 
-  // sendEmail() {
-  //   this.loading = true;
-  //   this.authService.registerUser(this.email).subscribe(
-  //     response => {
-  //       console.log('Mail sent successful', response);
-  //       this.loading = false;
-  //       this.showPopup = true;
-  //     },
-  //     error => {
-  //       console.error('Registration failed', error);
-  //       this.loading = false;
-  //     }
-  //   );
-  // }
-
   sendEmail() {
     this.loading = true;
-    this.authService.resetPassword(this.email).subscribe( // Korrigierter Aufruf
+    this.authService.resetPassword(this.email).subscribe(
       response => {
         console.log('Mail sent successful', response);
         this.loading = false;
         this.showPopup = true;
       },
       error => {
-        console.error('Password reset failed', error); // Korrigierte Fehlermeldung
+        console.error('Password reset failed', error);
         this.loading = false;
       }
     );
