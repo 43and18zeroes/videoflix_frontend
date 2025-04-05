@@ -52,6 +52,6 @@ export class AuthService {
   }
 
   resetPassword(email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}${this.authJWTSegments}password/reset/`, { email: email });
+    return this.http.post(`${this.baseUrl}${this.authCustomSegment}password-reset/`, { email: email });
   }
 }
