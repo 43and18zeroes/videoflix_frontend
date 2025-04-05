@@ -11,7 +11,7 @@ export const authRoutes: Routes = [
   { path: 'sign-up/:token', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'password-reset', component: PasswordResetComponent },
+  { path: 'password-reset/:uid/:token', component: PasswordResetComponent },
   { path: '', redirectTo: 'start', pathMatch: 'full' },
 ];
 

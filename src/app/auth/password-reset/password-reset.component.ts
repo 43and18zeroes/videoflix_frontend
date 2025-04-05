@@ -25,12 +25,13 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    LoadingOverlayComponent
+    LoadingOverlayComponent,
   ],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
 })
 export class PasswordResetComponent {
+  uid = '';
   token = '';
   resetPasswordForm: FormGroup;
   loading = false;
@@ -52,26 +53,34 @@ export class PasswordResetComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
+      this.uid = params['uid'];
       this.token = params['token'];
+      console.log('UID aus URL:', this.uid);
+      console.log('Token aus URL:', this.token);
     });
   }
 
   resetPW() {
     this.resetPasswordForm.markAllAsTouched();
     this.resetPasswordForm.updateValueAndValidity();
-    if (this.resetPasswordForm.valid) {
+    if (this.resetPasswordForm.valid && this.uid && this.token) {
       const password = this.resetPasswordForm.value.password;
-      this.authService.setPassword(this.token, password).subscribe(
-        (response) => {
-          this.router.navigate(['/login']);
-          localStorage.setItem('access_token', response.access);
-          localStorage.setItem('refresh_token', response.refresh);
-          this.router.navigate(['/video-offer']);
-        },
-        (error) => {
-          console.log('Password error');
-        }
-      );
+      this.loading = true;
+      this.authService.resetPasswordConfirm(this.uid, this.token, password)
+        .subscribe(
+          (response) => {
+            this.loading = false;
+            this.router.navigate(['/video-offer']);
+            // Optional: Erfolgsmeldung anzeigen
+          },
+          (error) => {
+            this.loading = false;
+            console.error('Fehler beim Zurücksetzen des Passworts:', error);
+            // Fehlermeldung anzeigen
+          }
+        );
+    } else {
+      console.error('Formular ist ungültig oder UID/Token fehlen.');
     }
   }
 }
