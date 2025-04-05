@@ -10,12 +10,14 @@
       format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "DM Sans Extra Light";
   src: url("./assets/fonts/dm_sans/static/DMSans-ExtraLight.ttf")
     format("truetype");
+  font-display: swap;
 }
 
 @mixin dm-sans-font {
@@ -31,6 +33,7 @@
   font-style: normal;
   font-weight: 400;
   src: url("assets/fonts/material_icons/MaterialIcons-Regular.ttf");
+  font-display: swap;
 }
 
 .material-symbols-outlined {
