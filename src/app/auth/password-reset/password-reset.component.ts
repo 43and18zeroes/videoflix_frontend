@@ -76,7 +76,6 @@ export class PasswordResetComponent {
           (error) => {
             this.loading = false;
             console.error('Error when resetting the password:', error);
-            // Fehlermeldung anzeigen
           }
         );
     } else {
