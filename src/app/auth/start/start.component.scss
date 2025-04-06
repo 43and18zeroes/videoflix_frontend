@@ -70,9 +70,11 @@ main {
         display: flex;
         align-items: center;
 
-        span {
-          font-size: 14px;
+        svg {
           padding-left: 8px;
+          width: 14px;
+          height: 14px;
+          fill: white;
         }
       }
 
