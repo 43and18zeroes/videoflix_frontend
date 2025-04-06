@@ -58,8 +58,9 @@ export class AuthService {
     const body = {
       uid,
       token,
-      new_password: newPassword
+      new_password1: newPassword,
+      new_password2: newPassword
     };
-    return this.http.post(`${this.baseUrl}${this.authJWTSegments}password/reset/confirm/`, body);
+    return this.http.post(`${this.baseUrl}${this.authCustomSegment}password-reset-confirm/`, body);
   }
 }
