@@ -17,7 +17,8 @@ export class ForgotPasswordComponent {
   email = '';
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   loading = false;
-  showPopup = false;
+  showSuccessPopup = false;
+  showErrorPopup = false;
 
   constructor(private authService: AuthService) { }
 
@@ -27,16 +28,23 @@ export class ForgotPasswordComponent {
       response => {
         console.log('Mail sent successful', response);
         this.loading = false;
-        this.showPopup = true;
+        this.showSuccessPopup = true;
+        this.showErrorPopup = false;
       },
       error => {
         console.error('Password reset failed', error);
         this.loading = false;
+        this.showErrorPopup = true;
+        this.showSuccessPopup = false;
       }
     );
   }
 
-  closePopup() {
-    this.showPopup = false;
+  closeSuccessPopup() {
+    this.showSuccessPopup = false;
+  }
+
+  closeErrorPopup() {
+    this.showErrorPopup = false;
   }
 }
