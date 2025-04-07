@@ -35,50 +35,41 @@ export class LoginComponent {
   ) {}
 
   ngOnInit(): void {
-    // Lese Query-Parameter beim Initialisieren der Komponente
     this.route.queryParams.subscribe((params) => {
-      const emailFromQuery = params['email']; // Hole den 'email'-Parameter
+      const emailFromQuery = params['email'];
       if (emailFromQuery) {
-        this.credentials.email = emailFromQuery; // Setze die E-Mail im Formular
-        // Optional: Fokus auf das Passwortfeld setzen
-        // const passwordInput = document.getElementById('password');
-        // if (passwordInput) {
-        //   passwordInput.focus();
-        // }
+        this.credentials.email = emailFromQuery;
       }
     });
   }
 
   login(): void {
-    this.emailError = false; // Reset email error
-    this.loginError = false; // Reset login error
-    this.loading = true; // Start loading
+    this.emailError = false;
+    this.loginError = false;
+    this.loading = true;
 
     if (!this.validateEmail(this.credentials.email)) {
       this.emailError = true;
-      this.loading = false; // Stop loading
+      this.loading = false;
       return;
     }
 
     this.authService.login(this.credentials).subscribe({
-      // Verwende Objekt-Format
       next: (response) => {
-        this.loading = false; // Stop loading
+        this.loading = false;
         this.authService.setTokens(response);
-        this.router.navigate(['/video-offer']); // Oder wohin auch immer nach dem Login
-        // loginError bleibt false
+        this.router.navigate(['/video-offer']);
       },
       error: (error) => {
-        this.loading = false; // Stop loading
+        this.loading = false;
         console.error('Login failed:', error);
-        this.loginError = true; // Zeige Login-Fehler an
-        // Optional: Unterscheiden, ob es ein 401 (falsches Passwort) oder anderer Fehler ist
+        this.loginError = true;
       },
     });
   }
 
   validateEmail(email: string): boolean {
-    if (!email) return false; // Handle empty email case
+    if (!email) return false;
     const regex = new RegExp(this.emailPattern);
     return regex.test(email);
   }
