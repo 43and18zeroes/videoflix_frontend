@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
 import { FormsModule } from '@angular/forms';
-import { AuthPopupComponent } from '../../global-components/auth-popup/auth-popup.component';
+import { AuthPopupComponent } from '../components/auth-popup/auth-popup.component';
 
 @Component({
   selector: 'app-forgot-password',

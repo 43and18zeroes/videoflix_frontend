@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthHeaderComponent } from '../components/auth-header/auth-header.component';
 import { AuthFooterComponent } from '../components/auth-footer/auth-footer.component';
 import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
-import { AuthPopupComponent } from '../../global-components/auth-popup/auth-popup.component';
+import { AuthPopupComponent } from '../components/auth-popup/auth-popup.component';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -27,7 +27,7 @@ export class StartComponent {
   email = '';
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   loading = false;
-  showPopup = true;
+  showPopup = false;
   errorMessage: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
