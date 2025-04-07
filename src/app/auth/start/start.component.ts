@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthHeaderComponent } from '../components/auth-header/auth-header.component';
 import { AuthFooterComponent } from '../components/auth-footer/auth-footer.component';
 import { LoadingOverlayComponent } from '../../global-components/loading-overlay/loading-overlay.component';
-import { SuccessPopupComponent } from '../../global-components/success-popup/success-popup.component';
+import { AuthPopupComponent } from '../../global-components/auth-popup/auth-popup.component';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     AuthHeaderComponent,
     AuthFooterComponent,
     LoadingOverlayComponent,
-    SuccessPopupComponent,
+    AuthPopupComponent,
   ],
   templateUrl: './start.component.html',
   styleUrl: './start.component.scss',
