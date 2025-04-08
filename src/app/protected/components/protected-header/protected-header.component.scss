@@ -12,19 +12,4 @@ menu {
   display: flex;
   justify-content: space-between;
   padding-inline-start: 0;
-
-  picture {
-    display: inherit;
-    align-items: center;
-    
-    &.clickable {
-      cursor: pointer;
-    }
-
-    @include vars.for-phone-only {
-      img {
-        height: 40px;
-      }
-    }
-  }
 }
