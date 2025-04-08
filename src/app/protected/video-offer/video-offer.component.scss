@@ -1,0 +1,7 @@
+@use "../../../styles.scss" as styles;
+
+:host {
+  @include styles.page__padding;
+  display: flex;
+  flex-direction: column;
+}
