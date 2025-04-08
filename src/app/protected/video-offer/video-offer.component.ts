@@ -1,18 +1,13 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ProtectedHeaderComponent } from '../components/protected-header/protected-header.component';
 
 @Component({
   selector: 'app-video-offer',
-  imports: [],
+  standalone: true,
+  imports: [ProtectedHeaderComponent],
   templateUrl: './video-offer.component.html',
   styleUrl: './video-offer.component.scss',
 })
 export class VideoOfferComponent {
-  constructor(private router: Router) {}
 
-  logout(): void {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    this.router.navigate(['/login']);
-  }
 }
