@@ -11,5 +11,21 @@ menu {
   flex: 1;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-inline-start: 0;
+  
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  button {
+    display: flex;
+    gap: 8px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
 }
