@@ -4,14 +4,19 @@
   @include styles.page__padding;
   display: flex;
   flex-direction: column;
-  background-image:
-  linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), // Das Overlay
-  url("/assets/img/video-offer/panda-hero.webp"); // Das eigentliche Bild
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("/assets/img/video-offer/panda-hero.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-// Wichtig: Stelle sicher, dass die Hintergrund-Eigenschaften für beide gelten
-// oder spezifiziere sie pro Hintergrund, falls nötig.
-background-size: cover; // Gilt für beide (oder spezifiziere mit Komma getrennt)
-background-position: center; // Gilt für beide
-background-repeat: no-repeat; // Verhindert Kachelung für beide
-  
+  .hero {
+    width: 470px;
+
+    h2 {
+      font-size: 88px;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+  }
 }
