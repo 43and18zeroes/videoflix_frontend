@@ -52,7 +52,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: darken(#3f50ff, 10%);
+  background-color: darken(vars.$accent-color, 10%);
 }
 
 ::-webkit-scrollbar-track {
