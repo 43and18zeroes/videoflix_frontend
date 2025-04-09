@@ -4,4 +4,14 @@
   @include styles.page__padding;
   display: flex;
   flex-direction: column;
+  background-image:
+  linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), // Das Overlay
+  url("/assets/img/video-offer/panda-hero.webp"); // Das eigentliche Bild
+
+// Wichtig: Stelle sicher, dass die Hintergrund-Eigenschaften für beide gelten
+// oder spezifiziere sie pro Hintergrund, falls nötig.
+background-size: cover; // Gilt für beide (oder spezifiziere mit Komma getrennt)
+background-position: center; // Gilt für beide
+background-repeat: no-repeat; // Verhindert Kachelung für beide
+  
 }
