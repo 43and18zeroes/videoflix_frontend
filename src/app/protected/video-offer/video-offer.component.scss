@@ -18,5 +18,15 @@
       font-weight: 700;
       margin-bottom: 0;
     }
+
+    button {
+      display: flex;
+      gap: 8px;
+  
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
   }
 }
