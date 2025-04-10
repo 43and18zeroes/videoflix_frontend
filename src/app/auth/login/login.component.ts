@@ -35,12 +35,16 @@ export class LoginComponent {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      const emailFromQuery = params['email'];
-      if (emailFromQuery) {
-        this.credentials.email = emailFromQuery;
-      }
-    });
+    if (this.authService.getAccessToken()) {
+      this.router.navigate(['/video-offer']);
+    } else {
+      this.route.queryParams.subscribe((params) => {
+        const emailFromQuery = params['email'];
+        if (emailFromQuery) {
+          this.credentials.email = emailFromQuery;
+        }
+      });
+    }
   }
 
   login(): void {
