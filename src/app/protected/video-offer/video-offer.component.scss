@@ -1,56 +1,62 @@
 @use "../../../styles.scss" as styles;
 
 :host {
-  @include styles.page__padding;
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 1)),
-    url("/assets/img/video-offer/panda-hero.webp");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   height: 100vh;
   overflow: auto;
 
-  .hero {
-    width: 480px;
+  .offer__container {
+    @include styles.page__padding;
+    background-color: #000;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0)),
+      url("/assets/img/video-offer/panda-hero.webp");
+    background-size: 100% auto;
+    // background-size: fill;
+    background-position: top center;
+    background-repeat: no-repeat;
 
-    h2 {
-      font-size: 88px;
-      font-weight: 700;
-      margin-bottom: 0;
-      letter-spacing: 1.5px;
-    }
+    .hero {
+      width: 480px;
 
-    p {
-      letter-spacing: 0.6px;
-    }
+      h2 {
+        font-size: 88px;
+        font-weight: 700;
+        margin-bottom: 0;
+        letter-spacing: 1.5px;
+      }
 
-    button {
-      margin: 32px 0 100px 0;
-      display: flex;
-      gap: 8px;
+      p {
+        font-size: 18px;
+        letter-spacing: 0.6px;
+      }
 
-      img {
-        width: 24px;
-        height: 24px;
+      button {
+        margin: 32px 0 100px 0;
+        display: flex;
+        gap: 8px;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
-  }
 
-  section {
-    h3 {
-      font-size: 22px;
-      letter-spacing: 1.5px;
-    }
+    section {
+      h3 {
+        font-size: 22px;
+        letter-spacing: 1.5px;
+      }
 
-    .thumbnail__row {
-      display: flex;
-      gap: 16px;
+      .thumbnail__row {
+        display: flex;
+        gap: 16px;
 
-      img {
-        width: 213.13px;
-        height: 120px;
+        img {
+          width: 426px;
+          height: 240px;
+        }
       }
     }
   }
