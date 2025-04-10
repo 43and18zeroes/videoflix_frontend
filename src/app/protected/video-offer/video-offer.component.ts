@@ -9,5 +9,5 @@ import { ProtectedHeaderComponent } from '../components/protected-header/protect
   styleUrl: './video-offer.component.scss',
 })
 export class VideoOfferComponent {
-
+  playVideo() {}
 }

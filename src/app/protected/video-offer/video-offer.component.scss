@@ -59,7 +59,9 @@
     }
   }
 
-  section {
+  .thumbnails__section {
+    margin-bottom: 48px;
+
     h3 {
       font-size: 22px;
       letter-spacing: 1.5px;
@@ -67,11 +69,22 @@
 
     .thumbnail__row {
       display: flex;
-      gap: 16px;
+      gap: 32px;
 
       img {
         width: 426px;
         height: 240px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
+        cursor: pointer;
+        box-sizing: border-box;
+        border: 2px solid transparent;
+    
+        &:hover {
+          transform: scale(1.08);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+          border: 5px solid white;
+          z-index: 2;
+        }
       }
     }
   }
