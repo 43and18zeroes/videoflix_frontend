@@ -5,13 +5,13 @@
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  position: relative; // wichtig für absolute Positionierung der Hintergrund-Div
+  position: relative;
   overflow: auto;
   
   @include styles.page__padding;
-  
+
   & {
-    background-color: #000; // ⬅️ Opt-in für neue Sass-Logik
+    background-color: #000;
   }
 
   .background {
@@ -28,11 +28,11 @@
       url("/assets/img/video-offer/videos_thumbnails/panda-hero.webp");
     background-size: cover;
     background-position: top center;
-    z-index: 0; // ganz nach hinten legen
+    z-index: 0;
   }
 
   > * {
-    position: relative; // damit alle Inhalte über der Hintergrund-Div liegen
+    position: relative;
     z-index: 1;
   }
 
