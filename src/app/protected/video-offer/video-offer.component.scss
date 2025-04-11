@@ -11,7 +11,7 @@
   @include styles.page__padding;
 
   & {
-    background-color: #000;
+    background-color: rgb(20, 20, 20);
   }
 
   .background {
@@ -21,9 +21,9 @@
     right: 0;
     height: 1080px;
     background-image: linear-gradient(
-        rgba(0, 0, 0, 0.5) 0%,
-        rgba(0, 0, 0, 0.5) 60%,
-        rgba(0, 0, 0, 1) 100%
+        rgba(20, 20, 20, 0.5) 0%,
+        rgba(20, 20, 20, 0.5) 60%,
+        rgba(20, 20, 20, 1) 100%
       ),
       url("/assets/img/video-offer/videos_thumbnails/panda-hero.webp");
     background-size: cover;
