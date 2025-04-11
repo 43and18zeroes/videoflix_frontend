@@ -6,9 +6,13 @@
   height: 100vh;
   overflow: auto;
   position: relative; // wichtig für absolute Positionierung der Hintergrund-Div
-  @include styles.page__padding;
-  background-color: #000;
   overflow: auto;
+  
+  @include styles.page__padding;
+  
+  & {
+    background-color: #000; // ⬅️ Opt-in für neue Sass-Logik
+  }
 
   .background {
     position: absolute;
@@ -21,7 +25,7 @@
         rgba(0, 0, 0, 0.5) 60%,
         rgba(0, 0, 0, 1) 100%
       ),
-      url("/assets/img/video-offer/panda-hero.webp");
+      url("/assets/img/video-offer/videos_thumbnails/panda-hero.webp");
     background-size: cover;
     background-position: top center;
     z-index: 0; // ganz nach hinten legen
