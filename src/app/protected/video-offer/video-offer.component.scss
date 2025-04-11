@@ -73,7 +73,7 @@
 
     .thumbnail__row {
       display: flex;
-      gap: 32px;
+      gap: 28px;
 
       img {
         width: 426px;
@@ -81,7 +81,7 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
         cursor: pointer;
         box-sizing: border-box;
-        border: 2px solid transparent;
+        border: 5px solid transparent;
     
         &:hover {
           transform: scale(1.08);
