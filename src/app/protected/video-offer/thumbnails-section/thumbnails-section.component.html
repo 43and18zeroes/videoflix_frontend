@@ -1,0 +1,11 @@
+<section class="thumbnails__section">
+    <h3>{{ section.title }}</h3>
+    <div class="thumbnail__row">
+      <img
+        *ngFor="let thumbnailData of section.thumbnails"
+        [src]="thumbnailData.thumbnailUrl"               
+        [alt]="thumbnailData.altText || 'Video Thumbnail'"  
+        (click)="playVideo(thumbnailData.videoId)"      
+      />
+    </div>
+  </section>

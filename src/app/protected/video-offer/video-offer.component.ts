@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { ProtectedHeaderComponent } from '../components/protected-header/protected-header.component';
 import { ProtectedFooterComponent } from '../components/protected-footer/protected-footer.component';
+import { ThumbnailsSectionComponent } from './thumbnails-section/thumbnails-section.component';
 
 interface ThumbnailData {
   thumbnailUrl: string;
@@ -17,7 +18,7 @@ interface VideoSection {
 @Component({
   selector: 'app-video-offer',
   standalone: true,
-  imports: [ProtectedHeaderComponent, ProtectedFooterComponent, NgFor],
+  imports: [ProtectedHeaderComponent, ProtectedFooterComponent, ThumbnailsSectionComponent, NgFor],
   templateUrl: './video-offer.component.html',
   styleUrl: './video-offer.component.scss',
 })
