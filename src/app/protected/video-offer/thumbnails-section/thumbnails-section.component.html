@@ -1,11 +1,47 @@
-<section class="thumbnails__section">
-    <h3>{{ section.title }}</h3>
-    <div class="thumbnail__row">
+<h3>{{ section.title }}</h3>
+<swiper-container
+  slides-per-view="2"
+  space-between="28"
+  navigation="true"
+  pagination="false"
+  class="my-swiper-container"
+  grab-cursor="true"
+  free-mode="true"
+>
+  <swiper-slide
+    *ngFor="let thumbnailData of section.thumbnails"
+    class="my-swiper-slide"
+  >
+    <img
+      [src]="thumbnailData.thumbnailUrl"
+      [alt]="thumbnailData.altText || 'Video Thumbnail'"
+      (click)="playVideo(thumbnailData.videoId)"
+      loading="lazy"
+    />
+  </swiper-slide>
+</swiper-container>
+
+<!-- <section class="thumbnails__section">
+  <h3>{{ section.title }}</h3>
+
+  <swiper-container
+    slides-per-view="1"  
+    space-between="28"      
+    navigation="true"        
+    pagination="false"        
+    class="my-swiper-container" 
+    grab-cursor="true"       
+    free-mode="true"         
+  >
+    <swiper-slide *ngFor="let thumbnailData of section.thumbnails" class="my-swiper-slide">
       <img
-        *ngFor="let thumbnailData of section.thumbnails"
-        [src]="thumbnailData.thumbnailUrl"               
-        [alt]="thumbnailData.altText || 'Video Thumbnail'"  
-        (click)="playVideo(thumbnailData.videoId)"      
+        [src]="thumbnailData.thumbnailUrl"
+        [alt]="thumbnailData.altText || 'Video Thumbnail'"
+        (click)="playVideo(thumbnailData.videoId)"
+        loading="lazy" 
       />
-    </div>
-  </section>
+    </swiper-slide>
+
+  </swiper-container>
+
+</section> -->

@@ -1,29 +1,124 @@
-.thumbnails__section {
-  margin-bottom: 48px;
 
-  h3 {
-    font-size: 22px;
-    letter-spacing: 1.5px;
-  }
 
-  .thumbnail__row {
-    display: flex;
-    gap: 28px;
 
-    img {
-      width: 426px;
-      height: 240px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
-      cursor: pointer;
-      box-sizing: border-box;
-      border: 5px solid transparent;
 
-      &:hover {
-        transform: scale(1.08);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        border: 5px solid white;
-        z-index: 2;
-      }
-    }
-  }
-}
+
+// // Importiere Swiper Basis-CSS und optionale Module (Navigation, Pagination etc.)
+// // Stelle sicher, dass der Pfad korrekt ist, abhängig von deiner node_modules Struktur
+// @use 'swiper/css';
+// @use 'swiper/css/navigation'; // Importieren, wenn navigation="true" verwendet wird
+// // @import 'swiper/css/pagination'; // Importieren, wenn pagination="true" verwendet wird
+// // @import 'swiper/css/free-mode'; // Importieren, wenn free-mode="true" verwendet wird
+
+// .thumbnails__section {
+//   margin-bottom: 48px;
+//   position: relative; // Wichtig, damit Navigationspfeile relativ positioniert werden können
+//   width: 100%;
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   padding: 0 16px;
+
+//   h3 {
+//     font-size: 22px;
+//     letter-spacing: 1.5px;
+//     margin-bottom: 16px; // Etwas Abstand zum Swiper
+//   }
+
+//   .my-swiper-container { // Zielklasse des swiper-container Elements
+//     // width: 100%; // Nimm die volle Breite des Elternelements ein
+//     max-width: 100%;
+//     width: 100%;
+//     overflow: hidden;
+//     margin: 0;
+//     padding: 0 16px; // optional: ein kleines Padding, damit die Pfeile sichtbar bleiben
+//     box-sizing: border-box;
+//     padding-bottom: 10px; // Platz für eventuelle Pagination oder Scrollbar
+
+//     .my-swiper-slide { // Zielklasse des swiper-slide Elements
+//       width: 426px; // Feste Breite für jedes Slide, wie dein Original-Bild
+//       height: auto; // Höhe passt sich dem Inhalt an
+
+//       // img {
+//         // display: block; // Verhindert unerwünschten Leerraum unter dem Bild
+//         // width: 100%;    // Bild füllt das Slide aus
+//         // height: 240px;  // Feste Höhe beibehalten
+//         // object-fit: cover; // Stellt sicher, dass das Bild den Bereich füllt ohne Verzerrung
+//         // transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
+//         // cursor: pointer;
+//         // box-sizing: border-box;
+//         // border: 5px solid transparent;
+
+//         // &:hover {
+//         //   transform: scale(1.08);
+//         //   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+//         //   border: 5px solid white;
+//         //   z-index: 2; // Z-Index ist innerhalb von Swiper wichtig
+//         // }
+//       // }
+//     }
+
+//     // Standard-Styling für Swiper Navigation Pfeile (optional anpassbar)
+//     // Diese Selektoren zielen auf die Standard-Klassen von Swiper
+//     .swiper-button-prev,
+//     .swiper-button-next {
+//       color: white; // Beispiel: Farbe der Pfeile ändern
+//       background-color: rgba(0, 0, 0, 0.3);
+//       border-radius: 50%;
+//       width: 44px; // Standardbreite
+//       height: 44px; // Standardhöhe
+
+//       &:after {
+//          font-size: 20px; // Größe des Pfeil-Icons
+//       }
+
+//       &:hover {
+//         background-color: rgba(0, 0, 0, 0.6);
+//       }
+//     }
+
+//      .swiper-button-prev {
+//         left: 10px; // Position anpassen
+//      }
+//      .swiper-button-next {
+//          right: 10px; // Position anpassen
+//      }
+//   }
+// }
+
+// Wichtig: Manchmal müssen Stile für Swiper-Elemente außerhalb der :host Kapselung
+// definiert werden, wenn ViewEncapsulation greift. Oder setze ViewEncapsulation.None
+// in der Komponente (nicht empfohlen) oder platziere die Swiper-CSS-Imports
+// global in styles.scss. Das @import innerhalb des Komponenten-SCSS funktioniert
+// normalerweise gut mit Standalone Components.
+
+
+// .thumbnails__section {
+//   margin-bottom: 48px;
+
+
+//   h3 {
+//     font-size: 22px;
+//     letter-spacing: 1.5px;
+//   }
+
+//   .thumbnail__row {
+//     display: flex;
+//     gap: 28px;
+
+//     img {
+//       width: 426px;
+//       height: 240px;
+//       transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
+//       cursor: pointer;
+//       box-sizing: border-box;
+//       border: 5px solid transparent;
+
+//       &:hover {
+//         transform: scale(1.08);
+//         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+//         border: 5px solid white;
+//         z-index: 2;
+//       }
+//     }
+//   }
+// }

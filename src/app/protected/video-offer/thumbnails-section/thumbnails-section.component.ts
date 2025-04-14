@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgFor } from '@angular/common';
 
 interface ThumbnailData {
@@ -14,9 +14,11 @@ interface VideoSection {
 
 @Component({
   selector: 'app-thumbnails-section',
+  standalone: true,
   imports: [NgFor],
   templateUrl: './thumbnails-section.component.html',
   styleUrl: './thumbnails-section.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ThumbnailsSectionComponent {
   @Input() section!: VideoSection;
