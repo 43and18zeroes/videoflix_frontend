@@ -10,7 +10,8 @@ h3 {
 // Stile für den Swiper Container (optional, aber nützlich für Positionierung der Buttons)
 .swiper {
   position: relative; // Nötig für absolute Positionierung der Nav-Buttons
-  padding-bottom: 40px; // Platz für Paginierung schaffen (anpassen)
+  padding: 9px 17px;
+  margin: 0 -20.5px;
 
   .swiper-wrapper {
     // Stile für jeden Slide

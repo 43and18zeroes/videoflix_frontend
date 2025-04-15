@@ -40,7 +40,7 @@ export class ThumbnailsSectionComponent {
       this.swiperInstance = new Swiper(this.swiperContainer.nativeElement, {
         // Konfigurationsoptionen
         modules: [Navigation, Pagination], // Module hier übergeben
-        slidesPerView: 3, // Zeige 3 Slides gleichzeitig (anpassbar)
+        slidesPerView: 4, // Zeige 3 Slides gleichzeitig (anpassbar)
         spaceBetween: 28, // Setze den Abstand (wie dein 'gap')
         loop: false, // Ob die Slideshow in einer Schleife laufen soll
         pagination: false,
@@ -52,17 +52,20 @@ export class ThumbnailsSectionComponent {
         breakpoints: {
           // wenn Fensterbreite >= 320px
           320: {
-            slidesPerView: 1,
+            slidesPerView: 2,
+            slidesPerGroup: 2,
             spaceBetween: 10,
           },
           // wenn Fensterbreite >= 768px
           768: {
-            slidesPerView: 2,
+            slidesPerView: 3,
+            slidesPerGroup: 3,
             spaceBetween: 20,
           },
           // wenn Fensterbreite >= 1024px
           1024: {
             slidesPerView: 3,
+            slidesPerGroup: 3,
             spaceBetween: 28,
           },
         },
