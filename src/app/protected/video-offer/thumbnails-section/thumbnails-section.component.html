@@ -1,23 +1,21 @@
-<section class="thumbnails__section">
-  <h3>{{ section.title }}</h3>
+<h3>{{ section.title }}</h3>
 
-  <div class="swiper" #swiperContainer>  <div class="swiper-wrapper">
-      <div class="swiper-slide" *ngFor="let thumbnailData of section.thumbnails">
-        <img
-          [src]="thumbnailData.thumbnailUrl"
-          [alt]="thumbnailData.altText || 'Video Thumbnail'"
-          (click)="playVideo(thumbnailData.videoId)"
-        />
-      </div>
+<div class="swiper" #swiperContainer>
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let thumbnailData of section.thumbnails">
+      <img
+        [src]="thumbnailData.thumbnailUrl"
+        [alt]="thumbnailData.altText || 'Video Thumbnail'"
+        (click)="playVideo(thumbnailData.videoId)"
+      />
     </div>
-
-    <div class="swiper-pagination"></div>
-
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-
   </div>
-</section>
+
+  <div class="swiper-pagination"></div>
+
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
 
 <!-- <section class="thumbnails__section">
   <h3>{{ section.title }}</h3>

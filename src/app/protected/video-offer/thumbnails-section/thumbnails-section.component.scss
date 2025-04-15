@@ -1,22 +1,19 @@
-@import 'swiper/swiper-bundle.css';
+@import "swiper/swiper-bundle.css";
 
-.thumbnails__section {
-  margin-bottom: 48px;
+h3 {
+  font-size: 22px;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px; // Etwas Abstand zum Swiper hinzugefügt
+}
 
-  h3 {
-    font-size: 22px;
-    letter-spacing: 1.5px;
-    margin-bottom: 16px; // Etwas Abstand zum Swiper hinzugefügt
-  }
+// Entferne das alte Flexbox-Layout für die Reihe
+// .thumbnail__row { ... } // Diese Klasse wird nicht mehr benötigt
 
-  // Entferne das alte Flexbox-Layout für die Reihe
-  // .thumbnail__row { ... } // Diese Klasse wird nicht mehr benötigt
-
-  // Stile für den Swiper Container (optional, aber nützlich für Positionierung der Buttons)
-  .swiper {
-    position: relative; // Nötig für absolute Positionierung der Nav-Buttons
-    padding-bottom: 40px; // Platz für Paginierung schaffen (anpassen)
-  }
+// Stile für den Swiper Container (optional, aber nützlich für Positionierung der Buttons)
+.swiper {
+  max-width: calc(100vw - 216px);
+  position: relative; // Nötig für absolute Positionierung der Nav-Buttons
+  padding-bottom: 40px; // Platz für Paginierung schaffen (anpassen)
 
   // Stile für jeden Slide
   .swiper-slide {
@@ -27,8 +24,8 @@
 
     img {
       display: block; // Verhindert extra Platz unter dem Bild
-      width: 100%;   // Lässt das Bild die Breite des Slides füllen // Behält deine max. Breite bei, falls Slide breiter wird
-      height: auto;  // Höhe automatisch anpassen für korrekte Proportionen
+      width: 100%; // Lässt das Bild die Breite des Slides füllen // Behält deine max. Breite bei, falls Slide breiter wird
+      height: auto; // Höhe automatisch anpassen für korrekte Proportionen
       // Höhe festlegen, falls alle Bilder gleich hoch sein sollen trotz unterschiedlicher Breite:
       // height: 240px;
       // object-fit: cover; // Stellt sicher, dass das Bild den Bereich füllt, ohne zu verzerren
@@ -44,6 +41,20 @@
         border: 5px solid white;
         z-index: 2; // Funktioniert möglicherweise nicht wie erwartet in Swiper, testen!
       }
+    }
+  }
+
+  // Anpassung der Swiper Paginierung (Beispiel)
+  .swiper-pagination {
+    bottom: 10px !important; // Position anpassen (wichtig wg. Swiper-Inline-Styles)
+
+    .swiper-pagination-bullet {
+      background-color: white; // Farbe der Punkte
+      opacity: 0.6;
+    }
+    .swiper-pagination-bullet-active {
+      background-color: white; // Farbe des aktiven Punktes
+      opacity: 1;
     }
   }
 
@@ -63,26 +74,7 @@
       font-weight: bold;
     }
   }
-
-   // Anpassung der Swiper Paginierung (Beispiel)
-   .swiper-pagination {
-     bottom: 10px !important; // Position anpassen (wichtig wg. Swiper-Inline-Styles)
-
-     .swiper-pagination-bullet {
-        background-color: white; // Farbe der Punkte
-        opacity: 0.6;
-     }
-     .swiper-pagination-bullet-active {
-        background-color: white; // Farbe des aktiven Punktes
-        opacity: 1;
-     }
-   }
-
 }
-
-
-
-
 
 // .thumbnails__section {
 //   margin-bottom: 48px;
