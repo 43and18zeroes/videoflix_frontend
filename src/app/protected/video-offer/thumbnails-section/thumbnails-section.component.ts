@@ -43,10 +43,7 @@ export class ThumbnailsSectionComponent {
         slidesPerView: 3, // Zeige 3 Slides gleichzeitig (anpassbar)
         spaceBetween: 28, // Setze den Abstand (wie dein 'gap')
         loop: false, // Ob die Slideshow in einer Schleife laufen soll
-        pagination: {
-          el: '.swiper-pagination', // Selektor für Paginierungselement
-          clickable: true, // Ermöglicht Klick auf Paginierungspunkte
-        },
+        pagination: false,
         navigation: {
           nextEl: '.swiper-button-next', // Selektor für nächsten Button
           prevEl: '.swiper-button-prev', // Selektor für vorherigen Button
