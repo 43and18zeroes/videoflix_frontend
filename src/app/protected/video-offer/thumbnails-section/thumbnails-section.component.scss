@@ -1,18 +1,38 @@
+@import 'swiper/swiper-bundle.css';
+
 .thumbnails__section {
   margin-bottom: 48px;
 
   h3 {
     font-size: 22px;
     letter-spacing: 1.5px;
+    margin-bottom: 16px; // Etwas Abstand zum Swiper hinzugefügt
   }
 
-  .thumbnail__row {
-    display: flex;
-    gap: 28px;
+  // Entferne das alte Flexbox-Layout für die Reihe
+  // .thumbnail__row { ... } // Diese Klasse wird nicht mehr benötigt
+
+  // Stile für den Swiper Container (optional, aber nützlich für Positionierung der Buttons)
+  .swiper {
+    position: relative; // Nötig für absolute Positionierung der Nav-Buttons
+    padding-bottom: 40px; // Platz für Paginierung schaffen (anpassen)
+  }
+
+  // Stile für jeden Slide
+  .swiper-slide {
+    display: flex; // Zentriert das Bild im Slide, falls es kleiner ist
+    justify-content: center;
+    align-items: center;
+    max-width: 426px;
 
     img {
-      width: 426px;
-      height: 240px;
+      display: block; // Verhindert extra Platz unter dem Bild
+      width: 100%;   // Lässt das Bild die Breite des Slides füllen // Behält deine max. Breite bei, falls Slide breiter wird
+      height: auto;  // Höhe automatisch anpassen für korrekte Proportionen
+      // Höhe festlegen, falls alle Bilder gleich hoch sein sollen trotz unterschiedlicher Breite:
+      // height: 240px;
+      // object-fit: cover; // Stellt sicher, dass das Bild den Bereich füllt, ohne zu verzerren
+
       transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
       cursor: pointer;
       box-sizing: border-box;
@@ -22,8 +42,74 @@
         transform: scale(1.08);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         border: 5px solid white;
-        z-index: 2;
+        z-index: 2; // Funktioniert möglicherweise nicht wie erwartet in Swiper, testen!
       }
     }
   }
+
+  // Anpassung der Swiper Navigations-Buttons (Beispiel)
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: white; // Farbe der Pfeile ändern
+    background-color: rgba(0, 0, 0, 0.3); // Leichter Hintergrund
+    border-radius: 50%;
+    width: 40px; // Größe anpassen
+    height: 40px;
+    top: 50%; // Vertikal zentrieren (relativ zum Swiper-Container)
+    transform: translateY(-50%); // Exakte vertikale Zentrierung
+
+    &::after {
+      font-size: 18px; // Größe der Pfeil-Icons anpassen
+      font-weight: bold;
+    }
+  }
+
+   // Anpassung der Swiper Paginierung (Beispiel)
+   .swiper-pagination {
+     bottom: 10px !important; // Position anpassen (wichtig wg. Swiper-Inline-Styles)
+
+     .swiper-pagination-bullet {
+        background-color: white; // Farbe der Punkte
+        opacity: 0.6;
+     }
+     .swiper-pagination-bullet-active {
+        background-color: white; // Farbe des aktiven Punktes
+        opacity: 1;
+     }
+   }
+
 }
+
+
+
+
+
+// .thumbnails__section {
+//   margin-bottom: 48px;
+
+//   h3 {
+//     font-size: 22px;
+//     letter-spacing: 1.5px;
+//   }
+
+//   .thumbnail__row {
+//     display: flex;
+//     gap: 28px;
+
+//     img {
+//       width: 426px;
+//       height: 240px;
+//       transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
+//       cursor: pointer;
+//       box-sizing: border-box;
+//       border: 5px solid transparent;
+
+//       &:hover {
+//         transform: scale(1.08);
+//         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+//         border: 5px solid white;
+//         z-index: 2;
+//       }
+//     }
+//   }
+// }
