@@ -34,15 +34,6 @@ export class ThumbnailsSectionComponent {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   swiperInstance: Swiper | null = null;
 
-  ngOnInit(): void {
-    // Überprüfe die empfangenen Daten beim Initialisieren der Komponente
-    if (this.section) {
-         console.log(`[${this.section.title}] Received thumbnails:`, this.section.thumbnails?.length, this.section.thumbnails);
-    } else {
-         console.error("Section input is undefined in ngOnInit!");
-    }
-}
-
   ngAfterViewInit(): void {
     // Initialisiere Swiper, nachdem die View aufgebaut wurde
     if (this.swiperContainer && this.swiperContainer.nativeElement) {
