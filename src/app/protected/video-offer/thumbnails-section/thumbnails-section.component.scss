@@ -15,31 +15,35 @@ h3 {
   position: relative; // Nötig für absolute Positionierung der Nav-Buttons
   padding-bottom: 40px; // Platz für Paginierung schaffen (anpassen)
 
-  // Stile für jeden Slide
-  .swiper-slide {
-    display: flex; // Zentriert das Bild im Slide, falls es kleiner ist
-    justify-content: center;
-    align-items: center;
-    max-width: 426px;
+  .swiper-wrapper {
+    max-width: calc(100vw - 216px);
 
-    img {
-      display: block; // Verhindert extra Platz unter dem Bild
-      width: 100%; // Lässt das Bild die Breite des Slides füllen // Behält deine max. Breite bei, falls Slide breiter wird
-      height: auto; // Höhe automatisch anpassen für korrekte Proportionen
-      // Höhe festlegen, falls alle Bilder gleich hoch sein sollen trotz unterschiedlicher Breite:
-      // height: 240px;
-      // object-fit: cover; // Stellt sicher, dass das Bild den Bereich füllt, ohne zu verzerren
+    // Stile für jeden Slide
+    .swiper-slide {
+      display: flex; // Zentriert das Bild im Slide, falls es kleiner ist
+      justify-content: center;
+      align-items: center;
+      max-width: 426px;
 
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
-      cursor: pointer;
-      box-sizing: border-box;
-      border: 5px solid transparent;
+      img {
+        display: block; // Verhindert extra Platz unter dem Bild
+        width: 100%; // Lässt das Bild die Breite des Slides füllen // Behält deine max. Breite bei, falls Slide breiter wird
+        height: auto; // Höhe automatisch anpassen für korrekte Proportionen
+        // Höhe festlegen, falls alle Bilder gleich hoch sein sollen trotz unterschiedlicher Breite:
+        // height: 240px;
+        // object-fit: cover; // Stellt sicher, dass das Bild den Bereich füllt, ohne zu verzerren
 
-      &:hover {
-        transform: scale(1.08);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        border: 5px solid white;
-        z-index: 2; // Funktioniert möglicherweise nicht wie erwartet in Swiper, testen!
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.15s ease;
+        cursor: pointer;
+        box-sizing: border-box;
+        border: 5px solid transparent;
+
+        &:hover {
+          transform: scale(1.08);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+          border: 5px solid white;
+          z-index: 2; // Funktioniert möglicherweise nicht wie erwartet in Swiper, testen!
+        }
       }
     }
   }
