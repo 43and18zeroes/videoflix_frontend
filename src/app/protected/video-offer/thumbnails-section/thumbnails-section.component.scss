@@ -2,8 +2,8 @@ $thumbnail-transition-duration: 0.3s;
 $thumbnail-hover-scale: 1.05;
 $nav-button-size: 45px;
 $nav-button-offset: 10px;
-$nav-button-new-size: 60px; // Die neue gewünschte Größe (Breite und Höhe)
-$nav-button-new-offset: 15px; // Der Abstand der Buttons vom Rand des Swiper-Containers
+$nav-button-new-size: 55px; // Die neue gewünschte Größe (Breite und Höhe)
+$nav-button-new-offset: 0; // Der Abstand der Buttons vom Rand des Swiper-Containers
 $nav-icon-size: 24px; // Die Größe des Pfeil-Icons innerhalb des Buttons
 
 h3 {
@@ -59,7 +59,7 @@ h3 {
   cursor: pointer;
 
   // **Optik**
-  background-color: rgba(0, 0, 0, 0.5); // Halbtransparenter Hintergrund
+  background-color: rgba(0, 0, 0, 0); // Halbtransparenter Hintergrund
   // border-radius: 50%; // Macht die Buttons rund
   color: white; // Farbe des Icons (Pfeil) - kann auch über CSS-Variable gesetzt werden
 
@@ -82,9 +82,9 @@ h3 {
   // Die Flexbox-Eigenschaften oben zentrieren dieses Pseudo-Element
 
   // Hover-Effekt
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
+  // &:hover {
+  //   background-color: rgba(0, 0, 0, 0.8);
+  // }
 }
 
 // Spezifische Positionierung für Prev/Next
