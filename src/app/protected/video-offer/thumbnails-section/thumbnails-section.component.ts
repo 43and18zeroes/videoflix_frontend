@@ -39,8 +39,9 @@ export class ThumbnailsSectionComponent {
     if (this.swiperContainer && this.swiperContainer.nativeElement) {
       this.swiperInstance = new Swiper(this.swiperContainer.nativeElement, {
         // Konfigurationsoptionen
-        modules: [Navigation, Pagination], // Module hier übergeben
+        modules: [Navigation], // Module hier übergeben
         slidesPerView: 4, // Zeige 3 Slides gleichzeitig (anpassbar)
+        slidesPerGroup: 4,
         spaceBetween: 28, // Setze den Abstand (wie dein 'gap')
         loop: false, // Ob die Slideshow in einer Schleife laufen soll
         pagination: false,
