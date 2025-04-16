@@ -2,6 +2,9 @@ $thumbnail-transition-duration: 0.3s;
 $thumbnail-hover-scale: 1.05;
 $nav-button-size: 45px;
 $nav-button-offset: 10px;
+$nav-button-new-size: 60px; // Die neue gewünschte Größe (Breite und Höhe)
+$nav-button-new-offset: 15px; // Der Abstand der Buttons vom Rand des Swiper-Containers
+$nav-icon-size: 24px; // Die Größe des Pfeil-Icons innerhalb des Buttons
 
 h3 {
   font-size: 22px;
@@ -41,7 +44,64 @@ h3 {
 
 .swiper-button-next,
 .swiper-button-prev {
-  visibility: visible;
-  color: white;
-  text-shadow: 0 0 2px black;
+  // **Größe und Klickfläche**
+  width: $nav-button-new-size;
+  height: 100%;
+
+  // **Positionierung**
+  position: absolute; // Sicherstellen, dass sie absolut positioniert sind
+  top: 0;
+  // top: 50%; // Vertikal zentrieren
+  // bottom: 50%;
+  // WICHTIG: Passe margin-top an die neue Höhe an, um die vertikale Zentrierung beizubehalten
+  // margin-top: calc(-#{$nav-button-new-size} / 2);
+  z-index: 10; // Sicherstellen, dass sie über den Slides liegen
+  cursor: pointer;
+
+  // **Optik**
+  background-color: rgba(0, 0, 0, 0.5); // Halbtransparenter Hintergrund
+  // border-radius: 50%; // Macht die Buttons rund
+  color: white; // Farbe des Icons (Pfeil) - kann auch über CSS-Variable gesetzt werden
+
+  // Verwende Flexbox, um das Icon (im ::after) im größeren Button zu zentrieren
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // **Swiper Icon Styling über CSS Variablen (empfohlen)**
+  --swiper-navigation-color: white; // Setzt die Farbe des Pfeils
+  --swiper-navigation-size: $nav-icon-size; // Setzt die Größe des Pfeils
+
+  // Entferne den Standard-Textschatten, falls gewünscht, oder passe ihn an
+  text-shadow: none; // Oder behalte: text-shadow: 0 0 2px black;
+
+  // Übergang für Hover-Effekte
+  transition: background-color 0.3s ease;
+
+  // Standard Swiper Pfeil wird über ::after gerendert
+  // Die Flexbox-Eigenschaften oben zentrieren dieses Pseudo-Element
+
+  // Hover-Effekt
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+// Spezifische Positionierung für Prev/Next
+.swiper-button-prev {
+  left: $nav-button-new-offset; // Abstand vom linken Rand
+}
+
+.swiper-button-next {
+  right: $nav-button-new-offset; // Abstand vom rechten Rand
+}
+.swiper-button-prev:after, .swiper-button-next:after {
+  font-size: 40px;
+}
+// Styling für den deaktivierten Zustand (wichtig für Zugänglichkeit und Optik)
+.swiper-button-disabled {
+  display: none;
+  cursor: auto;
+  pointer-events: none; // Verhindert Klicks auf deaktivierte Buttons
+  background-color: rgba(0, 0, 0, 0.2); // Optional: Anderer Hintergrund für deaktivierten Zustand
 }
