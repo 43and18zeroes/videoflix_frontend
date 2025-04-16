@@ -1,3 +1,5 @@
+@use "../../../../_variables.scss" as vars;
+
 $thumbnail-transition-duration: 0.3s;
 $thumbnail-hover-scale: 1.05;
 $nav-button-size: 45px;
@@ -19,7 +21,7 @@ h3 {
   margin-right: -($nav-button-size + $nav-button-offset); // Korrigiert den rechten Einzug durch Padding
 
   // Sicherstellen, dass Swiper alles korrekt handhabt
-  overflow: hidden; 
+  overflow: hidden;
 
   .swiper-wrapper {
     .swiper-slide {
@@ -95,7 +97,8 @@ h3 {
 .swiper-button-next {
   right: $nav-button-new-offset; // Abstand vom rechten Rand
 }
-.swiper-button-prev:after, .swiper-button-next:after {
+.swiper-button-prev:after,
+.swiper-button-next:after {
   font-size: 40px;
 }
 // Styling für den deaktivierten Zustand (wichtig für Zugänglichkeit und Optik)
@@ -103,5 +106,17 @@ h3 {
   display: none;
   cursor: auto;
   pointer-events: none; // Verhindert Klicks auf deaktivierte Buttons
-  background-color: rgba(0, 0, 0, 0.2); // Optional: Anderer Hintergrund für deaktivierten Zustand
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.2
+  ); // Optional: Anderer Hintergrund für deaktivierten Zustand
+}
+
+@include vars.for-tablet-landscape-down {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
 }
