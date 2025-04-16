@@ -1,5 +1,7 @@
 $thumbnail-transition-duration: 0.3s;
 $thumbnail-hover-scale: 1.05;
+$nav-button-size: 45px;
+$nav-button-offset: 10px;
 
 h3 {
   font-size: 22px;
@@ -8,7 +10,13 @@ h3 {
 }
 
 .swiper {
-  overflow: visible;
+  position: relative; // Wichtig für absolute Positionierung der Buttons
+  padding: 0 $nav-button-size + $nav-button-offset; // Platz für die Buttons an den Seiten schaffen
+  margin-left: -($nav-button-size + $nav-button-offset); // Korrigiert den linken Einzug durch Padding
+  margin-right: -($nav-button-size + $nav-button-offset); // Korrigiert den rechten Einzug durch Padding
+
+  // Sicherstellen, dass Swiper alles korrekt handhabt
+  overflow: hidden; 
 
   .swiper-wrapper {
     .swiper-slide {
