@@ -11,7 +11,7 @@ h3 {
 
 .swiper {
   position: relative; // Wichtig für absolute Positionierung der Buttons
-  padding: 0 $nav-button-size + $nav-button-offset; // Platz für die Buttons an den Seiten schaffen
+  padding: 10px $nav-button-size + $nav-button-offset; // Platz für die Buttons an den Seiten schaffen
   margin-left: -($nav-button-size + $nav-button-offset); // Korrigiert den linken Einzug durch Padding
   margin-right: -($nav-button-size + $nav-button-offset); // Korrigiert den rechten Einzug durch Padding
 
@@ -42,4 +42,6 @@ h3 {
 .swiper-button-next,
 .swiper-button-prev {
   visibility: visible;
+  color: white;
+  text-shadow: 0 0 2px black;
 }
