@@ -28,13 +28,18 @@ export class VideoOfferService {
           { thumbnailUrl: this.thumbnailBasePath + 'campfire-324.webp', videoId: 'campfire-video-001', altText: 'Thumbnail of campfire video' },
           { thumbnailUrl: this.thumbnailBasePath + 'cows-324.webp', videoId: 'cows-video-001', altText: 'Thumbnail of cows video' },
           { thumbnailUrl: this.thumbnailBasePath + 'goat-324.webp', videoId: 'goat-video-001', altText: 'Thumbnail of goat video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'gras-324.webp', videoId: 'gras-video-001', altText: 'Thumbnail of gras video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'mountain-324.webp', videoId: 'mountain-video-001', altText: 'Thumbnail of mountain video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'panda-hero-324.webp', videoId: 'panda-hero-video-001', altText: 'Thumbnail of panda hero video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'sunflowers-324.webp', videoId: 'sunflower-video-001', altText: 'Thumbnail of sunflower video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'surfing-324.webp', videoId: 'surfing-video-001', altText: 'Thumbnail of surfing video' },
+          
         ],
       },
       {
         title: 'Documentary',
         thumbnails: [
-          { thumbnailUrl: this.thumbnailBasePath + 'gras-324.webp', videoId: 'gras-video-001', altText: 'Thumbnail of gras video' },
-          { thumbnailUrl: this.thumbnailBasePath + 'mountain-324.webp', videoId: 'mountain-video-001', altText: 'Thumbnail of mountain video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
         ],
       },
     ];
