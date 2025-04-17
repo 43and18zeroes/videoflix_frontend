@@ -40,6 +40,37 @@ export class VideoOfferService {
         title: 'Documentary',
         thumbnails: [
           { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+        ],
+      },
+      {
+        title: 'Drama',
+        thumbnails: [
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+        ],
+      },
+      {
+        title: 'Romance',
+        thumbnails: [
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
+          { thumbnailUrl: this.thumbnailBasePath + 'waterfall-324.webp', videoId: 'waterfall-video-001', altText: 'Thumbnail of waterfall video' },
         ],
       },
     ];
