@@ -35,19 +35,27 @@ export class DeviceService {
         this.applyDeviceClassToFooter();
       });
 
-      // Beim Initialisieren auch einmal ausführen
       this.applyDeviceClassToFooter();
     }
   }
 
   private applyDeviceClassToFooter(): void {
-    const footer = document.querySelector('app-auth-footer');
-    if (footer) {
+    const authFooter = document.querySelector('app-auth-footer');
+    const protectedFooter = document.querySelector('app-protected-footer');
+    if (authFooter) {
       if (this.isAndroid) {
-        this.renderer.addClass(footer, 'android__footer');
+        this.renderer.addClass(authFooter, 'android__footer');
       }
       if (this.isiPhone) {
-        this.renderer.addClass(footer, 'iphone__footer');
+        this.renderer.addClass(authFooter, 'iphone__footer');
+      }
+    }
+    if (protectedFooter) {
+      if (this.isAndroid) {
+        this.renderer.addClass(protectedFooter, 'android__footer');
+      }
+      if (this.isiPhone) {
+        this.renderer.addClass(protectedFooter, 'iphone__footer');
       }
     }
   }
