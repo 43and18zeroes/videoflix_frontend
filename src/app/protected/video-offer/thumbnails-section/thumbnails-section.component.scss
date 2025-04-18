@@ -104,4 +104,7 @@ h3 {
   h3 {
     font-size: 20px;
   }
+  .swiper {
+    margin-right: -($nav-button-size + $nav-button-offset - 30px);
+  }
 }
