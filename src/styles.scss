@@ -81,14 +81,17 @@ body {
 }
 
 @mixin page__padding {
-  padding: 0 100px;
+  padding-left: 100px;
+  padding-right: 100px;
 
   @include vars.for-tablet-landscape-down {
-    padding: 0 50px;
+    padding-left: 50px;
+    padding-right: 50px;
   }
 
   @include vars.for-phone-only {
-    padding: 0 25px;
+    padding-left: 25px;
+    padding-right: 25px;
   }
 }
 

@@ -5,8 +5,8 @@
   display: flex;
   justify-content: end;
   @include styles.page__padding;
-  padding-top: 30px !important;
-  padding-bottom: 30px !important;
+  padding-top: 30px;
+  padding-bottom: 30px;
 
   a {
     cursor: pointer;
