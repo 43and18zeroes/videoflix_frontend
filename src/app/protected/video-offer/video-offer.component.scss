@@ -10,8 +10,6 @@
   position: relative;
   overflow: auto;
 
-  @include styles.page__padding;
-
   & {
     background-color: rgb(20, 20, 20);
   }
@@ -38,29 +36,33 @@
     z-index: 1;
   }
 
-  .hero {
-    width: 480px;
+  .hero__container {
+    @include styles.page__padding;
+    
+    .hero {
+      width: 480px;
 
-    h2 {
-      font-size: 88px;
-      font-weight: 700;
-      margin-bottom: 0;
-      letter-spacing: 1.5px;
-    }
+      h2 {
+        font-size: 88px;
+        font-weight: 700;
+        margin-bottom: 0;
+        letter-spacing: 1.5px;
+      }
 
-    p {
-      font-size: 18px;
-      letter-spacing: 0.6px;
-    }
+      p {
+        font-size: 18px;
+        letter-spacing: 0.6px;
+      }
 
-    button {
-      margin: 32px 0 100px 0;
-      display: flex;
-      gap: 8px;
+      button {
+        margin: 32px 0 100px 0;
+        display: flex;
+        gap: 8px;
 
-      img {
-        width: 24px;
-        height: 24px;
+        img {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
   }
@@ -73,7 +75,7 @@
     }
     .hero {
       width: 460px;
-      
+
       h2 {
         font-size: 78px;
         margin-top: 200px;

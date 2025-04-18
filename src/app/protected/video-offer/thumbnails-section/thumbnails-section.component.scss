@@ -1,3 +1,4 @@
+@use "../../../../styles.scss" as styles;
 @use "../../../../_variables.scss" as vars;
 @use "../../protected-styles.scss";
 
@@ -13,14 +14,16 @@ h3 {
   font-size: 22px;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
+  @include styles.page__padding;
 }
 
 .swiper {
-  position: relative;
-  padding: 10px $nav-button-size + $nav-button-offset;
-  margin-left: -($nav-button-size + $nav-button-offset);
-  margin-right: -($nav-button-size + $nav-button-offset);
-  overflow: hidden;
+  // position: relative;
+  // padding: 10px $nav-button-size + $nav-button-offset;
+  // margin-left: -($nav-button-size + $nav-button-offset);
+  // margin-right: -($nav-button-size + $nav-button-offset);
+  // overflow: hidden;
+  @include styles.page__padding;
 
   .swiper-wrapper {
     .swiper-slide {
@@ -91,7 +94,7 @@ h3 {
   }
 
   .swiper {
-    margin-right: -($nav-button-size + $nav-button-offset - 5px);
+    // margin-right: -($nav-button-size + $nav-button-offset - 5px);
 
     .swiper-button-next,
     .swiper-button-prev {
@@ -105,6 +108,6 @@ h3 {
     font-size: 20px;
   }
   .swiper {
-    margin-right: -($nav-button-size + $nav-button-offset - 30px);
+    // margin-right: -($nav-button-size + $nav-button-offset - 30px);
   }
 }

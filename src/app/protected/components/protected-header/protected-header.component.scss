@@ -1,10 +1,12 @@
 @use "../../../../variables" as vars;
+@use "../../../../styles.scss" as styles;
 
 :host {
   height: vars.$header-footer-height;
   display: flex;
   justify-content: center;
   align-items: center;
+  @include styles.page__padding;
 }
 
 menu {

@@ -1,16 +1,18 @@
 <div class="background"></div>
 <app-protected-header></app-protected-header>
-<div class="hero black__text__shadow">
-  <h2>Planet of the Pandas</h2>
-  <p class="black__text__shadow">
-    Forget apes; witness the rise of the true rulers of Earth, whose reign is
-    built on naps and an insatiable hunger for bamboo. Prepare yourself for the
-    adorable, fluffy conquest in Planet of the Pandas!
-  </p>
-  <button class="common__button" (click)="playVideo('panda-hero-main')">
-    <img src="assets/img/video-offer/icons/play.svg" alt="Video Thumbnail" />
-    Play
-  </button>
+<div class="hero__container">
+  <div class="hero black__text__shadow">
+    <h2>Planet of the Pandas</h2>
+    <p class="black__text__shadow">
+      Forget apes; witness the rise of the true rulers of Earth, whose reign is
+      built on naps and an insatiable hunger for bamboo. Prepare yourself for
+      the adorable, fluffy conquest in Planet of the Pandas!
+    </p>
+    <button class="common__button" (click)="playVideo('panda-hero-main')">
+      <img src="assets/img/video-offer/icons/play.svg" alt="Video Thumbnail" />
+      Play
+    </button>
+  </div>
 </div>
 <app-thumbnails-section
   *ngFor="let section of sections"
