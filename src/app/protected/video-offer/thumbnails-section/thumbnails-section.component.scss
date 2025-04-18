@@ -99,3 +99,9 @@ h3 {
     }
   }
 }
+
+@include vars.for-phone-only {
+  h3 {
+    font-size: 20px;
+  }
+}

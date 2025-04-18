@@ -68,9 +68,17 @@
 
 @include vars.for-tablet-portrait-down {
   :host {
+    .background {
+      height: 540px;
+    }
     .hero {
       h2 {
         font-size: 78px;
+        margin-top: 200px;
+      }
+
+      button {
+        margin-bottom: 30px;
       }
     }
   }
@@ -78,11 +86,15 @@
 
 @include vars.for-phone-only {
   :host {
+    .background {
+      height: 320px;
+    }
     .hero {
       width: 100%;
 
       h2 {
-        font-size: 64px;
+        font-size: 70px;
+        margin-top: 150px;
       }
 
       p {
