@@ -9,7 +9,7 @@
   overflow: auto;
   position: relative;
   overflow: auto;
-  
+
   @include styles.page__padding;
 
   & {
@@ -69,10 +69,25 @@
 @include vars.for-tablet-portrait-down {
   :host {
     .hero {
-
       h2 {
-        font-size: 72px;
-        }
+        font-size: 78px;
+      }
     }
   }
+}
+
+@include vars.for-phone-only {
+  :host {
+    .hero {
+      width: 100%;
+
+      h2 {
+        font-size: 64px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
   }
+}
