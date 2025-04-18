@@ -85,6 +85,10 @@ h3 {
 }
 
 @include vars.for-tablet-landscape-down {
+  h3 {
+    margin-bottom: 8px;
+  }
+
   .swiper {
     margin-right: -($nav-button-size + $nav-button-offset - 5px);
 
