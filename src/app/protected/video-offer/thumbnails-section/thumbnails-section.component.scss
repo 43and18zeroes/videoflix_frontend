@@ -81,17 +81,16 @@ h3 {
   display: none;
   cursor: auto;
   pointer-events: none;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.2
-  );
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 @include vars.for-tablet-landscape-down {
-  .swiper-button-next,
-  .swiper-button-prev {
-    display: none;
+  .swiper {
+    margin-right: -($nav-button-size + $nav-button-offset - 5px);
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none;
+    }
   }
 }
