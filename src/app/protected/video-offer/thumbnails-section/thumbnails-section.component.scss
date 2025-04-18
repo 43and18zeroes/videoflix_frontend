@@ -1,4 +1,5 @@
 @use "../../../../_variables.scss" as vars;
+@use "../../protected-styles.scss";
 
 $thumbnail-transition-duration: 0.3s;
 $thumbnail-hover-scale: 1.05;
