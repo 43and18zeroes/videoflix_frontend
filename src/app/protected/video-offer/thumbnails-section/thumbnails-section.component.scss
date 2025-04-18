@@ -10,11 +10,14 @@ $nav-button-new-size: 55px;
 $nav-button-new-offset: 0;
 $nav-icon-size: 24px;
 
+:host {
+  @include styles.page__padding;
+}
+
 h3 {
   font-size: 22px;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
-  @include styles.page__padding;
 }
 
 .swiper {
@@ -23,7 +26,6 @@ h3 {
   // margin-left: -($nav-button-size + $nav-button-offset);
   // margin-right: -($nav-button-size + $nav-button-offset);
   // overflow: hidden;
-  @include styles.page__padding;
 
   .swiper-wrapper {
     .swiper-slide {
@@ -96,10 +98,10 @@ h3 {
   .swiper {
     // margin-right: -($nav-button-size + $nav-button-offset - 5px);
 
-    .swiper-button-next,
-    .swiper-button-prev {
-      display: none;
-    }
+    // .swiper-button-next,
+    // .swiper-button-prev {
+    //   display: none;
+    // }
   }
 }
 
