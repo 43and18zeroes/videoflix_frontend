@@ -2,8 +2,6 @@
 @use "../../../../_variables.scss" as vars;
 @use "../../protected-styles.scss";
 
-$thumbnail-transition-duration: 0.3s;
-$thumbnail-hover-scale: 1.05;
 $nav-button-size: 45px;
 $nav-button-offset: 10px;
 $nav-button-new-offset: 0;
@@ -23,7 +21,14 @@ h3 {
   // margin-right: -($nav-button-size + $nav-button-offset);
   // overflow: hidden;
   @include styles.page__padding;
+  padding-top: 10px;
+  padding-bottom: 10px;
   overflow: hidden;
+
+  -webkit-user-select: none; /* Safari, Chrome, Opera, Edge */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge (ältere Versionen) */
+  user-select: none;         /* Standard-Syntax */
 
   .swiper-wrapper {
     overflow: visible;
@@ -36,15 +41,13 @@ h3 {
         width: 100%;
         height: auto;
         object-fit: cover;
-        transition: transform $thumbnail-transition-duration ease-in-out,
-          box-shadow $thumbnail-transition-duration ease-in-out;
-        will-change: transform;
+        transition: transform 0.3s ease-in-out;
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: 0px 2px 10px rgba(255, 255, 255, 0.07);
       }
 
       &:hover img {
-        transform: scale($thumbnail-hover-scale);
+        transform: scale(1.05);
         z-index: 5;
         position: relative;
       }
@@ -53,9 +56,9 @@ h3 {
   .swiper-button-next,
   .swiper-button-prev {
     width: 76px;
-    height: 100%;
+    height: calc(100% - 20px);
     position: absolute;
-    top: 0;
+    top: 10px;
     z-index: 10;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.15);
