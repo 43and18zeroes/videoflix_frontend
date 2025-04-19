@@ -11,10 +11,11 @@ $nav-button-new-offset: 0;
 $nav-icon-size: 24px;
 
 :host {
-  @include styles.page__padding;
+  
 }
 
 h3 {
+  @include styles.page__padding;
   font-size: 22px;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
@@ -27,8 +28,11 @@ h3 {
   // margin-right: -($nav-button-size + $nav-button-offset);
   // overflow: hidden;
   overflow: hidden;
+  padding: 0 100px;
 
   .swiper-wrapper {
+    overflow: visible;
+    
     .swiper-slide {
       cursor: pointer;
 

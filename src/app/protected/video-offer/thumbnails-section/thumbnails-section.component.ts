@@ -49,6 +49,8 @@ export class ThumbnailsSectionComponent {
           nextEl: '.swiper-button-next', // Selektor für nächsten Button
           prevEl: '.swiper-button-prev', // Selektor für vorherigen Button
         },
+        // slidesOffsetBefore: 100,
+        // slidesOffsetAfter: 100,
         // Breakpoints für responsives Verhalten (Beispiel)
         breakpoints: {
           // wenn Fensterbreite >= 320px
