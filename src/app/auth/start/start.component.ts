@@ -32,6 +32,12 @@ export class StartComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  ngOnInit(): void {
+    if (this.authService.getAccessToken()) {
+      this.router.navigate(['/video-offer']);
+    }
+  }
+
   submitEmail() {
     this.loading = true;
     this.errorMessage = null;
