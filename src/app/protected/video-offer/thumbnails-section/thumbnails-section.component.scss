@@ -6,7 +6,6 @@ $thumbnail-transition-duration: 0.3s;
 $thumbnail-hover-scale: 1.05;
 $nav-button-size: 45px;
 $nav-button-offset: 10px;
-$nav-button-new-size: 55px;
 $nav-button-new-offset: 0;
 $nav-icon-size: 24px;
 
@@ -51,44 +50,56 @@ h3 {
       }
     }
   }
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 76px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.15);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --swiper-navigation-color: white;
+    --swiper-navigation-size: $nav-icon-size;
+    text-shadow: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .swiper-button-prev {
+    left: $nav-button-new-offset;
+  }
+
+  .swiper-button-next {
+    right: $nav-button-new-offset;
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 40px;
+  }
+
+  .swiper-button-disabled {
+    display: none;
+    cursor: auto;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 }
 
-.swiper-button-next,
-.swiper-button-prev {
-  width: $nav-button-new-size;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  z-index: 10;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  --swiper-navigation-color: white;
-  --swiper-navigation-size: $nav-icon-size;
-  text-shadow: none;
-  transition: background-color 0.3s ease;
-}
+@include vars.for-desktop-down {
+  h3 {
+    margin-bottom: 8px;
+  }
 
-.swiper-button-prev {
-  left: $nav-button-new-offset;
-}
-
-.swiper-button-next {
-  right: $nav-button-new-offset;
-}
-.swiper-button-prev:after,
-.swiper-button-next:after {
-  font-size: 40px;
-}
-
-.swiper-button-disabled {
-  display: none;
-  cursor: auto;
-  pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.2);
+  .swiper {
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 80px;
+    }
+  }
 }
 
 @include vars.for-tablet-landscape-down {
@@ -97,12 +108,11 @@ h3 {
   }
 
   .swiper {
-    // margin-right: -($nav-button-size + $nav-button-offset - 5px);
-
-    // .swiper-button-next,
-    // .swiper-button-prev {
-    //   display: none;
-    // }
+    .swiper-button-next,
+    .swiper-button-prev {
+      // width: 42px;
+      display: none;
+    }
   }
 }
 

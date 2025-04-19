@@ -66,7 +66,12 @@ export class ThumbnailsSectionComponent {
             spaceBetween: 20,
           },
           // wenn Fensterbreite >= 1024px
-          1024: {
+          992: {
+            slidesPerView: 4,
+            slidesPerGroup: 4,
+            spaceBetween: 20,
+          },
+          1200: {
             slidesPerView: 4,
             slidesPerGroup: 4,
             spaceBetween: 28,
