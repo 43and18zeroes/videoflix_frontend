@@ -83,6 +83,6 @@ export class LoginComponent {
   }
 
   navigateToSignUp() {
-    this.router.navigate(['/start']);
+    this.router.navigate(['/']);
   }
 }
