@@ -1,18 +1,33 @@
 @use "../../../../styles.scss" as styles;
 @use "../../../../variables.scss" as vars;
 
-.auth-popup {
+.grey__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  // cursor: default;
+  pointer-events: auto;
+
+  .auth-popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.95);
-    background: rgba(25, 25, 35, 1);
+    background: vars.$accent-color;
     border-radius: 16px;
     padding: 32px;
     z-index: 3000;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     animation: popupFadeIn 300ms ease forwards;
-  
+
     .popup-content {
       display: flex;
       flex-direction: column;
@@ -22,19 +37,18 @@
       svg {
         width: 48px;
         height: 48px;
-        fill: vars.$accent-color;
+        fill: #fff;
       }
-  
+
       p {
         @include styles.dm-sans-font-extra-light;
         font-size: 18px;
         margin: 0;
         text-align: center;
       }
-      
     }
   }
-  
+
   @keyframes popupFadeIn {
     from {
       opacity: 0;
@@ -45,3 +59,4 @@
       transform: translate(-50%, -50%) scale(1);
     }
   }
+}
