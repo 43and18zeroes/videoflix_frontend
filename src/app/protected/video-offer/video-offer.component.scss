@@ -38,7 +38,7 @@
 
   .hero__container {
     @include styles.page__padding;
-    
+
     .hero {
       max-width: 480px;
 
@@ -68,20 +68,33 @@
   }
 }
 
+@include vars.for-tablet-landscape-down {
+  :host {
+    .hero__container {
+      .hero {
+        button {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
 @include vars.for-tablet-portrait-down {
   :host {
     .background {
       height: 540px;
     }
-    .hero {
+    .hero__container {
+      .hero {
+        h2 {
+          font-size: 78px;
+          margin-top: 200px;
+        }
 
-      h2 {
-        font-size: 78px;
-        margin-top: 200px;
-      }
-
-      button {
-        margin-bottom: 30px;
+        button {
+          margin-bottom: 30px;
+        }
       }
     }
   }
