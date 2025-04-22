@@ -15,7 +15,7 @@ menu {
   justify-content: space-between;
   align-items: center;
   padding-inline-start: 0;
-  
+
   img {
     width: 40px;
     height: 40px;
@@ -28,6 +28,16 @@ menu {
     img {
       width: 24px;
       height: 24px;
+    }
+  }
+}
+
+@include vars.for-tablet-portrait-down {
+  menu {
+    button {
+      span {
+        display: none;
+      }
     }
   }
 }
