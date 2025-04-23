@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -19,16 +19,26 @@ interface VideoSection {
 export class VideoOfferService {
   readonly thumbnailBasePath = 'assets/img/video-offer/videos_thumbnails/';
   private apiUrl = 'http://127.0.0.1:8000/api/'; // Ihre Backend-URL
+  private authTokenKey = 'access_token';
 
 
   constructor(private http: HttpClient) {}
 
-  getSections(): Observable<VideoSection[]> {
-    return this.http.get<VideoSection[]>(`${this.apiUrl}videos/`);
+  getAuthToken(): string | null {
+    return localStorage.getItem(this.authTokenKey);
   }
 
-  getBackgroundVideoUrl(): Observable<{ background_video_url: string }> {
-    return this.http.get<{ background_video_url: string }>(`${this.apiUrl}background-video/`);
+  getHeaders(): HttpHeaders {
+    const authToken = this.getAuthToken();
+    let headers = new HttpHeaders();
+    if (authToken) {
+      headers = headers.set('Authorization', `Bearer ${authToken}`);
+    }
+    return headers;
+  }
+
+  getSections(): Observable<VideoSection[]> {
+    return this.http.get<VideoSection[]>(`${this.apiUrl}videos/`, { headers: this.getHeaders() });
   }
 
   // getSections(): VideoSection[] {
