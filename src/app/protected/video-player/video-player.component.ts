@@ -1,5 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { VideoOfferService } from '../video-offer/video-offer.service';
 
 @Component({
   selector: 'app-video-player',
@@ -12,8 +13,11 @@ export class VideoPlayerComponent {
   @Output() close = new EventEmitter<void>();
 
   videoUrl: string | null = null;
+  private videoOfferService: VideoOfferService;
 
-  constructor() {}
+  constructor(videoOfferService: VideoOfferService) {
+    this.videoOfferService = videoOfferService; // Weise die injizierte Instanz zu
+  }
 
   ngOnChanges(): void {
     if (this.videoId) {
@@ -24,17 +28,10 @@ export class VideoPlayerComponent {
   }
 
   loadVideoUrl(videoId: string): void {
-    // Hier rufen wir den Backend-Endpunkt auf, um die Video-URL basierend auf der ID zu erhalten
-    // Verwenden Sie Ihren VideoOfferService dafür
-    // Beispiel:
-    // this.videoOfferService.getVideoUrlById(videoId).subscribe(url => {
-    //   this.videoUrl = url;
-    // });
-
-    // *** Platzhalter für die tatsächliche Backend-Anfrage ***
-    // Ersetze dies durch deinen tatsächlichen API-Aufruf
-    this.videoUrl = `http://127.0.0.1:8000/api/videos/${videoId}/play/`;
-    console.log('Lade Video-URL für ID:', videoId, 'URL:', this.videoUrl);
+    this.videoOfferService.getVideoUrlById(videoId).subscribe(response => {
+      this.videoUrl = response.videoUrl;
+      console.log('Video URL in Player Component:', this.videoUrl); // Hinzugefügt
+    });
   }
 
   closePlayer(): void {
