@@ -25,7 +25,18 @@ export class VideoOfferComponent {
   constructor(private videoOfferService: VideoOfferService) {}
 
   ngOnInit(): void {
-    this.sections = this.videoOfferService.getSections(); // Lade die Daten hier!
+    this.loadSections(); // Lade die Daten hier!
+  }
+
+  loadSections() {
+    this.videoOfferService.getSections().subscribe(
+      (data) => {
+        this.sections = data;
+      },
+      (error) => {
+        console.error('Fehler beim Laden der Video-Sections:', error);
+      }
+    );
   }
 
   playVideo(videoId: string) {
