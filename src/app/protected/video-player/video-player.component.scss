@@ -1,0 +1,25 @@
+.video-player-container {
+    position: fixed; /* Überlagert den Rest der Seite */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dunkler Hintergrund */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Stellt sicher, dass er über anderen Elementen liegt */
+  
+    video {
+      max-width: 90%;
+      max-height: 80%;
+    }
+  
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }

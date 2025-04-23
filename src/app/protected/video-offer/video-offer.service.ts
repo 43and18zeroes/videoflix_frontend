@@ -17,7 +17,7 @@ interface VideoSection {
   providedIn: 'root',
 })
 export class VideoOfferService {
-  readonly thumbnailBasePath = 'assets/img/video-offer/videos_thumbnails/';
+  // readonly thumbnailBasePath = 'assets/img/video-offer/videos_thumbnails/';
   private apiUrl = 'http://127.0.0.1:8000/api/'; // Ihre Backend-URL
   private authTokenKey = 'access_token';
 
@@ -39,6 +39,10 @@ export class VideoOfferService {
 
   getSections(): Observable<VideoSection[]> {
     return this.http.get<VideoSection[]>(`${this.apiUrl}videos/`, { headers: this.getHeaders() });
+  }
+
+  getVideoUrlById(videoId: string): Observable<{ videoUrl: string }> {
+    return this.http.get<{ videoUrl: string }>(`${this.apiUrl}videos/${videoId}/play/`, { headers: this.getHeaders() });
   }
 
   // getSections(): VideoSection[] {

@@ -20,3 +20,9 @@
   (playVideoEvent)="playVideo($event)"
 ></app-thumbnails-section>
 <app-protected-footer></app-protected-footer>
+
+<app-video-player
+  *ngIf="isPlayerOpen"
+  [videoId]="selectedVideoId"
+  (close)="closeVideoPlayer()"
+></app-video-player>
