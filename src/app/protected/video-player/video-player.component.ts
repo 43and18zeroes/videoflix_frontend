@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { VideoOfferService } from '../video-offer/video-offer.service';
 
 @Component({
@@ -11,8 +11,10 @@ import { VideoOfferService } from '../video-offer/video-offer.service';
 export class VideoPlayerComponent implements OnInit, OnChanges {
   @Input() videoId: string | null = null;
   @Output() close = new EventEmitter<void>();
+  @ViewChild('videoEl') videoEl?: ElementRef<HTMLVideoElement>;
 
   videoUrl: string | null = null;
+  private resizeTimeout: any;
 
   constructor(private videoOfferService: VideoOfferService) {}
 
@@ -22,7 +24,13 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
 
   @HostListener('window:resize')
   onResize(): void {
-    this.adjustVideoQuality();
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(() => {
+      this.adjustVideoQuality();
+      if (this.videoEl?.nativeElement) {
+        this.logVideoResolution(this.videoEl.nativeElement);
+      }
+    }, 500);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
