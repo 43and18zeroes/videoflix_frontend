@@ -65,5 +65,9 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
     this.videoUrl = null;
     this.close.emit();
   }
+
+  logVideoResolution(video: HTMLVideoElement): void {
+    console.log(`Native Video-Auflösung: ${video.videoWidth} x ${video.videoHeight}`);
+  }
 }
 

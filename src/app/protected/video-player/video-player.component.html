@@ -1,7 +1,16 @@
 <div class="video-player-container">
-  <video controls autoplay *ngIf="videoUrl">
-    <source [src]="videoUrl" type="video/mp4" />
-    Dein Browser unterstützt das Video-Tag nicht.
-  </video>
+  <div class="video-player-container">
+    <video
+      #videoEl
+      controls
+      autoplay
+      *ngIf="videoUrl"
+      (loadedmetadata)="logVideoResolution(videoEl)"
+    >
+      <source [src]="videoUrl" type="video/mp4" />
+      Dein Browser unterstützt das Video-Tag nicht.
+    </video>
+    <button (click)="closePlayer()">Schließen</button>
+  </div>
   <button (click)="closePlayer()">Schließen</button>
 </div>
