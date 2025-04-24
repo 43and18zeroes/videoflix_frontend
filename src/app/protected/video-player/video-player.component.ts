@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { VideoOfferService } from '../video-offer/video-offer.service';
 
 @Component({
@@ -8,30 +8,56 @@ import { VideoOfferService } from '../video-offer/video-offer.service';
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss'
 })
-export class VideoPlayerComponent {
+export class VideoPlayerComponent implements OnInit, OnChanges {
   @Input() videoId: string | null = null;
   @Output() close = new EventEmitter<void>();
 
   videoUrl: string | null = null;
-  private videoOfferService: VideoOfferService;
 
-  constructor(videoOfferService: VideoOfferService) {
-    this.videoOfferService = videoOfferService; // Weise die injizierte Instanz zu
+  constructor(private videoOfferService: VideoOfferService) {}
+
+  ngOnInit(): void {
+    this.adjustVideoQuality();
   }
 
-  ngOnChanges(): void {
-    if (this.videoId) {
+  @HostListener('window:resize')
+  onResize(): void {
+    this.adjustVideoQuality();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['videoId'] && this.videoId) {
       this.loadVideoUrl(this.videoId);
-    } else {
+    } else if (changes['videoId']) {
       this.videoUrl = null;
     }
   }
 
-  loadVideoUrl(videoId: string): void {
+  private loadVideoUrl(videoId: string): void {
     this.videoOfferService.getVideoUrlById(videoId).subscribe(response => {
-      this.videoUrl = response.videoUrl;
-      console.log('Video URL in Player Component:', this.videoUrl); // Hinzugefügt
+      this.videoUrl = this.appendResolution(response.videoUrl);
+      console.log('Video URL in Player Component:', this.videoUrl);
     });
+  }
+
+  private appendResolution(baseUrl: string): string {
+    const width = window.innerWidth;
+  
+    const resolution = width < 854
+      ? '-854x480'
+      : width < 1280
+        ? '-1280x720'
+        : '-1920x1080';
+  
+    // Insert resolution before ".mp4"
+    return baseUrl.replace(/\.mp4$/, `${resolution}.mp4`);
+  }
+  
+
+  private adjustVideoQuality(): void {
+    if (this.videoUrl && this.videoId) {
+      this.loadVideoUrl(this.videoId); // neu laden mit angepasster Auflösung
+    }
   }
 
   closePlayer(): void {
@@ -40,3 +66,4 @@ export class VideoPlayerComponent {
     this.close.emit();
   }
 }
+
