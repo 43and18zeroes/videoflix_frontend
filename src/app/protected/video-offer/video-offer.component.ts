@@ -4,7 +4,8 @@ import { ProtectedHeaderComponent } from '../components/protected-header/protect
 import { ProtectedFooterComponent } from '../components/protected-footer/protected-footer.component';
 import { ThumbnailsSectionComponent } from './thumbnails-section/thumbnails-section.component';
 import { VideoOfferService } from './video-offer.service';
-import { VideoPlayerComponent } from '../video-player/video-player.component';
+// Importiere die neue VideojsPlayerComponent
+import { VideojsPlayerComponent } from '../videojs-player/videojs-player.component';
 
 interface VideoSection {
   title: string;
@@ -20,7 +21,8 @@ interface VideoSection {
     ThumbnailsSectionComponent,
     NgFor,
     NgIf,
-    VideoPlayerComponent,
+    // Füge die VideojsPlayerComponent zu den Imports hinzu
+    VideojsPlayerComponent,
   ],
   templateUrl: './video-offer.component.html',
   styleUrl: './video-offer.component.scss',
@@ -46,6 +48,16 @@ export class VideoOfferComponent {
         console.error('Fehler beim Laden der Video-Sections:', error);
       }
     );
+  }
+
+  getVideoUrlForPlayer(): string | null {
+    if (this.selectedVideoId) {
+      // Hier rufst du deinen Service auf, um die HLS-Playlist-URL basierend auf der ID zu erhalten
+      this.videoOfferService.getVideoUrlById(this.selectedVideoId).subscribe(response => {
+        return response.videoUrl;
+      });
+    }
+    return null;
   }
 
   playVideo(videoId: string) {

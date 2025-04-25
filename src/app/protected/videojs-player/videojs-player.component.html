@@ -1,0 +1,22 @@
+<div data-vjs-player>
+    <video
+      #videoPlayer
+      class="video-js vjs-default-skin"
+      controls
+      preload="auto"
+      width="640"
+      height="360"
+      poster="{{ poster }}"
+      data-setup='{}'
+    >
+      <source [src]="videoUrl" type="video/mp4" />
+      <p class="vjs-no-js">
+        Um dieses Video anzusehen, aktiviere bitte JavaScript und erwäge ein Upgrade auf einen
+        Webbrowser, der
+        <a href="https://videojs.com/html5-video-support/" target="_blank"
+          >HTML5-Video</a
+        >
+        unterstützt
+      </p>
+    </video>
+  </div>
