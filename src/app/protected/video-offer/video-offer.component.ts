@@ -60,6 +60,7 @@ export class VideoOfferComponent {
   loadSections() {
     this.videoOfferService.getSections().subscribe(
       (data) => {
+        console.log('Raw data from backend:', data); // Logge die rohe Antwort
         this.sections = data;
       },
       (error) => {
