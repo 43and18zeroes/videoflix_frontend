@@ -21,8 +21,10 @@
 ></app-thumbnails-section>
 <app-protected-footer></app-protected-footer>
 
-<app-videojs-player *ngIf="isPlayerOpen"
-  [videoUrl]="getVideoUrlForPlayer()" (close)="closeVideoPlayer()"
+<app-videojs-player
+  *ngIf="isPlayerOpen && videoUrls"
+  [videoUrls]="videoUrls"
+  (close)="closeVideoPlayer()"
 ></app-videojs-player>
 
 <!-- <app-video-player

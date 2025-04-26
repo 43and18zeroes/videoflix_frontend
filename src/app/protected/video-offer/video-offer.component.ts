@@ -7,9 +7,22 @@ import { VideoOfferService } from './video-offer.service';
 // Importiere die neue VideojsPlayerComponent
 import { VideojsPlayerComponent } from '../videojs-player/videojs-player.component';
 
+interface ThumbnailData {
+  thumbnailUrl: string;
+  videoId: string;
+  altText?: string;
+}
+
 interface VideoSection {
   title: string;
-  thumbnails: { thumbnailUrl: string; videoId: string; altText?: string }[];
+  thumbnails: ThumbnailData[];
+}
+
+interface VideoUrls {
+  '480p'?: string;
+  '720p'?: string;
+  '1080p'?: string;
+  original?: string;
 }
 
 @Component({
@@ -30,13 +43,18 @@ interface VideoSection {
 })
 export class VideoOfferComponent {
   sections: VideoSection[] = [];
-  selectedVideoId: string | null = null; // Speichert die ID des Videos, das abgespielt werden soll
+  selectedVideoId: string | null = null;
   isPlayerOpen: boolean = false;
+  videoUrls: VideoUrls = {};
 
   constructor(private videoOfferService: VideoOfferService) {}
 
   ngOnInit(): void {
     this.loadSections(); // Lade die Daten hier!
+  }
+
+  ngOnDestroy(): void {
+    this.closeVideoPlayer();
   }
 
   loadSections() {
@@ -50,24 +68,34 @@ export class VideoOfferComponent {
     );
   }
 
-  getVideoUrlForPlayer(): string | null {
-    if (this.selectedVideoId) {
-      // Hier rufst du deinen Service auf, um die HLS-Playlist-URL basierend auf der ID zu erhalten
-      this.videoOfferService.getVideoUrlById(this.selectedVideoId).subscribe(response => {
-        return response.videoUrl;
-      });
-    }
-    return null;
-  }
+  // getVideoUrlForPlayer(): string | null {
+  //   if (this.selectedVideoId) {
+  //     // Hier rufst du deinen Service auf, um die HLS-Playlist-URL basierend auf der ID zu erhalten
+  //     this.videoOfferService.getVideoUrlById(this.selectedVideoId).subscribe(response => {
+  //       return response.videoUrl;
+  //     });
+  //   }
+  //   return null;
+  // }
 
   playVideo(videoId: string) {
     this.selectedVideoId = videoId;
-    this.isPlayerOpen = true;
-    console.log('Play video requested for ID:', videoId);
+    this.videoOfferService.getVideoUrlsById(this.selectedVideoId).subscribe(
+      (response) => {
+        this.videoUrls = response;
+        this.isPlayerOpen = true;
+        console.log('Video URLs:', this.videoUrls);
+      },
+      (error) => {
+        console.error('Fehler beim Abrufen der Video-URLs:', error);
+        this.isPlayerOpen = false;
+      }
+    );
   }
 
   closeVideoPlayer() {
     this.selectedVideoId = null;
+    this.videoUrls = {};
     this.isPlayerOpen = false;
   }
 }
