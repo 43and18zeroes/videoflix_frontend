@@ -59,15 +59,40 @@ export class VideoOfferComponent {
 
   loadSections() {
     this.videoOfferService.getSections().subscribe(
-      (data) => {
-        console.log('Raw data from backend:', data); // Logge die rohe Antwort
-        this.sections = data;
+      (data: any[]) => {
+        console.log('Raw data from backend:', data);
+  
+        // Gruppiere die Videos nach Kategorie
+        const sectionsMap = new Map<string, ThumbnailData[]>();
+  
+        data.forEach(video => {
+          const category = video.category || 'Other';
+  
+          if (!sectionsMap.has(category)) {
+            sectionsMap.set(category, []);
+          }
+  
+          sectionsMap.get(category)!.push({
+            thumbnailUrl: video.thumbnail,
+            videoId: video.id.toString(),  // video.id als String
+            altText: video.title
+          });
+        });
+  
+        // Konvertiere die Map in ein Array von VideoSections
+        this.sections = Array.from(sectionsMap.entries()).map(([category, thumbnails]) => ({
+          title: category, 
+          thumbnails: thumbnails
+        }));
+  
+        console.log('Transformed sections:', this.sections);
       },
       (error) => {
         console.error('Fehler beim Laden der Video-Sections:', error);
       }
     );
   }
+  
 
   // getVideoUrlForPlayer(): string | null {
   //   if (this.selectedVideoId) {
