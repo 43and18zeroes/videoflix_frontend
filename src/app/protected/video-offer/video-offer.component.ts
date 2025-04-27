@@ -51,6 +51,7 @@ export class VideoOfferComponent {
 
   ngOnInit(): void {
     this.loadSections(); // Lade die Daten hier!
+    this.playVideo('16');
   }
 
   ngOnDestroy(): void {

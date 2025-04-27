@@ -66,6 +66,11 @@
       }
     }
   }
+
+  app-videojs-player {
+    position: absolute;
+    top: 50%;
+  }
 }
 
 @include vars.for-tablet-landscape-down {
