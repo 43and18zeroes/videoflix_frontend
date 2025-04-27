@@ -7,6 +7,7 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
+import { EventEmitter } from 'stream';
 import videojs from 'video.js';
 import type Player from 'video.js/dist/types/player';
 
@@ -74,8 +75,13 @@ export class VideojsPlayerComponent
         preload: 'auto',
         poster: this.poster || '',
         sources: sources,
-        // Du kannst hier das "qualitySelector"-Plugin hinzufügen, falls du eine UI zur Auswahl benötigst
+        fluid: true, // passt sich automatisch an Container an
+        controlBar: {
+          volumePanel: { inline: false }, // Volume separat
+          fullscreenToggle: true,
+        }
       });
+      
     }
   }
 
