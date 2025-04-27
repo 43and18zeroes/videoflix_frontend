@@ -71,11 +71,11 @@ export class VideojsPlayerComponent
 
       this.player = videojs(this.videoPlayerRef.nativeElement, {
         controls: true,
-        autoplay: false,
+        autoplay: true,
         preload: 'auto',
         poster: this.poster || '',
         sources: sources,
-        fluid: true, // passt sich automatisch an Container an
+        fluid: true,
         controlBar: {
           volumePanel: { inline: false }, // Volume separat
           fullscreenToggle: true,
