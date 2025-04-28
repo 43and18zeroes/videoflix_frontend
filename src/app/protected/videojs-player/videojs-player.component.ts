@@ -6,6 +6,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  Output,
 } from '@angular/core';
 import { EventEmitter } from 'stream';
 import videojs from 'video.js';
@@ -30,7 +31,7 @@ export class VideojsPlayerComponent
   @Input() poster: string | null = null;
   @ViewChild('videoPlayer', { static: false }) videoPlayerRef?: ElementRef;
 
-  player: Player | undefined;
+  player?: Player;
 
   constructor() {}
 
@@ -74,16 +75,17 @@ export class VideojsPlayerComponent
         autoplay: true,
         preload: 'auto',
         poster: this.poster || '',
-        sources: sources,
+        sources,
         fluid: true,
         controlBar: {
-          volumePanel: { inline: false }, // Volume separat
+          volumePanel: { inline: false },
           fullscreenToggle: true,
-        }
+        },
       });
       
     }
   }
+
 
   ngOnDestroy(): void {
     if (this.player) {
