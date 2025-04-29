@@ -32,6 +32,7 @@ export class VideojsPlayerComponent
   @ViewChild('videoPlayer', { static: false }) videoPlayerRef?: ElementRef;
 
   player?: Player;
+  private videoMetadataListener: (() => void) | null = null;
 
   constructor() {}
 
@@ -70,18 +71,46 @@ export class VideojsPlayerComponent
         });
       }
 
-      this.player = videojs(this.videoPlayerRef.nativeElement, {
+      const videoElement = this.videoPlayerRef.nativeElement;
+
+      this.player = videojs(videoElement, {
         controls: true,
-        autoplay: true,
+        autoplay: true, // Vorsicht mit Autoplay, Browser blockieren es oft
         preload: 'auto',
         poster: this.poster || '',
         sources,
-        fluid: true,
+        fluid: false, // WICHTIG: Deaktivieren, da wir das Seitenverhältnis manuell setzen
         controlBar: {
           volumePanel: { inline: false },
           fullscreenToggle: true,
         },
       });
+
+      this.videoMetadataListener = () => {
+        if (this.player && videoElement) { // Sicherstellen, dass player und Element existieren
+          const videoWidth = this.player.videoWidth();
+          const videoHeight = this.player.videoHeight();
+
+          if (videoWidth > 0 && videoHeight > 0) {
+            const ratio = videoWidth / videoHeight;
+            // Setze das 'aspect-ratio' direkt am Container-Element (.video-js)
+            videoElement.parentElement?.style.setProperty('aspect-ratio', `${ratio}`);
+            // Optional: Hintergrund entfernen, wenn das Video geladen ist
+            // videoElement.parentElement?.style.backgroundColor = 'transparent';
+          } else {
+            // Fallback, falls Dimensionen nicht verfügbar sind
+            videoElement.parentElement?.style.setProperty('aspect-ratio', '16 / 9');
+            // videoElement.parentElement?.style.backgroundColor = 'black'; // Behalte den Hintergrund
+          }
+        }
+      };
+
+      this.player.on('loadedmetadata', this.videoMetadataListener);
+
+    } else {
+        console.error("Video Player Referenz, Video URLs oder Video.js nicht verfügbar.");
+    
+  
       
     }
   }
