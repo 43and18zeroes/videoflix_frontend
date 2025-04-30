@@ -11,26 +11,23 @@
   z-index: 1000;
 
   .video-js {
-    background-color: black; /* Behalte den Hintergrund für den Ladevorgang oder Fehler */
+    background-color: black;
     width: 80%;
     max-width: 960px;
-    /* aspect-ratio: 16 / 9; */ /* <<< DIESE ZEILE ENTFERNEN ODER AUSKOMMENTIEREN */
-    height: auto; /* Höhe wird durch Breite + Seitenverhältnis bestimmt */
-    overflow: hidden; /* Verhindert mögliche kleine Überläufe */
+    height: auto;
+    overflow: hidden;
 
     .vjs-tech {
-      /* Diese Stile sorgen dafür, dass das <video>-Element den .video-js Container füllt */
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      /* object-fit: cover; */   /* Sicherstellen, dass dies nicht aktiv ist */
-      object-fit: contain; /* 'contain' oder 'fill' ist hier sicher, da der Container das richtige Verhältnis hat */
+      object-fit: contain;
     }
 
     .vjs-poster {
-      background-size: cover; // Poster kann weiterhin den Bereich füllen
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
     }

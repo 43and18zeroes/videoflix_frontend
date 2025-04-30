@@ -27,7 +27,7 @@ interface VideoUrls {
 export class VideojsPlayerComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  @Input() videoUrls: VideoUrls | null = null; // Hier sollte @Input() stehen
+  @Input() videoUrls: VideoUrls | null = null;
   @Input() poster: string | null = null;
   @ViewChild('videoPlayer', { static: false }) videoPlayerRef?: ElementRef;
 
@@ -54,7 +54,7 @@ export class VideojsPlayerComponent
           type: 'video/mp4',
           label: '480p',
           selected: true,
-        }); // Standard
+        });
       }
       if (this.videoUrls['720p']) {
         sources.push({
@@ -75,11 +75,11 @@ export class VideojsPlayerComponent
 
       this.player = videojs(videoElement, {
         controls: true,
-        autoplay: true, // Vorsicht mit Autoplay, Browser blockieren es oft
+        autoplay: true,
         preload: 'auto',
         poster: this.poster || '',
         sources,
-        fluid: false, // WICHTIG: Deaktivieren, da wir das Seitenverhältnis manuell setzen
+        fluid: false,
         controlBar: {
           volumePanel: { inline: false },
           fullscreenToggle: true,
@@ -87,31 +87,21 @@ export class VideojsPlayerComponent
       });
 
       this.videoMetadataListener = () => {
-        if (this.player && videoElement) { // Sicherstellen, dass player und Element existieren
+        if (this.player && videoElement) {
           const videoWidth = this.player.videoWidth();
           const videoHeight = this.player.videoHeight();
 
           if (videoWidth > 0 && videoHeight > 0) {
             const ratio = videoWidth / videoHeight;
-            // Setze das 'aspect-ratio' direkt am Container-Element (.video-js)
             videoElement.parentElement?.style.setProperty('aspect-ratio', `${ratio}`);
-            // Optional: Hintergrund entfernen, wenn das Video geladen ist
-            // videoElement.parentElement?.style.backgroundColor = 'transparent';
           } else {
-            // Fallback, falls Dimensionen nicht verfügbar sind
             videoElement.parentElement?.style.setProperty('aspect-ratio', '16 / 9');
-            // videoElement.parentElement?.style.backgroundColor = 'black'; // Behalte den Hintergrund
           }
         }
       };
-
       this.player.on('loadedmetadata', this.videoMetadataListener);
-
     } else {
         console.error("Video Player Referenz, Video URLs oder Video.js nicht verfügbar.");
-    
-  
-      
     }
   }
 
