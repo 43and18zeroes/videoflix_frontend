@@ -44,6 +44,7 @@ export class VideoOfferComponent {
   selectedVideoId: string | null = null;
   isPlayerOpen: boolean = false;
   videoUrls: VideoUrls = {};
+  videoUrl: string = '';
 
   constructor(private videoOfferService: VideoOfferService) {}
 
@@ -88,14 +89,14 @@ export class VideoOfferComponent {
 
   playVideo(videoId: string) {
     this.selectedVideoId = videoId;
-    this.videoOfferService.getVideoUrlsById(this.selectedVideoId).subscribe(
+    this.videoOfferService.getVideoHlsUrl(videoId).subscribe(
       (response) => {
-        this.videoUrls = response;
+        this.videoUrl = response.videoUrl; // <- m3u8-Link
+        console.log('this.videoUrl', this.videoUrl);
         this.isPlayerOpen = true;
-        console.log('Video URLs:', this.videoUrls);
       },
       (error) => {
-        console.error('Fehler beim Abrufen der Video-URLs:', error);
+        console.error('Fehler beim Abrufen der HLS-URL:', error);
         this.isPlayerOpen = false;
       }
     );

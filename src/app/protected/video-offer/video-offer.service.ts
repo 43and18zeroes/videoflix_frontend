@@ -51,4 +51,11 @@ export class VideoOfferService {
     return this.http.get<VideoUrls>(`${this.apiUrl}videos/${videoId}/urls/`, { headers: this.getHeaders() });
   }
 
+  getVideoHlsUrl(videoId: string): Observable<{ videoUrl: string }> {
+    return this.http.get<{ videoUrl: string }>(
+      `${this.apiUrl}videos/${videoId}/play/`,
+      { headers: this.getHeaders() }
+    );
+  }
+
 }
