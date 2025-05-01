@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import videojs from 'video.js';
 import type Player from 'video.js/dist/types/player';
-import 'videojs-contrib-quality-levels';
 // import 'videojs-hls-quality-selector';
 
 @Component({
@@ -39,11 +38,15 @@ export class VideojsPlayerComponent implements OnInit, OnDestroy, AfterViewInit,
   }
 
   tryInitPlayer(): void {
-    if (!this.player && this.videoPlayerRef && this.videoUrl) {
+    if (this.player) {
+      this.player.dispose(); // Bestehenden Player sauber zerstören
+      this.player = undefined;
+    }
+  
+    if (this.videoPlayerRef && this.videoUrl) {
       console.log('Initialisiere Player mit URL:', this.videoUrl);
-
       const videoElement = this.videoPlayerRef.nativeElement;
-
+  
       this.player = videojs(videoElement, {
         controls: true,
         autoplay: true,
@@ -57,16 +60,13 @@ export class VideojsPlayerComponent implements OnInit, OnDestroy, AfterViewInit,
           volumePanel: { inline: false },
           fullscreenToggle: true,
         },
-      }, function () {
-        const playerInstance = this as any;
-        if (typeof playerInstance.hlsQualitySelector === 'function') {
-          playerInstance.hlsQualitySelector({
-            displayCurrentQuality: true,
-          });
-        }
       });
+  
+      // Plugins müssen hier nicht erneut registriert werden!
+      // `qualityLevels()` ist nach dem Import global verfügbar.
     }
   }
+  
 
   ngOnDestroy(): void {
     if (this.player) {
