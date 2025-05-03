@@ -63,18 +63,16 @@ export class VideojsPlayerComponent
             'playToggle',
             'progressControl',
             'volumePanel',
-            'qualitySelector', // <- dieser Button ist entscheidend
+            'qualitySelector',
             'fullscreenToggle',
           ],
         },
       });
 
       const playerInstance = this.player as any;
-      if (typeof playerInstance.hlsQualitySelector === 'function') {
+
         playerInstance.hlsQualitySelector({ displayCurrentQuality: true });
-      } else {
-        console.warn('⚠️ hlsQualitySelector plugin not found.');
-      }
+
     }
   }
 
