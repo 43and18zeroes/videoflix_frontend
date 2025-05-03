@@ -45,7 +45,6 @@ export class VideojsPlayerComponent
     }
 
     if (this.videoPlayerRef && this.videoUrl) {
-      console.log('Initialisiere Player mit URL:', this.videoUrl);
       const videoElement = this.videoPlayerRef.nativeElement;
 
       this.player = videojs(videoElement, {
@@ -60,19 +59,22 @@ export class VideojsPlayerComponent
           },
         ],
         controlBar: {
-          volumePanel: { inline: false },
-          fullscreenToggle: true,
+          children: [
+            'playToggle',
+            'progressControl',
+            'volumePanel',
+            'qualitySelector', // <- dieser Button ist entscheidend
+            'fullscreenToggle',
+          ],
         },
       });
 
-      // 🛠 Plugin dynamisch importieren – um "class constructor without 'new'" zu vermeiden
-        const playerInstance = this.player as any;
-        if (typeof playerInstance.hlsQualitySelector === 'function') {
-          playerInstance.hlsQualitySelector({
-            displayCurrentQuality: true,
-          });
-        }
-
+      const playerInstance = this.player as any;
+      if (typeof playerInstance.hlsQualitySelector === 'function') {
+        playerInstance.hlsQualitySelector({ displayCurrentQuality: true });
+      } else {
+        console.warn('⚠️ hlsQualitySelector plugin not found.');
+      }
     }
   }
 
