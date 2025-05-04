@@ -9,8 +9,9 @@ import {
   OnChanges,
   SimpleChanges,
   Output,
-  EventEmitter, // Stelle sicher, dass EventEmitter importiert ist
-  Renderer2,    // Importiere Renderer2
+  EventEmitter,
+  Renderer2,
+  HostListener,
 } from '@angular/core';
 // Entferne 'import type Player...' wenn nicht explizit benötigt oder stelle sicher, dass es korrekt ist
 // import type Player from 'video.js/dist/types/player';
@@ -63,6 +64,36 @@ export class VideojsPlayerComponent
     } else if (changes['poster'] && this.player) {
        // Nur Poster aktualisieren, wenn Player existiert
        this.player.poster(this.poster || '');
+    }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent) {
+    // console.log('Escape key pressed'); // Zum Debuggen
+    this.handleClose(); // Ruft die Methode zum Schließen auf
+  }
+
+  /**
+   * Lauscht auf das Drücken der Leertaste im gesamten Dokument.
+   * Wenn die Taste gedrückt wird, wird die Wiedergabe des Videos umgeschaltet (Play/Pause).
+   * Verhindert das Standardverhalten der Leertaste (Scrollen).
+   * @param event Das KeyboardEvent
+   */
+  @HostListener('document:keydown.space', ['$event'])
+  handleSpaceKey(event: KeyboardEvent) {
+    // Nur ausführen, wenn der Player initialisiert ist
+    if (this.player) {
+       // console.log('Space key pressed'); // Zum Debuggen
+
+      // Verhindert das Standardverhalten der Leertaste (z.B. Scrollen der Seite)
+      event.preventDefault();
+
+      // Prüfen, ob das Video gerade pausiert ist oder läuft
+      if (this.player.paused()) {
+        this.player.play();
+      } else {
+        this.player.pause();
+      }
     }
   }
 
