@@ -17,12 +17,16 @@
     width: 80%;
     max-width: 960px;
     overflow: hidden;
+    position: relative; // Wichtig für absolute Positionierung des Buttons relativ hierzu
+
+    /* Entferne diese Hover-Regel, da TypeScript es steuert
     &:hover {
       .close-button {
-        opacity: 1; // Button sichtbar machen, wenn über :host gehovert wird
-        pointer-events: auto; // Klickbar machen
+        opacity: 1;
+        pointer-events: auto;
       }
     }
+    */
 
     .vjs-tech {
       position: absolute;
@@ -49,16 +53,19 @@
     font-size: 32px;
     color: white;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1001; // Stelle sicher, dass er über dem Video liegt
 
-    // --- NEU ---
-    opacity: 0; // Standardmäßig unsichtbar
-    pointer-events: none; // Nicht klickbar im unsichtbaren Zustand
-    transition: opacity 0.5s ease-in-out; // Übergang für das langsame Ein-/Ausblenden (Dauer anpassen nach Wunsch)
+    // --- ANGEPASST ---
+    opacity: 1; // Initial sichtbar
+    pointer-events: auto; // Initial klickbar
+    transition: opacity 0.5s ease-in-out; // Behalte die Transition für das Faden
+    // -------------
+
+    // --- NEU: Klasse für den ausgeblendeten Zustand ---
+    &.fade-out {
+      opacity: 0;
+      pointer-events: none; // Nicht klickbar, wenn ausgeblendet
+    }
     // -------------
   }
-
-  // --- NEU: Hover-Effekt für den Container ---
-
-  // -------------
 }
