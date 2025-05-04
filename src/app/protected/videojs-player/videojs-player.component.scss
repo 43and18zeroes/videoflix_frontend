@@ -1,3 +1,5 @@
+// videojs-player.component.scss
+
 :host {
   position: fixed;
   top: 0;
@@ -15,6 +17,13 @@
     width: 80%;
     max-width: 960px;
     overflow: hidden;
+    
+    &:hover {
+      .close-button {
+        opacity: 1; // Button sichtbar machen, wenn über :host gehovert wird
+        pointer-events: auto; // Klickbar machen
+      }
+    }
 
     .vjs-tech {
       position: absolute;
@@ -42,5 +51,15 @@
     color: white;
     cursor: pointer;
     z-index: 1001;
+
+    // --- NEU ---
+    opacity: 0; // Standardmäßig unsichtbar
+    pointer-events: none; // Nicht klickbar im unsichtbaren Zustand
+    transition: opacity 0.5s ease-in-out; // Übergang für das langsame Ein-/Ausblenden (Dauer anpassen nach Wunsch)
+    // -------------
   }
+
+  // --- NEU: Hover-Effekt für den Container ---
+
+  // -------------
 }
