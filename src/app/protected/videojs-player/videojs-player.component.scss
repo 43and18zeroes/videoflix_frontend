@@ -17,7 +17,6 @@
     width: 80%;
     max-width: 960px;
     overflow: hidden;
-    
     &:hover {
       .close-button {
         opacity: 1; // Button sichtbar machen, wenn über :host gehovert wird
