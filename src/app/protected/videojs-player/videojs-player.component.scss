@@ -58,13 +58,13 @@
     // --- ANGEPASST ---
     opacity: 1; // Initial sichtbar
     pointer-events: auto; // Initial klickbar
-    transition: opacity 0.75s ease-in-out; // Behalte die Transition für das Faden
     // -------------
 
     // --- NEU: Klasse für den ausgeblendeten Zustand ---
     &.fade-out {
       opacity: 0;
       pointer-events: none; // Nicht klickbar, wenn ausgeblendet
+      transition: opacity 0.75s ease-in-out;
     }
     // -------------
   }

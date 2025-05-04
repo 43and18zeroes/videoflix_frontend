@@ -27,8 +27,10 @@ export class VideojsPlayerComponent
   @Input() videoUrl: string = '';
   @Input() poster: string | null = null;
   @Output() close = new EventEmitter<void>();
-  @ViewChild('videoPlayer', { static: false }) videoPlayerRef?: ElementRef<HTMLVideoElement>;
-  @ViewChild('closeButton', { static: false }) closeButtonRef?: ElementRef<HTMLButtonElement>;
+  @ViewChild('videoPlayer', { static: false })
+  videoPlayerRef?: ElementRef<HTMLVideoElement>;
+  @ViewChild('closeButton', { static: false })
+  closeButtonRef?: ElementRef<HTMLButtonElement>;
 
   player?: Player;
   private fadeOutTimer: any = null;
@@ -115,7 +117,9 @@ export class VideojsPlayerComponent
       if (playerInstance.hlsQualitySelector) {
         playerInstance.hlsQualitySelector({ displayCurrentQuality: true });
       } else {
-        console.warn('videojs-hls-quality-selector plugin not loaded or initialized.');
+        console.warn(
+          'videojs-hls-quality-selector plugin not loaded or initialized.'
+        );
       }
 
       // --- Erzwinge 16:9 Seitenverhältnis mit JavaScript ---
@@ -123,30 +127,40 @@ export class VideojsPlayerComponent
       this.resizeObserver = new ResizeObserver(() => {
         this.setAspectRatio();
       });
-      this.resizeObserver.observe(this.playerElement.parentElement as HTMLElement);
+      this.resizeObserver.observe(
+        this.playerElement.parentElement as HTMLElement
+      );
       // --- Ende Erzwinge 16:9 Seitenverhältnis mit JavaScript ---
 
       // --- Logik für den Close-Button ---
       this.renderer.removeClass(closeButtonElement, 'fade-out');
       clearTimeout(this.fadeOutTimer);
 
-      this.mouseEnterListener = this.renderer.listen(this.playerElement, 'mouseenter', () => {
-        clearTimeout(this.fadeOutTimer);
-        this.renderer.removeClass(closeButtonElement, 'fade-out');
-      });
+      this.mouseEnterListener = this.renderer.listen(
+        this.playerElement,
+        'mouseenter',
+        () => {
+          this.renderer.removeClass(closeButtonElement, 'fade-out'); // Sofort sichtbar beim Hover
+        }
+      );
 
-      this.mouseLeaveListener = this.renderer.listen(this.playerElement, 'mouseleave', () => {
-        clearTimeout(this.fadeOutTimer);
-        this.fadeOutTimer = setTimeout(() => {
-          this.renderer.addClass(closeButtonElement, 'fade-out');
-        }, 2000);
-      });
+      this.mouseLeaveListener = this.renderer.listen(
+        this.playerElement,
+        'mouseleave',
+        () => {
+          clearTimeout(this.fadeOutTimer);
+          this.fadeOutTimer = setTimeout(() => {
+            this.renderer.addClass(closeButtonElement, 'fade-out');
+          }, 2000);
+        }
+      );
 
       this.startInitialFadeOutTimer();
       // --- Ende Logik für den Close-Button ---
-
     } else {
-      console.warn('Video player element or videoUrl not available for initialization.');
+      console.warn(
+        'Video player element or videoUrl not available for initialization.'
+      );
     }
   }
 
