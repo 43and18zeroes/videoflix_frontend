@@ -73,12 +73,6 @@ export class VideojsPlayerComponent
     this.handleClose(); // Ruft die Methode zum Schließen auf
   }
 
-  /**
-   * Lauscht auf das Drücken der Leertaste im gesamten Dokument.
-   * Wenn die Taste gedrückt wird, wird die Wiedergabe des Videos umgeschaltet (Play/Pause).
-   * Verhindert das Standardverhalten der Leertaste (Scrollen).
-   * @param event Das KeyboardEvent
-   */
   @HostListener('document:keydown.space', ['$event'])
   handleSpaceKey(event: KeyboardEvent) {
     // Nur ausführen, wenn der Player initialisiert ist
