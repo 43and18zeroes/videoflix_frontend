@@ -8,7 +8,9 @@ import {
   AfterViewInit,
   OnChanges,
   SimpleChanges,
+  Output,
 } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import videojs from 'video.js';
 import type Player from 'video.js/dist/types/player';
 
@@ -22,6 +24,7 @@ export class VideojsPlayerComponent
 {
   @Input() videoUrl: string = '';
   @Input() poster: string | null = null;
+  @Output() close = new EventEmitter<void>();
   @ViewChild('videoPlayer', { static: false }) videoPlayerRef?: ElementRef;
 
   player?: Player;
@@ -81,5 +84,9 @@ export class VideojsPlayerComponent
       this.player.dispose();
       this.player = undefined;
     }
+  }
+
+  handleClose(): void {
+    this.close.emit();
   }
 }
