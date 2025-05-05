@@ -35,8 +35,9 @@
 
   .close-button {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 0;
+    right: 0;
+    padding: 16px 23px;
     background: none;
     border: none;
     font-size: 32px;
