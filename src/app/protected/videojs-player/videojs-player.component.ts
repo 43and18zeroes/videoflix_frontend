@@ -86,8 +86,13 @@ export class VideojsPlayerComponent
     }
 
     this.cleanupPlayer();
+    this.setupVideoJsPlayer();
+    this.initAspectRatioHandling();
+    this.setupInteractionHandlers();
+  }
 
-    this.player = videojs(this.videoPlayerRef.nativeElement, {
+  private setupVideoJsPlayer(): void {
+    this.player = videojs(this.videoPlayerRef!.nativeElement, {
       controls: true,
       autoplay: true,
       preload: 'auto',
@@ -99,18 +104,14 @@ export class VideojsPlayerComponent
         },
       ],
       controlBar: {
-        children: [
-          'playToggle',
-          'progressControl',
-          'volumePanel',
-          'fullscreenToggle',
-        ],
+        children: ['playToggle', 'progressControl', 'volumePanel', 'fullscreenToggle'],
       },
     });
 
     this.playerElement = this.player.el() as HTMLElement;
+  }
 
-    this.initAspectRatioHandling();
+  private setupInteractionHandlers(): void {
     this.initCloseButtonBehavior();
     this.initPlayerEvents();
   }
