@@ -92,6 +92,11 @@ export class VideojsPlayerComponent
   }
 
   private setupVideoJsPlayer(): void {
+    this.initializeVideoJsInstance();
+    this.storePlayerElement();
+  }
+
+  private initializeVideoJsInstance(): void {
     this.player = videojs(this.videoPlayerRef!.nativeElement, {
       controls: true,
       autoplay: true,
@@ -107,8 +112,12 @@ export class VideojsPlayerComponent
         children: ['playToggle', 'progressControl', 'volumePanel', 'fullscreenToggle'],
       },
     });
+  }
 
-    this.playerElement = this.player.el() as HTMLElement;
+  private storePlayerElement(): void {
+    if (this.player) {
+      this.playerElement = this.player.el() as HTMLElement;
+    }
   }
 
   private setupInteractionHandlers(): void {
