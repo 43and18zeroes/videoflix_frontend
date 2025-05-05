@@ -104,22 +104,12 @@ export class VideojsPlayerComponent
             'playToggle',
             'progressControl',
             'volumePanel',
-            'qualitySelector',
             'fullscreenToggle',
           ],
         },
       });
 
       this.playerElement = this.player.el() as HTMLElement;
-
-      const playerInstance = this.player as any;
-      if (playerInstance.hlsQualitySelector) {
-        playerInstance.hlsQualitySelector({ displayCurrentQuality: true });
-      } else {
-        console.warn(
-          'videojs-hls-quality-selector plugin not loaded or initialized.'
-        );
-      }
 
       // --- Erzwinge 16:9 Seitenverhältnis mit JavaScript ---
       this.setAspectRatio();

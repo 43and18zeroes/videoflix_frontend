@@ -29,8 +29,7 @@
               "node_modules/video.js/dist/video-js.css"
             ],
             "scripts": [
-              "node_modules/video.js/dist/video.min.js",
-              "node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"
+              "node_modules/video.js/dist/video.min.js"
             ]
           },
           "configurations": {
@@ -84,8 +83,7 @@
               "node_modules/video.js/dist/video-js.css"
             ],
             "scripts": [
-              "node_modules/video.js/dist/video.min.js",
-              "node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"
+              "node_modules/video.js/dist/video.min.js"
             ]
           }
         }

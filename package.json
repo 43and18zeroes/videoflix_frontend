@@ -24,7 +24,6 @@
     "swiper": "^11.2.6",
     "tslib": "^2.3.0",
     "video.js": "^8.22.0",
-    "videojs-hls-quality-selector": "^2.0.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
