@@ -142,10 +142,28 @@ export class VideojsPlayerComponent
           this.renderer.removeClass(closeButtonElement, 'fade-out');
           clearTimeout(this.fadeOutTimer);
           this.fadeOutTimer = setTimeout(() => {
-            this.renderer.addClass(closeButtonElement, 'fade-out');
+            if (this.player && !this.player.paused()) {
+              this.renderer.addClass(closeButtonElement, 'fade-out');
+            }
           }, 2000);
         }
       );
+
+      // Pausiert → Button dauerhaft sichtbar
+      this.player.on('pause', () => {
+        this.renderer.removeClass(closeButtonElement, 'fade-out');
+        clearTimeout(this.fadeOutTimer);
+      });
+
+      // Spielt → Button nach Timeout ausblenden
+      this.player.on('play', () => {
+        clearTimeout(this.fadeOutTimer);
+        this.fadeOutTimer = setTimeout(() => {
+          if (this.player && !this.player.paused()) {
+            this.renderer.addClass(closeButtonElement, 'fade-out');
+          }
+        }, 2000);
+      });
 
       this.startInitialFadeOutTimer();
       // --- Ende Logik für den Close-Button ---
@@ -171,7 +189,9 @@ export class VideojsPlayerComponent
 
     clearTimeout(this.fadeOutTimer);
     this.fadeOutTimer = setTimeout(() => {
-      this.renderer.addClass(closeButtonElement, 'fade-out');
+      if (this.player && !this.player.paused()) {
+        this.renderer.addClass(closeButtonElement, 'fade-out');
+      }
     }, 2000);
   }
 
