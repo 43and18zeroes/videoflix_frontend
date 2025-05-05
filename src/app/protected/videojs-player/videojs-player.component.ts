@@ -27,36 +27,39 @@ export class VideojsPlayerComponent
   @Input() videoUrl: string = '';
   @Input() poster: string | null = null;
   @Output() close = new EventEmitter<void>();
+
   @ViewChild('videoPlayer', { static: false })
   videoPlayerRef?: ElementRef<HTMLVideoElement>;
+
   @ViewChild('closeButton', { static: false })
   closeButtonRef?: ElementRef<HTMLButtonElement>;
 
   player?: Player;
-  private fadeOutTimer: any = null;
   private playerElement: HTMLElement | null = null;
   private resizeObserver: ResizeObserver | null = null;
-
   private mouseMoveListener: (() => void) | null = null;
+  private fadeOutTimer: any = null;
 
   constructor(private renderer: Renderer2) {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    if (this.closeButtonRef?.nativeElement) {
-      this.renderer.removeClass(this.closeButtonRef.nativeElement, 'fade-out');
-    }
-    this.tryInitPlayer();
+    this.showCloseButton();
+    this.initPlayer();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['videoUrl'] && !changes['videoUrl'].firstChange) {
       this.cleanupPlayer();
-      this.tryInitPlayer();
+      this.initPlayer();
     } else if (changes['poster'] && this.player) {
       this.player.poster(this.poster || '');
     }
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupPlayer();
   }
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -68,121 +71,110 @@ export class VideojsPlayerComponent
   handleSpaceKey(event: KeyboardEvent) {
     if (this.player) {
       event.preventDefault();
-      if (this.player.paused()) {
-        this.player.play();
-      } else {
-        this.player.pause();
-      }
+      this.player.paused() ? this.player.play() : this.player.pause();
     }
   }
 
-  tryInitPlayer(): void {
+  handleClose(): void {
+    this.close.emit();
+  }
+
+  private initPlayer(): void {
+    if (!this.videoPlayerRef?.nativeElement || !this.videoUrl) {
+      console.warn('Video player element or videoUrl not available for initialization.');
+      return;
+    }
+
     this.cleanupPlayer();
 
-    if (this.videoPlayerRef?.nativeElement && this.videoUrl) {
-      const videoElement = this.videoPlayerRef.nativeElement;
-
-      if (!this.closeButtonRef?.nativeElement) {
-        console.error('Close button reference not found!');
-        return;
-      }
-      const closeButtonElement = this.closeButtonRef.nativeElement;
-
-      this.player = videojs(videoElement, {
-        controls: true,
-        autoplay: true,
-        preload: 'auto',
-        poster: this.poster || '',
-        sources: [
-          {
-            src: this.videoUrl,
-            type: 'application/x-mpegURL',
-          },
-        ],
-        controlBar: {
-          children: [
-            'playToggle',
-            'progressControl',
-            'volumePanel',
-            'fullscreenToggle',
-          ],
+    this.player = videojs(this.videoPlayerRef.nativeElement, {
+      controls: true,
+      autoplay: true,
+      preload: 'auto',
+      poster: this.poster || '',
+      sources: [
+        {
+          src: this.videoUrl,
+          type: 'application/x-mpegURL',
         },
-      });
+      ],
+      controlBar: {
+        children: [
+          'playToggle',
+          'progressControl',
+          'volumePanel',
+          'fullscreenToggle',
+        ],
+      },
+    });
 
-      this.playerElement = this.player.el() as HTMLElement;
+    this.playerElement = this.player.el() as HTMLElement;
 
-      // --- Erzwinge 16:9 Seitenverhältnis mit JavaScript ---
-      this.setAspectRatio();
-      this.resizeObserver = new ResizeObserver(() => {
-        this.setAspectRatio();
-      });
-      this.resizeObserver.observe(
-        this.playerElement.parentElement as HTMLElement
-      );
-      // --- Ende Erzwinge 16:9 Seitenverhältnis mit JavaScript ---
+    this.initAspectRatioHandling();
+    this.initCloseButtonBehavior();
+    this.initPlayerEvents();
+  }
 
-      // --- Logik für den Close-Button ---
-      this.renderer.removeClass(closeButtonElement, 'fade-out');
-      clearTimeout(this.fadeOutTimer);
+  private initAspectRatioHandling(): void {
+    if (!this.playerElement) return;
 
-      this.mouseMoveListener = this.renderer.listen(
-        this.playerElement,
-        'mousemove',
-        () => {
-          this.renderer.removeClass(closeButtonElement, 'fade-out');
-          clearTimeout(this.fadeOutTimer);
-          this.fadeOutTimer = setTimeout(() => {
-            if (this.player && !this.player.paused()) {
-              this.renderer.addClass(closeButtonElement, 'fade-out');
-            }
-          }, 2000);
-        }
-      );
-
-      // Pausiert → Button dauerhaft sichtbar
-      this.player.on('pause', () => {
-        this.renderer.removeClass(closeButtonElement, 'fade-out');
-        clearTimeout(this.fadeOutTimer);
-      });
-
-      // Spielt → Button nach Timeout ausblenden
-      this.player.on('play', () => {
-        clearTimeout(this.fadeOutTimer);
-        this.fadeOutTimer = setTimeout(() => {
-          if (this.player && !this.player.paused()) {
-            this.renderer.addClass(closeButtonElement, 'fade-out');
-          }
-        }, 2000);
-      });
-
-      this.startInitialFadeOutTimer();
-      // --- Ende Logik für den Close-Button ---
-    } else {
-      console.warn(
-        'Video player element or videoUrl not available for initialization.'
-      );
-    }
+    this.setAspectRatio();
+    this.resizeObserver = new ResizeObserver(() => this.setAspectRatio());
+    this.resizeObserver.observe(this.playerElement.parentElement as HTMLElement);
   }
 
   private setAspectRatio(): void {
-    if (this.playerElement) {
-      const playerWidth = this.playerElement.offsetWidth;
-      const playerHeight = playerWidth * (9 / 16); // Berechne die Höhe für 16:9
+    if (!this.playerElement) return;
 
-      this.renderer.setStyle(this.playerElement, 'height', `${playerHeight}px`);
-    }
+    const width = this.playerElement.offsetWidth;
+    const height = width * (9 / 16);
+    this.renderer.setStyle(this.playerElement, 'height', `${height}px`);
   }
 
-  private startInitialFadeOutTimer(): void {
-    if (!this.closeButtonRef?.nativeElement) return;
-    const closeButtonElement = this.closeButtonRef.nativeElement;
+  private initCloseButtonBehavior(): void {
+    if (!this.playerElement || !this.closeButtonRef?.nativeElement) return;
 
-    clearTimeout(this.fadeOutTimer);
+    this.mouseMoveListener = this.renderer.listen(this.playerElement, 'mousemove', () => {
+      this.showCloseButton();
+      clearTimeout(this.fadeOutTimer);
+      this.startFadeOutTimer();
+    });
+
+    this.startFadeOutTimer();
+  }
+
+  private initPlayerEvents(): void {
+    if (!this.player) return;
+
+    this.player.on('pause', () => {
+      this.showCloseButton();
+      clearTimeout(this.fadeOutTimer);
+    });
+
+    this.player.on('play', () => {
+      clearTimeout(this.fadeOutTimer);
+      this.startFadeOutTimer();
+    });
+  }
+
+  private startFadeOutTimer(): void {
+    if (!this.closeButtonRef?.nativeElement) return;
+
     this.fadeOutTimer = setTimeout(() => {
       if (this.player && !this.player.paused()) {
-        this.renderer.addClass(closeButtonElement, 'fade-out');
+        this.hideCloseButton();
       }
     }, 2000);
+  }
+
+  private showCloseButton(): void {
+    if (!this.closeButtonRef?.nativeElement) return;
+    this.renderer.removeClass(this.closeButtonRef.nativeElement, 'fade-out');
+  }
+
+  private hideCloseButton(): void {
+    if (!this.closeButtonRef?.nativeElement) return;
+    this.renderer.addClass(this.closeButtonRef.nativeElement, 'fade-out');
   }
 
   private cleanupPlayer(): void {
@@ -203,13 +195,5 @@ export class VideojsPlayerComponent
       this.player = undefined;
       this.playerElement = null;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.cleanupPlayer();
-  }
-
-  handleClose(): void {
-    this.close.emit();
   }
 }
