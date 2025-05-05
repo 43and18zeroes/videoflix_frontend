@@ -81,7 +81,9 @@ export class VideojsPlayerComponent
 
   private initPlayer(): void {
     if (!this.videoPlayerRef?.nativeElement || !this.videoUrl) {
-      console.warn('Video player element or videoUrl not available for initialization.');
+      console.warn(
+        'Video player element or videoUrl not available for initialization.'
+      );
       return;
     }
 
@@ -109,7 +111,12 @@ export class VideojsPlayerComponent
         },
       ],
       controlBar: {
-        children: ['playToggle', 'progressControl', 'volumePanel', 'fullscreenToggle'],
+        children: [
+          'playToggle',
+          'progressControl',
+          'volumePanel',
+          'fullscreenToggle',
+        ],
       },
     });
   }
@@ -130,7 +137,9 @@ export class VideojsPlayerComponent
 
     this.setAspectRatio();
     this.resizeObserver = new ResizeObserver(() => this.setAspectRatio());
-    this.resizeObserver.observe(this.playerElement.parentElement as HTMLElement);
+    this.resizeObserver.observe(
+      this.playerElement.parentElement as HTMLElement
+    );
   }
 
   private setAspectRatio(): void {
@@ -144,11 +153,15 @@ export class VideojsPlayerComponent
   private initCloseButtonBehavior(): void {
     if (!this.playerElement || !this.closeButtonRef?.nativeElement) return;
 
-    this.mouseMoveListener = this.renderer.listen(this.playerElement, 'mousemove', () => {
-      this.showCloseButton();
-      clearTimeout(this.fadeOutTimer);
-      this.startFadeOutTimer();
-    });
+    this.mouseMoveListener = this.renderer.listen(
+      this.playerElement,
+      'mousemove',
+      () => {
+        this.showCloseButton();
+        this.clearFadeOutTimer();
+        this.startFadeOutTimer();
+      }
+    );
 
     this.startFadeOutTimer();
   }
@@ -158,11 +171,11 @@ export class VideojsPlayerComponent
 
     this.player.on('pause', () => {
       this.showCloseButton();
-      clearTimeout(this.fadeOutTimer);
+      this.clearFadeOutTimer();
     });
 
     this.player.on('play', () => {
-      clearTimeout(this.fadeOutTimer);
+      this.clearFadeOutTimer();
       this.startFadeOutTimer();
     });
   }
@@ -177,6 +190,11 @@ export class VideojsPlayerComponent
     }, 2000);
   }
 
+  private clearFadeOutTimer(): void {
+    clearTimeout(this.fadeOutTimer);
+    this.fadeOutTimer = null;
+  }
+
   private showCloseButton(): void {
     if (!this.closeButtonRef?.nativeElement) return;
     this.renderer.removeClass(this.closeButtonRef.nativeElement, 'fade-out');
@@ -188,18 +206,27 @@ export class VideojsPlayerComponent
   }
 
   private cleanupPlayer(): void {
+    this.removeMouseListeners();
+    this.clearFadeOutTimer();
+    this.disconnectResizeObserver();
+    this.disposePlayerInstance();
+  }
+
+  private removeMouseListeners(): void {
     if (this.mouseMoveListener) {
       this.mouseMoveListener();
       this.mouseMoveListener = null;
     }
+  }
 
-    clearTimeout(this.fadeOutTimer);
-
+  private disconnectResizeObserver(): void {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
     }
+  }
 
+  private disposePlayerInstance(): void {
     if (this.player) {
       this.player.dispose();
       this.player = undefined;
