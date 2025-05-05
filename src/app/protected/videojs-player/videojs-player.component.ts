@@ -37,8 +37,7 @@ export class VideojsPlayerComponent
   private playerElement: HTMLElement | null = null;
   private resizeObserver: ResizeObserver | null = null;
 
-  private mouseEnterListener: (() => void) | null = null;
-  private mouseLeaveListener: (() => void) | null = null;
+  private mouseMoveListener: (() => void) | null = null;
 
   constructor(private renderer: Renderer2) {}
 
@@ -136,18 +135,11 @@ export class VideojsPlayerComponent
       this.renderer.removeClass(closeButtonElement, 'fade-out');
       clearTimeout(this.fadeOutTimer);
 
-      this.mouseEnterListener = this.renderer.listen(
+      this.mouseMoveListener = this.renderer.listen(
         this.playerElement,
-        'mouseenter',
+        'mousemove',
         () => {
-          this.renderer.removeClass(closeButtonElement, 'fade-out'); // Sofort sichtbar beim Hover
-        }
-      );
-
-      this.mouseLeaveListener = this.renderer.listen(
-        this.playerElement,
-        'mouseleave',
-        () => {
+          this.renderer.removeClass(closeButtonElement, 'fade-out');
           clearTimeout(this.fadeOutTimer);
           this.fadeOutTimer = setTimeout(() => {
             this.renderer.addClass(closeButtonElement, 'fade-out');
@@ -184,13 +176,9 @@ export class VideojsPlayerComponent
   }
 
   private cleanupPlayer(): void {
-    if (this.mouseEnterListener) {
-      this.mouseEnterListener();
-      this.mouseEnterListener = null;
-    }
-    if (this.mouseLeaveListener) {
-      this.mouseLeaveListener();
-      this.mouseLeaveListener = null;
+    if (this.mouseMoveListener) {
+      this.mouseMoveListener();
+      this.mouseMoveListener = null;
     }
 
     clearTimeout(this.fadeOutTimer);
