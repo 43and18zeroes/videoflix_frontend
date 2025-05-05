@@ -1,5 +1,3 @@
-// videojs-player.component.scss
-
 :host {
   position: fixed;
   top: 0;
@@ -17,16 +15,7 @@
     width: 80%;
     max-width: 960px;
     overflow: hidden;
-    position: relative; // Wichtig für absolute Positionierung des Buttons relativ hierzu
-
-    /* Entferne diese Hover-Regel, da TypeScript es steuert
-    &:hover {
-      .close-button {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }
-    */
+    position: relative;
 
     .vjs-tech {
       position: absolute;
@@ -53,19 +42,14 @@
     font-size: 32px;
     color: white;
     cursor: pointer;
-    z-index: 1001; // Stelle sicher, dass er über dem Video liegt
+    z-index: 1001;
+    opacity: 1;
+    pointer-events: auto;
 
-    // --- ANGEPASST ---
-    opacity: 1; // Initial sichtbar
-    pointer-events: auto; // Initial klickbar
-    // -------------
-
-    // --- NEU: Klasse für den ausgeblendeten Zustand ---
     &.fade-out {
       opacity: 0;
-      pointer-events: none; // Nicht klickbar, wenn ausgeblendet
+      pointer-events: none;
       transition: opacity 0.75s ease-in-out;
     }
-    // -------------
   }
 }
