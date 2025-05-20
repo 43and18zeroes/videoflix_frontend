@@ -24,7 +24,8 @@ interface VideoUrls {
   providedIn: 'root',
 })
 export class VideoOfferService {
-  private apiUrl = 'http://127.0.0.1:8000/api/';
+  // private apiUrl = 'http://127.0.0.1:8000/api/';
+  private apiUrl = 'https://videoflix-backend.cw-coding.de/api/';
   private authTokenKey = 'access_token';
 
 

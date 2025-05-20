@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://127.0.0.1:8000/';
+  // private baseUrl = 'http://127.0.0.1:8000/';
+  private baseUrl = 'https://videoflix-backend.cw-coding.de/';
   authCustomSegment = "auth/"
   authJWTSegments = "api/v1/auth/"
 
