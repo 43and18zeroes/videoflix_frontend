@@ -7,3 +7,18 @@
     playsinline
   ></video>
 </div>
+<div class="quality-selector">
+  <label for="qualitySelect">Qualität:</label>
+  <select
+    id="qualitySelect"
+    [(ngModel)]="selectedQuality"
+    (change)="onQualityChange()"
+  >
+    <option
+      *ngFor="let level of qualityLevels"
+      [ngValue]="level.height"
+    >
+      {{ level.label }}
+    </option>
+  </select>
+</div>

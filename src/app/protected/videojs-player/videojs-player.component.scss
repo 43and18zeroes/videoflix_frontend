@@ -59,4 +59,14 @@
       transition: opacity 0.75s ease-in-out;
     }
   }
+
+  .quality-selector {
+  margin-bottom: 1rem;
+  label {
+    margin-right: 0.5rem;
+  }
+  select {
+    padding: 0.25rem;
+  }
+}
 }

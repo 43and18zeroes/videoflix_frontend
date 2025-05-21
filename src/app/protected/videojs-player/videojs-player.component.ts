@@ -13,12 +13,15 @@ import {
   Renderer2,
   HostListener,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
 
 @Component({
   selector: 'app-videojs-player',
   templateUrl: './videojs-player.component.html',
+  imports: [CommonModule, FormsModule],
   styleUrls: ['./videojs-player.component.scss'],
 })
 export class VideojsPlayerComponent
@@ -39,6 +42,9 @@ export class VideojsPlayerComponent
   private resizeObserver: ResizeObserver | null = null;
   private mouseMoveListener: (() => void) | null = null;
   private fadeOutTimer: any = null;
+
+  qualityLevels: { label: string; height: number | 'auto' }[] = [];
+  selectedQuality: number | 'auto' = 'auto';
 
   constructor(private renderer: Renderer2) {}
 
@@ -110,14 +116,64 @@ export class VideojsPlayerComponent
           type: 'application/x-mpegURL',
         },
       ],
-      controlBar: {
-        children: [
-          'playToggle',
-          'progressControl',
-          'volumePanel',
-          'fullscreenToggle',
-        ],
-      },
+    });
+    this.player.ready(() => {
+      const tech = this.player!.tech({ IWillNotUseThisInPlugins: true }) as any;
+
+      if (tech && tech.hls && tech.hls.representations) {
+        const reps = tech.hls.representations();
+
+        // Beispiel: Alle Quality-Optionen in Konsole
+        reps.forEach((rep: any, i: number) => {
+          console.log(`Quality option ${i}:`, rep.height);
+        });
+
+        // Optional: Automatisch "Auto"-Modus
+        reps.forEach((rep: any) => rep.enabled(true));
+
+        // Beispiel: Manuell z. B. 720p aktivieren
+        // reps.forEach(rep => rep.enabled(rep.height === 720));
+      }
+    });
+  }
+
+  private initQualityOptions(): void {
+    this.player?.ready(() => {
+      const tech = this.player!.tech({ IWillNotUseThisInPlugins: true }) as any;
+
+      if (tech?.hls?.representations) {
+        const reps = tech.hls.representations();
+
+        // „Auto“-Modus als Standard
+        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
+
+        // Alle verfügbaren Renditions einfügen
+        reps.forEach((rep: any) => {
+          this.qualityLevels.push({
+            label: `${rep.height}p`,
+            height: rep.height,
+          });
+        });
+
+        // Standard: Alle aktivieren (Auto-Modus)
+        reps.forEach((rep: any) => rep.enabled(true));
+      }
+    });
+  }
+
+  onQualityChange(): void {
+    const tech = this.player!.tech({ IWillNotUseThisInPlugins: true }) as any;
+
+    if (!tech?.hls?.representations) return;
+
+    const reps = tech.hls.representations();
+
+    reps.forEach((rep: any) => {
+      if (this.selectedQuality === 'auto') {
+        rep.enabled(true); // Alle aktiv für adaptives Streaming
+      } else {
+        rep.enabled(rep.height === this.selectedQuality);
+      }
     });
   }
 
