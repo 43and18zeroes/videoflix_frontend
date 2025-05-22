@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
-import 'videojs-contrib-quality-levels';
 
 @Component({
   selector: 'app-videojs-player',
