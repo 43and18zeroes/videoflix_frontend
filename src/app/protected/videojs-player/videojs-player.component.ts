@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
+import 'videojs-contrib-quality-levels';
 
 @Component({
   selector: 'app-videojs-player',
@@ -53,6 +54,9 @@ export class VideojsPlayerComponent
   ngAfterViewInit(): void {
     this.showCloseButton();
     this.initPlayer();
+    // this.player?.ready(() => {
+    //   this.initQualitySelector();
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,29 +121,55 @@ export class VideojsPlayerComponent
         },
       ],
     });
+
     this.player.ready(() => {
-      const tech = this.player!.tech({ IWillNotUseThisInPlugins: true }) as any;
+      console.log('Tech:', this.player!.techName_);
 
-      if (tech && tech.hls && tech.hls.representations) {
-        const reps = tech.hls.representations();
+      const qualityList = (this.player as any)['qualityLevels']();
 
-        // Beispiel: Alle Quality-Optionen in Konsole
-        reps.forEach((rep: any, i: number) => {
-          console.log(`Quality option ${i}:`, rep.height);
-        });
+      qualityList.on('addqualitylevel', () => {
+        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
 
-        // Optional: Automatisch "Auto"-Modus
-        reps.forEach((rep: any) => rep.enabled(true));
+        for (let i = 0; i < qualityList.length; i++) {
+          const level = qualityList[i];
+          this.qualityLevels.push({
+            label: `${level.height}p`,
+            height: level.height,
+          });
+        }
 
-        // Beispiel: Manuell z. B. 720p aktivieren
-        // reps.forEach(rep => rep.enabled(rep.height === 720));
-      }
+        this.selectedQuality = 'auto';
+      });
     });
+  }
+
+  private initQualitySelector(): void {
+    console.log('Init Quality Selector');
+
+    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
+    if (!tech?.hls?.representations) {
+      console.warn('Keine HLS-Representations verfügbar');
+      return;
+    }
+
+    const reps = tech.hls.representations();
+    console.log('Reps gefunden:', reps.length);
+
+    this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
+    reps.forEach((rep: any) => {
+      this.qualityLevels.push({
+        label: `${rep.height}p`,
+        height: rep.height,
+      });
+    });
+
+    reps.forEach((rep: any) => rep.enabled(true));
+    this.selectedQuality = 'auto';
   }
 
   private initQualityOptions(): void {
     this.player?.ready(() => {
-      const tech = this.player!.tech({ IWillNotUseThisInPlugins: true }) as any;
+      const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
 
       if (tech?.hls?.representations) {
         const reps = tech.hls.representations();
@@ -162,19 +192,17 @@ export class VideojsPlayerComponent
   }
 
   onQualityChange(): void {
-    const tech = this.player!.tech({ IWillNotUseThisInPlugins: true }) as any;
+    const levels = (this.player as any)['qualityLevels']?.();
+    if (!levels) return;
 
-    if (!tech?.hls?.representations) return;
-
-    const reps = tech.hls.representations();
-
-    reps.forEach((rep: any) => {
+    for (let i = 0; i < levels.length; i++) {
+      const level = levels[i];
       if (this.selectedQuality === 'auto') {
-        rep.enabled(true); // Alle aktiv für adaptives Streaming
+        level.enabled = true;
       } else {
-        rep.enabled(rep.height === this.selectedQuality);
+        level.enabled = level.height === this.selectedQuality;
       }
-    });
+    }
   }
 
   private storePlayerElement(): void {
