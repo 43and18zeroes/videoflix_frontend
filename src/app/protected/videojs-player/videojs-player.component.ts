@@ -18,6 +18,17 @@ import { CommonModule } from '@angular/common';
 import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
 
+interface PlayerWithQualityLevels extends Player {
+  qualityLevels(): {
+    length: number;
+    [index: number]: {
+      height: number;
+      enabled: boolean;
+    };
+    on(event: string, callback: () => void): void;
+  };
+}
+
 @Component({
   selector: 'app-videojs-player',
   templateUrl: './videojs-player.component.html',
@@ -124,7 +135,7 @@ export class VideojsPlayerComponent
     this.player.ready(() => {
       console.log('Tech:', this.player!.techName_);
 
-      const qualityList = (this.player as any)['qualityLevels']();
+      const qualityList = (this.player as PlayerWithQualityLevels).qualityLevels();
 
       qualityList.on('addqualitylevel', () => {
         this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
@@ -191,7 +202,7 @@ export class VideojsPlayerComponent
   }
 
   onQualityChange(): void {
-    const levels = (this.player as any)['qualityLevels']?.();
+    const levels = (this.player as PlayerWithQualityLevels).qualityLevels();
     if (!levels) return;
 
     for (let i = 0; i < levels.length; i++) {
