@@ -53,6 +53,7 @@ export class VideojsPlayerComponent
   private resizeObserver: ResizeObserver | null = null;
   private mouseMoveListener: (() => void) | null = null;
   private fadeOutTimer: any = null;
+  private qualityReady: boolean = false;
 
   qualityLevels: { label: string; height: number | 'auto' }[] = [];
   selectedQuality: number | 'auto' = 'auto';
@@ -64,9 +65,6 @@ export class VideojsPlayerComponent
   ngAfterViewInit(): void {
     this.showCloseButton();
     this.initPlayer();
-    // this.player?.ready(() => {
-    //   this.initQualitySelector();
-    // });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -160,32 +158,34 @@ export class VideojsPlayerComponent
         }
 
         this.selectedQuality = 'auto';
+        this.qualityReady = true; // <== Jetzt ist Wechsel erlaubt
       });
     });
   }
 
   private initQualitySelector(): void {
-    console.log('Init Quality Selector');
-
-    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
-    if (!tech?.hls?.representations) {
-      console.warn('Keine HLS-Representations verfügbar');
+    const qualityList = (
+      this.player as PlayerWithQualityLevels
+    ).qualityLevels();
+    if (!qualityList) {
+      console.warn('❌ qualityLevels() nicht verfügbar');
       return;
     }
 
-    const reps = tech.hls.representations();
-    console.log('Reps gefunden:', reps.length);
-
     this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
-    reps.forEach((rep: any) => {
-      this.qualityLevels.push({
-        label: `${rep.height}p`,
-        height: rep.height,
-      });
-    });
 
-    reps.forEach((rep: any) => rep.enabled(true));
+    for (let i = 0; i < qualityList.length; i++) {
+      const level = qualityList[i];
+      if (!this.qualityLevels.find((q) => q.height === level.height)) {
+        this.qualityLevels.push({
+          label: `${level.height}p`,
+          height: level.height,
+        });
+      }
+    }
+
     this.selectedQuality = 'auto';
+    this.qualityReady = true;
   }
 
   private initQualityOptions(): void {
@@ -213,31 +213,25 @@ export class VideojsPlayerComponent
   }
 
   onQualityChange(): void {
-    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
-    const reps = tech?.hls?.representations?.();
+    const levels = (this.player as PlayerWithQualityLevels).qualityLevels();
 
-    if (!reps || reps.length === 0) {
-      console.warn('Keine HLS Representations verfügbar.');
+    if (!levels || levels.length === 0) {
+      console.warn('❌ qualityLevels() nicht verfügbar oder leer');
       return;
     }
 
-    // Erst alle deaktivieren
-    reps.forEach((rep: any) => rep.enabled(false));
-
-    // Dann nur die gewählte aktivieren
-    reps.forEach((rep: any) => {
-      if (
-        this.selectedQuality === 'auto' ||
-        rep.height === this.selectedQuality
-      ) {
-        rep.enabled(true);
+    for (let i = 0; i < levels.length; i++) {
+      const level = levels[i];
+      if (this.selectedQuality === 'auto') {
+        level.enabled = true;
+      } else {
+        level.enabled = level.height === this.selectedQuality;
       }
-    });
+    }
 
-    // Debug: aktuelle Auflösung nach 2 Sekunden prüfen
     setTimeout(() => {
       const current = this.player?.currentHeight?.();
-      console.log('Aktive Auflösung nach Auswahl:', current);
+      console.log('✅ Aktive Auflösung nach Auswahl:', current);
     }, 2000);
   }
 
