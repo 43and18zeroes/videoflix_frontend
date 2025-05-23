@@ -160,6 +160,23 @@ export class VideojsPlayerComponent
         this.selectedQuality = 'auto';
         this.qualityReady = true; // <== Jetzt ist Wechsel erlaubt
       });
+
+      setInterval(() => {
+        const width = this.player?.videoWidth?.();
+        const height = this.player?.videoHeight?.();
+        const tech = this.player?.tech({
+          IWillNotUseThisInPlugins: true,
+        }) as any;
+
+        let activeBandwidth = 'unbekannt';
+        if (tech?.hls?.bandwidth) {
+          activeBandwidth = `${Math.round(tech.hls.bandwidth / 1000)} kbps`;
+        }
+
+        console.log(
+          `🎥 Aktuell gerendert: ${width}x${height}, Bitrate: ${activeBandwidth}`
+        );
+      }, 2000);
     });
   }
 
