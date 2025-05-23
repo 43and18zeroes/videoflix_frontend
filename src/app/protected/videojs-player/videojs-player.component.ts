@@ -158,51 +158,38 @@ export class VideojsPlayerComponent
         }
 
         this.selectedQuality = 'auto';
-        this.qualityReady = true; // <== Jetzt ist Wechsel erlaubt
+        this.qualityReady = true;
       });
 
-      setInterval(() => {
-        const width = this.player?.videoWidth?.();
-        const height = this.player?.videoHeight?.();
-        const tech = this.player?.tech({
-          IWillNotUseThisInPlugins: true,
-        }) as any;
-
-        let activeBandwidth = 'unbekannt';
-        if (tech?.hls?.bandwidth) {
-          activeBandwidth = `${Math.round(tech.hls.bandwidth / 1000)} kbps`;
-        }
-
-        console.log(
-          `🎥 Aktuell gerendert: ${width}x${height}, Bitrate: ${activeBandwidth}`
-        );
-      }, 2000);
+      // ➕ Hier der Aufruf deiner Statistikfunktion:
+      this.logCurrentPlaybackStats();
     });
   }
 
   private initQualitySelector(): void {
-    const qualityList = (
-      this.player as PlayerWithQualityLevels
-    ).qualityLevels();
-    if (!qualityList) {
-      console.warn('❌ qualityLevels() nicht verfügbar');
+    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
+    const reps = tech?.hls?.representations?.();
+
+    if (!reps || reps.length === 0) {
+      console.warn('⚠️ Noch keine HLS Representations verfügbar.');
       return;
     }
 
     this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
 
-    for (let i = 0; i < qualityList.length; i++) {
-      const level = qualityList[i];
-      if (!this.qualityLevels.find((q) => q.height === level.height)) {
+    reps.forEach((rep: any) => {
+      if (!this.qualityLevels.find((q) => q.height === rep.height)) {
         this.qualityLevels.push({
-          label: `${level.height}p`,
-          height: level.height,
+          label: `${rep.height}p`,
+          height: rep.height,
         });
       }
-    }
+    });
 
     this.selectedQuality = 'auto';
     this.qualityReady = true;
+
+    console.log('📶 Qualitätsstufen geladen:', this.qualityLevels);
   }
 
   private initQualityOptions(): void {
@@ -230,21 +217,21 @@ export class VideojsPlayerComponent
   }
 
   onQualityChange(): void {
-    const levels = (this.player as PlayerWithQualityLevels).qualityLevels();
+    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
+    const reps = tech?.hls?.representations?.();
 
-    if (!levels || levels.length === 0) {
-      console.warn('❌ qualityLevels() nicht verfügbar oder leer');
+    if (!reps || reps.length === 0) {
+      console.warn('⚠️ Noch keine HLS Representations verfügbar.');
       return;
     }
 
-    for (let i = 0; i < levels.length; i++) {
-      const level = levels[i];
-      if (this.selectedQuality === 'auto') {
-        level.enabled = true;
-      } else {
-        level.enabled = level.height === this.selectedQuality;
-      }
-    }
+    console.log('🔁 Setze Qualität auf:', this.selectedQuality);
+
+    reps.forEach((rep: any) => {
+      rep.enabled(
+        this.selectedQuality === 'auto' || rep.height === this.selectedQuality
+      );
+    });
 
     setTimeout(() => {
       const current = this.player?.currentHeight?.();
@@ -363,5 +350,25 @@ export class VideojsPlayerComponent
       this.player = undefined;
       this.playerElement = null;
     }
+  }
+
+  private logCurrentPlaybackStats(): void {
+    setInterval(() => {
+      const width = this.player?.videoWidth?.();
+      const height = this.player?.videoHeight?.();
+      const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
+
+      let activeBandwidth = 'unbekannt';
+      const reps = tech?.hls?.representations?.();
+
+      const activeRep = reps?.find((rep: any) => rep.enabled?.());
+      if (activeRep?.bandwidth) {
+        activeBandwidth = `${Math.round(activeRep.bandwidth / 1000)} kbps`;
+      }
+
+      console.log(
+        `🎥 Aktuell gerendert: ${width}x${height}, Bitrate: ${activeBandwidth}`
+      );
+    }, 2000);
   }
 }
