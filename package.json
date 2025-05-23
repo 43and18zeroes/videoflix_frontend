@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^19.2.3",
     "@angular/router": "^19.2.3",
     "@angular/ssr": "^19.2.5",
+    "@videojs/http-streaming": "github:videojs/http-streaming",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
     "swiper": "^11.2.6",

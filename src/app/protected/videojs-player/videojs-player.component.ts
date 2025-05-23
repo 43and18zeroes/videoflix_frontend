@@ -133,9 +133,20 @@ export class VideojsPlayerComponent
     });
 
     this.player.ready(() => {
-      console.log('Tech:', this.player!.techName_);
+      console.log('Aktivierte Technik:', this.player?.techName_);
+      console.log('Verwendete Quelle:', this.player?.currentSource());
 
-      const qualityList = (this.player as PlayerWithQualityLevels).qualityLevels();
+      const qualityLevels = (this.player as any).qualityLevels?.();
+
+      if (qualityLevels && typeof qualityLevels.on === 'function') {
+        console.log('✅ HLS-Qualitätslevels erkannt');
+      } else {
+        console.warn('❌ Kein HLS erkannt oder qualityLevels() fehlt');
+      }
+
+      const qualityList = (
+        this.player as PlayerWithQualityLevels
+      ).qualityLevels();
 
       qualityList.on('addqualitylevel', () => {
         this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
@@ -202,17 +213,32 @@ export class VideojsPlayerComponent
   }
 
   onQualityChange(): void {
-    const levels = (this.player as PlayerWithQualityLevels).qualityLevels();
-    if (!levels) return;
+    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
+    const reps = tech?.hls?.representations?.();
 
-    for (let i = 0; i < levels.length; i++) {
-      const level = levels[i];
-      if (this.selectedQuality === 'auto') {
-        level.enabled = true;
-      } else {
-        level.enabled = level.height === this.selectedQuality;
-      }
+    if (!reps || reps.length === 0) {
+      console.warn('Keine HLS Representations verfügbar.');
+      return;
     }
+
+    // Erst alle deaktivieren
+    reps.forEach((rep: any) => rep.enabled(false));
+
+    // Dann nur die gewählte aktivieren
+    reps.forEach((rep: any) => {
+      if (
+        this.selectedQuality === 'auto' ||
+        rep.height === this.selectedQuality
+      ) {
+        rep.enabled(true);
+      }
+    });
+
+    // Debug: aktuelle Auflösung nach 2 Sekunden prüfen
+    setTimeout(() => {
+      const current = this.player?.currentHeight?.();
+      console.log('Aktive Auflösung nach Auswahl:', current);
+    }, 2000);
   }
 
   private storePlayerElement(): void {
