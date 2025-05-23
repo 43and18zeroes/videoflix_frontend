@@ -100,7 +100,7 @@ export class VideojsPlayerComponent
   private initPlayer(): void {
     if (!this.videoPlayerRef?.nativeElement || !this.videoUrl) {
       console.warn(
-        'Video player element or videoUrl not available for initialization.'
+        'no video player available'
       );
       return;
     }
@@ -131,15 +131,15 @@ export class VideojsPlayerComponent
     });
 
     this.player.ready(() => {
-      console.log('Aktivierte Technik:', this.player?.techName_);
-      console.log('Verwendete Quelle:', this.player?.currentSource());
+      console.log('tech', this.player?.techName_);
+      console.log('source', this.player?.currentSource());
 
       const qualityLevels = (this.player as any).qualityLevels?.();
 
       if (qualityLevels && typeof qualityLevels.on === 'function') {
-        console.log('✅ HLS-Qualitätslevels erkannt');
+        console.log('hls quality levels working');
       } else {
-        console.warn('❌ Kein HLS erkannt oder qualityLevels() fehlt');
+        console.warn('no hls');
       }
 
       const qualityList = (
@@ -161,7 +161,6 @@ export class VideojsPlayerComponent
         this.qualityReady = true;
       });
 
-      // ➕ Hier der Aufruf deiner Statistikfunktion:
       this.logCurrentPlaybackStats();
     });
   }
@@ -171,7 +170,7 @@ export class VideojsPlayerComponent
     const reps = tech?.hls?.representations?.();
 
     if (!reps || reps.length === 0) {
-      console.warn('⚠️ Noch keine HLS Representations verfügbar.');
+      console.warn('no hls available');
       return;
     }
 
@@ -189,7 +188,7 @@ export class VideojsPlayerComponent
     this.selectedQuality = 'auto';
     this.qualityReady = true;
 
-    console.log('📶 Qualitätsstufen geladen:', this.qualityLevels);
+    console.log('set quality to', this.qualityLevels);
   }
 
   private initQualityOptions(): void {
@@ -198,11 +197,8 @@ export class VideojsPlayerComponent
 
       if (tech?.hls?.representations) {
         const reps = tech.hls.representations();
-
-        // „Auto“-Modus als Standard
         this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
 
-        // Alle verfügbaren Renditions einfügen
         reps.forEach((rep: any) => {
           this.qualityLevels.push({
             label: `${rep.height}p`,
@@ -210,7 +206,6 @@ export class VideojsPlayerComponent
           });
         });
 
-        // Standard: Alle aktivieren (Auto-Modus)
         reps.forEach((rep: any) => rep.enabled(true));
       }
     });
@@ -221,11 +216,11 @@ export class VideojsPlayerComponent
     const reps = tech?.hls?.representations?.();
 
     if (!reps || reps.length === 0) {
-      console.warn('⚠️ Noch keine HLS Representations verfügbar.');
+      console.warn('no hls available');
       return;
     }
 
-    console.log('🔁 Setze Qualität auf:', this.selectedQuality);
+    console.log('set quality to', this.selectedQuality);
 
     reps.forEach((rep: any) => {
       rep.enabled(
@@ -235,7 +230,7 @@ export class VideojsPlayerComponent
 
     setTimeout(() => {
       const current = this.player?.currentHeight?.();
-      console.log('✅ Aktive Auflösung nach Auswahl:', current);
+      console.log('active resolution', current);
     }, 2000);
   }
 
@@ -367,7 +362,7 @@ export class VideojsPlayerComponent
       }
 
       console.log(
-        `🎥 Aktuell gerendert: ${width}x${height}, Bitrate: ${activeBandwidth}`
+        `current resoltuion: ${width}x${height}`
       );
     }, 2000);
   }
