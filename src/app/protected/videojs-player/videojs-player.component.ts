@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
+import 'videojs-contrib-quality-levels';
 
 interface PlayerWithQualityLevels extends Player {
   qualityLevels(): {
@@ -99,9 +100,7 @@ export class VideojsPlayerComponent
 
   private initPlayer(): void {
     if (!this.videoPlayerRef?.nativeElement || !this.videoUrl) {
-      console.warn(
-        'no video player available'
-      );
+      console.warn('no video player available');
       return;
     }
 
@@ -212,26 +211,53 @@ export class VideojsPlayerComponent
   }
 
   onQualityChange(): void {
-    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
-    const reps = tech?.hls?.representations?.();
-
-    if (!reps || reps.length === 0) {
-      console.warn('no hls available');
+    if (!this.qualityReady) {
+      console.warn(
+        '⏳ Qualität noch nicht bereit – warte auf addqualitylevel...'
+      );
       return;
     }
 
-    console.log('set quality to', this.selectedQuality);
+    // Holen Sie sich das QualityLevels-Objekt direkt vom Player,
+    // bereitgestellt durch videojs-contrib-quality-levels
+    const qualityLevelsPluginInstance = (
+      this.player as PlayerWithQualityLevels
+    )?.qualityLevels();
 
-    reps.forEach((rep: any) => {
-      rep.enabled(
-        this.selectedQuality === 'auto' || rep.height === this.selectedQuality
+    if (
+      !qualityLevelsPluginInstance ||
+      typeof qualityLevelsPluginInstance.length !== 'number'
+    ) {
+      console.warn(
+        '❌ QualityLevels API von videojs-contrib-quality-levels nicht verfügbar oder initialisiert.'
       );
-    });
+      return;
+    }
 
+    console.log('🔁 Setze Qualität auf:', this.selectedQuality);
+
+    // Iterieren Sie durch die vom Plugin bereitgestellten Levels
+    // und aktivieren/deaktivieren Sie diese entsprechend.
+    for (let i = 0; i < qualityLevelsPluginInstance.length; i++) {
+      const level = qualityLevelsPluginInstance[i];
+      if (this.selectedQuality === 'auto') {
+        // Für 'auto' werden typischerweise alle Levels aktiviert,
+        // damit der ABR-Algorithmus (Adaptive Bitrate) des Players wählen kann.
+        level.enabled = true;
+      } else {
+        level.enabled = level.height === this.selectedQuality;
+      }
+    }
+
+    // Ausgabe der aktiven Auflösung nach kleiner Verzögerung
     setTimeout(() => {
-      const current = this.player?.currentHeight?.();
-      console.log('active resolution', current);
-    }, 2000);
+      const currentHeight = this.player?.currentHeight?.();
+      const width = this.player?.videoWidth?.();
+      const height = this.player?.videoHeight?.();
+      console.log(
+        `✅ Aktive Auflösung nach Auswahl: ${currentHeight} (gerendert: ${width}x${height})`
+      );
+    }, 1500);
   }
 
   private storePlayerElement(): void {
@@ -361,9 +387,7 @@ export class VideojsPlayerComponent
         activeBandwidth = `${Math.round(activeRep.bandwidth / 1000)} kbps`;
       }
 
-      console.log(
-        `current resoltuion: ${width}x${height}`
-      );
+      console.log(`current resoltuion: ${width}x${height}`);
     }, 2000);
   }
 }
