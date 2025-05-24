@@ -138,6 +138,13 @@ export class VideojsPlayerComponent
       autoplay: true,
       preload: 'auto',
       poster: this.poster || '',
+      html5: {
+        vhs: {
+          enableLowInitialPlaylist: true,
+          useDevicePixelRatio: false,
+          smoothQualityChange: true,
+        },
+      },
       sources: [
         {
           src: this.videoUrl,
@@ -254,47 +261,52 @@ export class VideojsPlayerComponent
     });
   }
 
-onQualityChange(): void {
-  if (!this.qualityReady || !this.player) { /*...*/ return; }
-
-  const qualityLevelsPluginInstance = (this.player as PlayerWithQualityLevels).qualityLevels();
-  if (!qualityLevelsPluginInstance || typeof qualityLevelsPluginInstance.length !== 'number') { /*...*/ return; }
-
-  console.log('🔁 Setze Qualität in UI auf:', this.selectedQuality);
-
-  for (let i = 0; i < qualityLevelsPluginInstance.length; i++) {
-    const level = qualityLevelsPluginInstance[i];
-    if (this.selectedQuality === 'auto') {
-      level.enabled = true;
-    } else {
-      level.enabled = (level.height === this.selectedQuality);
+  onQualityChange(): void {
+    if (!this.qualityReady || !this.player) {
+      console.warn('⏳ Qualität noch nicht bereit.');
+      return;
     }
-    // Optional: Loggen des direkten Ergebnisses des Setzens
-    // console.log(`Level ${level.height}p enabled auf ${level.enabled} gesetzt.`);
+
+    const tech = this.player.tech({ IWillNotUseThisInPlugins: true }) as any;
+    const reps = tech?.hls?.representations?.();
+
+    if (!reps || !Array.isArray(reps) || reps.length === 0) {
+      console.warn(
+        '❌ representations() nicht verfügbar oder leer. Fallback auf qualityLevels().'
+      );
+
+      const fallbackLevels = (
+        this.player as PlayerWithQualityLevels
+      ).qualityLevels();
+      for (let i = 0; i < fallbackLevels.length; i++) {
+        const level = fallbackLevels[i];
+        level.enabled =
+          this.selectedQuality === 'auto' ||
+          level.height === this.selectedQuality;
+      }
+
+      return;
+    }
+
+    console.log('🔁 Setze Qualität auf:', this.selectedQuality);
+
+    reps.forEach((rep: any) => {
+      rep.enabled(
+        this.selectedQuality === 'auto' || rep.height === this.selectedQuality
+      );
+    });
+
+    setTimeout(() => {
+      const selected = reps.find((r: any) => r.enabled?.());
+      console.log(
+        `✅ Aktive HLS Representation: ${selected?.height}p (${selected?.bandwidth}bps)`
+      );
+
+      const width = this.player?.videoWidth?.();
+      const height = this.player?.videoHeight?.();
+      console.log(`🎥 Gerendert: ${width}x${height}`);
+    }, 1500);
   }
-
-  // Log selectedIndex *nachdem* die enabled-Status modifiziert wurden.
-  // Ein kurzes Timeout kann dem Plugin Zeit geben, seinen Zustand zu aktualisieren.
-  setTimeout(() => {
-    const newSelectedIndex = qualityLevelsPluginInstance.selectedIndex;
-    console.log(`Plugin selectedIndex nach onQualityChange (nach 100ms): ${newSelectedIndex}`);
-    if (newSelectedIndex !== -1 && qualityLevelsPluginInstance[newSelectedIndex]) {
-      const selectedLevelByPlugin = qualityLevelsPluginInstance[newSelectedIndex];
-      console.log(`Vom Plugin ausgewählter Level (nach 100ms): Höhe=<span class="math-inline">\{selectedLevelByPlugin\.height\}p, Bitrate\=</span>{selectedLevelByPlugin.bitrate}bps`);
-    } else {
-      console.log(`Vom Plugin ausgewählter Level (nach 100ms): Keiner oder Auto (Index ${newSelectedIndex})`);
-    }
-  }, 100); // Kurze Verzögerung
-
-  // Ihr bestehender Timeout für die Überprüfung der Videoauflösung
-  setTimeout(() => {
-    const currentVideoWidth = this.player?.videoWidth?.();
-    const currentVideoHeight = this.player?.videoHeight?.();
-    console.log(
-      `[NACH 1.5 SEKUNDEN] Aktive Video-Auflösung: <span class="math-inline">\{currentVideoWidth\}x</span>{currentVideoHeight} (Gewählt war: ${this.selectedQuality}p)`
-    );
-  }, 1500);
-}
 
   private storePlayerElement(): void {
     if (this.player) {
