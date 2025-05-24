@@ -19,31 +19,22 @@ import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
 
 interface QualityLevel {
-  id: string; // Eindeutige ID des Levels
-  width?: number; // Breite in Pixeln (optional, aber oft vorhanden)
-  height: number; // Höhe in Pixeln
-  bitrate?: number; // Bitrate in Bits pro Sekunde (optional, aber oft vorhanden)
-  enabled: boolean; // Getter/Setter, um das Level zu aktivieren/deaktivieren
+  id: string;
+  width?: number;
+  height: number;
+  bitrate?: number;
+  enabled: boolean;
 }
 
-// Definiert das Objekt, das von der qualityLevels()-Methode des Plugins zurückgegeben wird
 interface QualityLevelList {
-  length: number; // Anzahl der Qualitätsstufen
-  selectedIndex: number; // Index der aktuell ausgewählten Qualitätsstufe (-1 wenn Auto/nichts explizit gewählt)
-
-  // Methode zum Abonnieren von Events (z.B. 'addqualitylevel', 'change')
+  length: number;
+  selectedIndex: number;
   on(event: string, callback: (...args: any[]) => void): void;
-  // Sie könnten spezifischere Callbacks definieren, z.B. für 'addqualitylevel': on(event: 'addqualitylevel', callback: () => void): void;
-
-  // Index-Signatur, um auf einzelne QualityLevel-Objekte wie in einem Array zuzugreifen
   [index: number]: QualityLevel;
-
-  // Weitere mögliche Methoden/Eigenschaften des Plugins, falls benötigt (z.B. dispose)
-  // dispose?(): void;
 }
 
 interface PlayerWithQualityLevels extends Player {
-  qualityLevels(): QualityLevelList; // Gibt nun das korrekt typisierte QualityLevelList-Objekt zurück
+  qualityLevels(): QualityLevelList;
 }
 
 @Component({
@@ -169,38 +160,34 @@ export class VideojsPlayerComponent
         this.player as PlayerWithQualityLevels
       ).qualityLevels();
 
-      // In initializeVideoJsInstance()
       qualityList.on('addqualitylevel', () => {
-        this.qualityLevels = [{ label: 'Auto', height: 'auto' }]; // Für die UI-Dropdown-Liste zurücksetzen
-        // Wichtig: Die Rohdaten der QualityLevelList loggen, die das Plugin erstellt
+        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
         console.log(
           'Vom Plugin erkannte Qualitätsstufen (Rohdaten der qualityList):',
           JSON.parse(JSON.stringify(qualityList))
         );
 
         for (let i = 0; i < qualityList.length; i++) {
-          const level = qualityList[i]; // level ist ein QualityLevel Objekt
+          const level = qualityList[i];
           console.log(
             `Plugin Level <span class="math-inline">\{i\}\: ID\=</span>{level.id}, Höhe=<span class="math-inline">\{level\.height\}, Breite\=</span>{level.width || 'N/A'}, Bitrate=<span class="math-inline">\{level\.bitrate \|\| 'N/A'\} bps, Enabled\=</span>{level.enabled}`
           );
 
-          // UI Dropdown-Liste befüllen
           this.qualityLevels.push({
             label: `${level.height}p`,
             height: level.height,
           });
         }
-        // Optional, aber gut für die UI: Sortieren der Qualitätsstufen
         this.qualityLevels.sort((a, b) => {
           if (a.height === 'auto') return -1;
           if (b.height === 'auto') return 1;
           if (typeof a.height === 'number' && typeof b.height === 'number') {
-            return b.height - a.height; // Absteigend nach Höhe (z.B. 1080p, 720p, 480p, Auto)
+            return b.height - a.height;
           }
           return 0;
         });
 
-        this.selectedQuality = 'auto'; // Standardauswahl für die UI
+        this.selectedQuality = 'auto';
         this.qualityReady = true;
         console.log(
           'Für Dropdown generierte Qualitätslevel (this.qualityLevels):',
@@ -393,7 +380,6 @@ export class VideojsPlayerComponent
   }
 
   private cleanupPlayer(): void {
-    // Wichtig: Interval löschen!
     if (this.statsIntervalId) {
       clearInterval(this.statsIntervalId);
       this.statsIntervalId = null;
@@ -428,16 +414,13 @@ export class VideojsPlayerComponent
   }
 
   private logCurrentPlaybackStats(): void {
-    // Stellen Sie sicher, dass frühere Intervalle gelöscht werden, falls diese Methode mehrfach aufgerufen wird (sollte aber durch player.ready() oben abgedeckt sein)
     if (this.statsIntervalId) {
       clearInterval(this.statsIntervalId);
       this.statsIntervalId = null;
     }
 
     this.statsIntervalId = setInterval(() => {
-      // Prüfen, ob der Player noch existiert und nicht zerstört wurde
       if (!this.player || this.player.isDisposed()) {
-        // Optional: console.log('Player nicht verfügbar für Statistiken oder wurde zerstört.');
         return;
       }
 
@@ -451,11 +434,9 @@ export class VideojsPlayerComponent
       } else if (this.player.readyState() === 0) {
         playingQualityLabel = 'nicht initialisiert';
       } else if (this.player.readyState() < 2) {
-        // HAVE_METADATA = 1, HAVE_CURRENT_DATA = 2
         playingQualityLabel = 'lade Metadaten...';
       }
 
-      // Versuch, Bandbreiteninformationen vom Plugin zu erhalten (vorsichtiger Ansatz)
       try {
         const qualityLevelsPluginInstance = (
           this.player as PlayerWithQualityLevels
@@ -471,9 +452,7 @@ export class VideojsPlayerComponent
             ];
 
           if (selectedLevelData) {
-            // selectedLevelData ist jetzt vom Typ QualityLevel
             if (typeof selectedLevelData.bitrate === 'number') {
-              // Typsicherer Zugriff
               currentBandwidthInfo = `${Math.round(
                 selectedLevelData.bitrate / 1000
               )} kbps (vom Plugin)`;
@@ -489,13 +468,12 @@ export class VideojsPlayerComponent
           currentBandwidthInfo = 'Auto (ABR aktiv)';
         }
       } catch (e) {
-        // console.warn("Fehler beim Abrufen der Bandbreiten-Info aus Plugin:", e);
         currentBandwidthInfo = 'Fehler beim Plugin-Abruf';
       }
 
       console.log(
         `STATS: Auflösung: ${playingQualityLabel}, Gewählte Qualität (UI): ${this.selectedQuality}, Bandbreite/Level (Plugin): ${currentBandwidthInfo}`
       );
-    }, 3000); // Intervall leicht erhöht für weniger Log-Flut
+    }, 3000);
   }
 }
