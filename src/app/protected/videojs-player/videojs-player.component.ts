@@ -17,17 +17,33 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Player from 'video.js/dist/types/player';
 import videojs from 'video.js';
-import 'videojs-contrib-quality-levels';
+
+interface QualityLevel {
+  id: string; // Eindeutige ID des Levels
+  width?: number; // Breite in Pixeln (optional, aber oft vorhanden)
+  height: number; // Höhe in Pixeln
+  bitrate?: number; // Bitrate in Bits pro Sekunde (optional, aber oft vorhanden)
+  enabled: boolean; // Getter/Setter, um das Level zu aktivieren/deaktivieren
+}
+
+// Definiert das Objekt, das von der qualityLevels()-Methode des Plugins zurückgegeben wird
+interface QualityLevelList {
+  length: number; // Anzahl der Qualitätsstufen
+  selectedIndex: number; // Index der aktuell ausgewählten Qualitätsstufe (-1 wenn Auto/nichts explizit gewählt)
+
+  // Methode zum Abonnieren von Events (z.B. 'addqualitylevel', 'change')
+  on(event: string, callback: (...args: any[]) => void): void;
+  // Sie könnten spezifischere Callbacks definieren, z.B. für 'addqualitylevel': on(event: 'addqualitylevel', callback: () => void): void;
+
+  // Index-Signatur, um auf einzelne QualityLevel-Objekte wie in einem Array zuzugreifen
+  [index: number]: QualityLevel;
+
+  // Weitere mögliche Methoden/Eigenschaften des Plugins, falls benötigt (z.B. dispose)
+  // dispose?(): void;
+}
 
 interface PlayerWithQualityLevels extends Player {
-  qualityLevels(): {
-    length: number;
-    [index: number]: {
-      height: number;
-      enabled: boolean;
-    };
-    on(event: string, callback: () => void): void;
-  };
+  qualityLevels(): QualityLevelList; // Gibt nun das korrekt typisierte QualityLevelList-Objekt zurück
 }
 
 @Component({
@@ -55,6 +71,7 @@ export class VideojsPlayerComponent
   private mouseMoveListener: (() => void) | null = null;
   private fadeOutTimer: any = null;
   private qualityReady: boolean = false;
+  private statsIntervalId: any = null;
 
   qualityLevels: { label: string; height: number | 'auto' }[] = [];
   selectedQuality: number | 'auto' = 'auto';
@@ -160,6 +177,9 @@ export class VideojsPlayerComponent
         this.qualityReady = true;
       });
 
+      if (this.statsIntervalId) {
+        clearInterval(this.statsIntervalId);
+      }
       this.logCurrentPlaybackStats();
     });
   }
@@ -345,6 +365,12 @@ export class VideojsPlayerComponent
   }
 
   private cleanupPlayer(): void {
+    // Wichtig: Interval löschen!
+    if (this.statsIntervalId) {
+      clearInterval(this.statsIntervalId);
+      this.statsIntervalId = null;
+    }
+
     this.removeMouseListeners();
     this.clearFadeOutTimer();
     this.disconnectResizeObserver();
@@ -374,20 +400,74 @@ export class VideojsPlayerComponent
   }
 
   private logCurrentPlaybackStats(): void {
-    setInterval(() => {
-      const width = this.player?.videoWidth?.();
-      const height = this.player?.videoHeight?.();
-      const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
+    // Stellen Sie sicher, dass frühere Intervalle gelöscht werden, falls diese Methode mehrfach aufgerufen wird (sollte aber durch player.ready() oben abgedeckt sein)
+    if (this.statsIntervalId) {
+      clearInterval(this.statsIntervalId);
+      this.statsIntervalId = null;
+    }
 
-      let activeBandwidth = 'unbekannt';
-      const reps = tech?.hls?.representations?.();
-
-      const activeRep = reps?.find((rep: any) => rep.enabled?.());
-      if (activeRep?.bandwidth) {
-        activeBandwidth = `${Math.round(activeRep.bandwidth / 1000)} kbps`;
+    this.statsIntervalId = setInterval(() => {
+      // Prüfen, ob der Player noch existiert und nicht zerstört wurde
+      if (!this.player || this.player.isDisposed()) {
+        // Optional: console.log('Player nicht verfügbar für Statistiken oder wurde zerstört.');
+        return;
       }
 
-      console.log(`current resoltuion: ${width}x${height}`);
-    }, 2000);
+      const width = this.player.videoWidth?.();
+      const height = this.player.videoHeight?.();
+      let playingQualityLabel = 'unbekannt';
+      let currentBandwidthInfo = 'unbekannt';
+
+      if (width && height) {
+        playingQualityLabel = `${width}x${height}`;
+      } else if (this.player.readyState() === 0) {
+        playingQualityLabel = 'nicht initialisiert';
+      } else if (this.player.readyState() < 2) {
+        // HAVE_METADATA = 1, HAVE_CURRENT_DATA = 2
+        playingQualityLabel = 'lade Metadaten...';
+      }
+
+      // Versuch, Bandbreiteninformationen vom Plugin zu erhalten (vorsichtiger Ansatz)
+      try {
+        const qualityLevelsPluginInstance = (
+          this.player as PlayerWithQualityLevels
+        )?.qualityLevels();
+
+        if (
+          qualityLevelsPluginInstance &&
+          qualityLevelsPluginInstance.selectedIndex !== -1
+        ) {
+          const selectedLevelData =
+            qualityLevelsPluginInstance[
+              qualityLevelsPluginInstance.selectedIndex
+            ];
+
+          if (selectedLevelData) {
+            // selectedLevelData ist jetzt vom Typ QualityLevel
+            if (typeof selectedLevelData.bitrate === 'number') {
+              // Typsicherer Zugriff
+              currentBandwidthInfo = `${Math.round(
+                selectedLevelData.bitrate / 1000
+              )} kbps (vom Plugin)`;
+            } else {
+              currentBandwidthInfo = `Level ${selectedLevelData.height}p (Plugin, keine Bitrate Info)`;
+            }
+          }
+        } else if (
+          this.selectedQuality === 'auto' &&
+          qualityLevelsPluginInstance &&
+          qualityLevelsPluginInstance.length > 0
+        ) {
+          currentBandwidthInfo = 'Auto (ABR aktiv)';
+        }
+      } catch (e) {
+        // console.warn("Fehler beim Abrufen der Bandbreiten-Info aus Plugin:", e);
+        currentBandwidthInfo = 'Fehler beim Plugin-Abruf';
+      }
+
+      console.log(
+        `STATS: Auflösung: ${playingQualityLabel}, Gewählte Qualität (UI): ${this.selectedQuality}, Bandbreite/Level (Plugin): ${currentBandwidthInfo}`
+      );
+    }, 3000); // Intervall leicht erhöht für weniger Log-Flut
   }
 }
