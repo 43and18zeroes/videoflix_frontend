@@ -1,21 +1,25 @@
 <div data-vjs-player>
   <button #closeButton class="close-button" (click)="handleClose()">×</button>
+  
+  <!-- VIDEO -->
   <video
     #videoPlayer
     class="video-js vjs-default-skin vjs-big-play-centered"
     controls
     playsinline
   ></video>
-</div>
-<div class="quality-selector" *ngIf="qualityLevels.length > 0">
-  <label for="qualitySelect">Qualität:</label>
-  <select
-    id="qualitySelect"
-    [(ngModel)]="selectedQuality"
-    (change)="onQualityChange()"
-  >
-    <option *ngFor="let level of qualityLevels" [ngValue]="level.height">
-      {{ level.label }}
-    </option>
-  </select>
+
+  <!-- QUALITY SELECTOR INSIDE PLAYER -->
+  <div class="quality-selector" *ngIf="qualityLevels.length > 0">
+    <label for="qualitySelect">Qualität:</label>
+    <select
+      id="qualitySelect"
+      [(ngModel)]="selectedQuality"
+      (change)="onQualityChange()"
+    >
+      <option *ngFor="let level of qualityLevels" [ngValue]="level.height">
+        {{ level.label }}
+      </option>
+    </select>
+  </div>
 </div>
