@@ -162,19 +162,43 @@ export class VideojsPlayerComponent
         this.player as PlayerWithQualityLevels
       ).qualityLevels();
 
+      // In initializeVideoJsInstance()
       qualityList.on('addqualitylevel', () => {
-        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
+        this.qualityLevels = [{ label: 'Auto', height: 'auto' }]; // Für die UI-Dropdown-Liste zurücksetzen
+        // Wichtig: Die Rohdaten der QualityLevelList loggen, die das Plugin erstellt
+        console.log(
+          'Vom Plugin erkannte Qualitätsstufen (Rohdaten der qualityList):',
+          JSON.parse(JSON.stringify(qualityList))
+        );
 
         for (let i = 0; i < qualityList.length; i++) {
-          const level = qualityList[i];
+          const level = qualityList[i]; // level ist ein QualityLevel Objekt
+          console.log(
+            `Plugin Level <span class="math-inline">\{i\}\: ID\=</span>{level.id}, Höhe=<span class="math-inline">\{level\.height\}, Breite\=</span>{level.width || 'N/A'}, Bitrate=<span class="math-inline">\{level\.bitrate \|\| 'N/A'\} bps, Enabled\=</span>{level.enabled}`
+          );
+
+          // UI Dropdown-Liste befüllen
           this.qualityLevels.push({
             label: `${level.height}p`,
             height: level.height,
           });
         }
+        // Optional, aber gut für die UI: Sortieren der Qualitätsstufen
+        this.qualityLevels.sort((a, b) => {
+          if (a.height === 'auto') return -1;
+          if (b.height === 'auto') return 1;
+          if (typeof a.height === 'number' && typeof b.height === 'number') {
+            return b.height - a.height; // Absteigend nach Höhe (z.B. 1080p, 720p, 480p, Auto)
+          }
+          return 0;
+        });
 
-        this.selectedQuality = 'auto';
+        this.selectedQuality = 'auto'; // Standardauswahl für die UI
         this.qualityReady = true;
+        console.log(
+          'Für Dropdown generierte Qualitätslevel (this.qualityLevels):',
+          this.qualityLevels
+        );
       });
 
       if (this.statsIntervalId) {
@@ -230,55 +254,47 @@ export class VideojsPlayerComponent
     });
   }
 
-  onQualityChange(): void {
-    if (!this.qualityReady) {
-      console.warn(
-        '⏳ Qualität noch nicht bereit – warte auf addqualitylevel...'
-      );
-      return;
+onQualityChange(): void {
+  if (!this.qualityReady || !this.player) { /*...*/ return; }
+
+  const qualityLevelsPluginInstance = (this.player as PlayerWithQualityLevels).qualityLevels();
+  if (!qualityLevelsPluginInstance || typeof qualityLevelsPluginInstance.length !== 'number') { /*...*/ return; }
+
+  console.log('🔁 Setze Qualität in UI auf:', this.selectedQuality);
+
+  for (let i = 0; i < qualityLevelsPluginInstance.length; i++) {
+    const level = qualityLevelsPluginInstance[i];
+    if (this.selectedQuality === 'auto') {
+      level.enabled = true;
+    } else {
+      level.enabled = (level.height === this.selectedQuality);
     }
-
-    // Holen Sie sich das QualityLevels-Objekt direkt vom Player,
-    // bereitgestellt durch videojs-contrib-quality-levels
-    const qualityLevelsPluginInstance = (
-      this.player as PlayerWithQualityLevels
-    )?.qualityLevels();
-
-    if (
-      !qualityLevelsPluginInstance ||
-      typeof qualityLevelsPluginInstance.length !== 'number'
-    ) {
-      console.warn(
-        '❌ QualityLevels API von videojs-contrib-quality-levels nicht verfügbar oder initialisiert.'
-      );
-      return;
-    }
-
-    console.log('🔁 Setze Qualität auf:', this.selectedQuality);
-
-    // Iterieren Sie durch die vom Plugin bereitgestellten Levels
-    // und aktivieren/deaktivieren Sie diese entsprechend.
-    for (let i = 0; i < qualityLevelsPluginInstance.length; i++) {
-      const level = qualityLevelsPluginInstance[i];
-      if (this.selectedQuality === 'auto') {
-        // Für 'auto' werden typischerweise alle Levels aktiviert,
-        // damit der ABR-Algorithmus (Adaptive Bitrate) des Players wählen kann.
-        level.enabled = true;
-      } else {
-        level.enabled = level.height === this.selectedQuality;
-      }
-    }
-
-    // Ausgabe der aktiven Auflösung nach kleiner Verzögerung
-    setTimeout(() => {
-      const currentHeight = this.player?.currentHeight?.();
-      const width = this.player?.videoWidth?.();
-      const height = this.player?.videoHeight?.();
-      console.log(
-        `✅ Aktive Auflösung nach Auswahl: ${currentHeight} (gerendert: ${width}x${height})`
-      );
-    }, 1500);
+    // Optional: Loggen des direkten Ergebnisses des Setzens
+    // console.log(`Level ${level.height}p enabled auf ${level.enabled} gesetzt.`);
   }
+
+  // Log selectedIndex *nachdem* die enabled-Status modifiziert wurden.
+  // Ein kurzes Timeout kann dem Plugin Zeit geben, seinen Zustand zu aktualisieren.
+  setTimeout(() => {
+    const newSelectedIndex = qualityLevelsPluginInstance.selectedIndex;
+    console.log(`Plugin selectedIndex nach onQualityChange (nach 100ms): ${newSelectedIndex}`);
+    if (newSelectedIndex !== -1 && qualityLevelsPluginInstance[newSelectedIndex]) {
+      const selectedLevelByPlugin = qualityLevelsPluginInstance[newSelectedIndex];
+      console.log(`Vom Plugin ausgewählter Level (nach 100ms): Höhe=<span class="math-inline">\{selectedLevelByPlugin\.height\}p, Bitrate\=</span>{selectedLevelByPlugin.bitrate}bps`);
+    } else {
+      console.log(`Vom Plugin ausgewählter Level (nach 100ms): Keiner oder Auto (Index ${newSelectedIndex})`);
+    }
+  }, 100); // Kurze Verzögerung
+
+  // Ihr bestehender Timeout für die Überprüfung der Videoauflösung
+  setTimeout(() => {
+    const currentVideoWidth = this.player?.videoWidth?.();
+    const currentVideoHeight = this.player?.videoHeight?.();
+    console.log(
+      `[NACH 1.5 SEKUNDEN] Aktive Video-Auflösung: <span class="math-inline">\{currentVideoWidth\}x</span>{currentVideoHeight} (Gewählt war: ${this.selectedQuality}p)`
+    );
+  }, 1500);
+}
 
   private storePlayerElement(): void {
     if (this.player) {
