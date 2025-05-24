@@ -108,7 +108,6 @@ export class VideojsPlayerComponent
 
   private initPlayer(): void {
     if (!this.videoPlayerRef?.nativeElement || !this.videoUrl) {
-      console.warn('no video player available');
       return;
     }
 
@@ -145,33 +144,15 @@ export class VideojsPlayerComponent
     });
 
     this.player.ready(() => {
-      console.log('tech', this.player?.techName_);
-      console.log('source', this.player?.currentSource());
-
       const qualityLevels = (this.player as any).qualityLevels?.();
-
-      if (qualityLevels && typeof qualityLevels.on === 'function') {
-        console.log('hls quality levels working');
-      } else {
-        console.warn('no hls');
-      }
-
       const qualityList = (
         this.player as PlayerWithQualityLevels
       ).qualityLevels();
 
       qualityList.on('addqualitylevel', () => {
         this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
-        console.log(
-          'Vom Plugin erkannte Qualitätsstufen (Rohdaten der qualityList):',
-          JSON.parse(JSON.stringify(qualityList))
-        );
-
         for (let i = 0; i < qualityList.length; i++) {
           const level = qualityList[i];
-          console.log(
-            `Plugin Level <span class="math-inline">\{i\}\: ID\=</span>{level.id}, Höhe=<span class="math-inline">\{level\.height\}, Breite\=</span>{level.width || 'N/A'}, Bitrate=<span class="math-inline">\{level\.bitrate \|\| 'N/A'\} bps, Enabled\=</span>{level.enabled}`
-          );
 
           this.qualityLevels.push({
             label: `${level.height}p`,
@@ -189,10 +170,6 @@ export class VideojsPlayerComponent
 
         this.selectedQuality = 'auto';
         this.qualityReady = true;
-        console.log(
-          'Für Dropdown generierte Qualitätslevel (this.qualityLevels):',
-          this.qualityLevels
-        );
       });
 
       if (this.statsIntervalId) {
@@ -207,7 +184,6 @@ export class VideojsPlayerComponent
     const reps = tech?.hls?.representations?.();
 
     if (!reps || reps.length === 0) {
-      console.warn('no hls available');
       return;
     }
 
@@ -224,8 +200,6 @@ export class VideojsPlayerComponent
 
     this.selectedQuality = 'auto';
     this.qualityReady = true;
-
-    console.log('set quality to', this.qualityLevels);
   }
 
   private initQualityOptions(): void {
@@ -250,7 +224,6 @@ export class VideojsPlayerComponent
 
   onQualityChange(): void {
     if (!this.qualityReady || !this.player) {
-      console.warn('⏳ Qualität noch nicht bereit.');
       return;
     }
 
@@ -258,10 +231,6 @@ export class VideojsPlayerComponent
     const reps = tech?.hls?.representations?.();
 
     if (!reps || !Array.isArray(reps) || reps.length === 0) {
-      console.warn(
-        '❌ representations() nicht verfügbar oder leer. Fallback auf qualityLevels().'
-      );
-
       const fallbackLevels = (
         this.player as PlayerWithQualityLevels
       ).qualityLevels();
@@ -275,24 +244,11 @@ export class VideojsPlayerComponent
       return;
     }
 
-    console.log('🔁 Setze Qualität auf:', this.selectedQuality);
-
     reps.forEach((rep: any) => {
       rep.enabled(
         this.selectedQuality === 'auto' || rep.height === this.selectedQuality
       );
     });
-
-    setTimeout(() => {
-      const selected = reps.find((r: any) => r.enabled?.());
-      console.log(
-        `✅ Aktive HLS Representation: ${selected?.height}p (${selected?.bandwidth}bps)`
-      );
-
-      const width = this.player?.videoWidth?.();
-      const height = this.player?.videoHeight?.();
-      console.log(`🎥 Gerendert: ${width}x${height}`);
-    }, 1500);
   }
 
   private storePlayerElement(): void {
@@ -470,10 +426,6 @@ export class VideojsPlayerComponent
       } catch (e) {
         currentBandwidthInfo = 'Fehler beim Plugin-Abruf';
       }
-
-      console.log(
-        `STATS: Auflösung: ${playingQualityLabel}, Gewählte Qualität (UI): ${this.selectedQuality}, Bandbreite/Level (Plugin): ${currentBandwidthInfo}`
-      );
     }, 3000);
   }
 }
