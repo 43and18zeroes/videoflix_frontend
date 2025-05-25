@@ -44,7 +44,6 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
   private loadVideoUrl(videoId: string): void {
     this.videoOfferService.getVideoUrlById(videoId).subscribe(response => {
       this.videoUrl = this.appendResolution(response.videoUrl);
-      console.log('Video URL in Player Component:', this.videoUrl);
   
       // Video neu laden, wenn Element existiert
       setTimeout(() => {

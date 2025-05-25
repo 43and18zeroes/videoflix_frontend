@@ -43,13 +43,11 @@ export class StartComponent {
     this.errorMessage = null;
     this.authService.registerUser(this.email).subscribe({
       next: (response) => {
-        console.log('Registration successful', response);
         this.loading = false;
         this.showPopup = true;
       },
       error: (error: HttpErrorResponse) => {
         this.loading = false;
-        console.error('Registration failed', error);
         if (
           error.status === 400 &&
           error.error?.email?.[0]?.includes('already exists')

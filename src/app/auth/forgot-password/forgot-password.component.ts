@@ -26,13 +26,11 @@ export class ForgotPasswordComponent {
     this.loading = true;
     this.authService.resetPassword(this.email).subscribe(
       response => {
-        console.log('Mail sent successful', response);
         this.loading = false;
         this.showSuccessPopup = true;
         this.showErrorPopup = false;
       },
       error => {
-        console.error('Password reset failed', error);
         this.loading = false;
         this.showErrorPopup = true;
         this.showSuccessPopup = false;

@@ -66,7 +66,6 @@ export class LoginComponent {
       },
       error: (error) => {
         this.loading = false;
-        console.error('Login failed:', error);
         this.loginError = true;
       },
     });

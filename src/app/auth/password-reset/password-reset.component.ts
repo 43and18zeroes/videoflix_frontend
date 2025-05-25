@@ -55,8 +55,6 @@ export class PasswordResetComponent {
     this.route.params.subscribe((params) => {
       this.uid = params['uid'];
       this.token = params['token'];
-      console.log('UID from URL:', this.uid);
-      console.log('Token from URL:', this.token);
     });
   }
 
@@ -71,11 +69,9 @@ export class PasswordResetComponent {
           (response) => {
             this.loading = false;
             this.router.navigate(['/video-offer']);
-            console.log('The password has been successfully reset.');
           },
           (error) => {
             this.loading = false;
-            console.error('Error when resetting the password:', error);
           }
         );
     } else {

@@ -91,8 +91,7 @@ export class VideoOfferComponent {
     this.selectedVideoId = videoId;
     this.videoOfferService.getVideoHlsUrl(videoId).subscribe(
       (response) => {
-        this.videoUrl = response.videoUrl; // <- m3u8-Link
-        console.log('this.videoUrl', this.videoUrl);
+        this.videoUrl = response.videoUrl;
         this.isPlayerOpen = true;
       },
       (error) => {
