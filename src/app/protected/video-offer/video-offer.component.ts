@@ -61,25 +61,40 @@ export class VideoOfferComponent {
     this.videoOfferService.getSections().subscribe(
       (data: any[]) => {
         const sectionsMap = new Map<string, ThumbnailData[]>();
-  
-        data.forEach(video => {
+
+        data.forEach((video) => {
           const category = video.category || 'Other';
-  
+
           if (!sectionsMap.has(category)) {
             sectionsMap.set(category, []);
           }
-  
+
           sectionsMap.get(category)!.push({
             thumbnailUrl: video.thumbnail,
             videoId: video.id.toString(),
-            altText: video.title
+            altText: video.title,
           });
         });
-  
-        this.sections = Array.from(sectionsMap.entries()).map(([category, thumbnails]) => ({
-          title: category, 
-          thumbnails: thumbnails
-        }));
+
+        let sectionsArray = Array.from(sectionsMap.entries()).map(
+          ([category, thumbnails]) => ({
+            title: category,
+            thumbnails: thumbnails,
+          })
+        );
+
+        // Sortiere das Array, um "New on Videoflix" an den Anfang zu setzen
+        sectionsArray.sort((a, b) => {
+          if (a.title === 'New on Videoflix') {
+            return -1; // a kommt vor b
+          }
+          if (b.title === 'New on Videoflix') {
+            return 1; // b kommt vor a
+          }
+          return 0; // Keine Änderung der Reihenfolge für andere Elemente
+        });
+
+        this.sections = sectionsArray;
       },
       (error) => {
         console.error('Fehler beim Laden der Video-Sections:', error);
