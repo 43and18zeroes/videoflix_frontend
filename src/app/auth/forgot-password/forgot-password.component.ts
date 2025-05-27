@@ -17,7 +17,7 @@ export class ForgotPasswordComponent {
   email = '';
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   loading = false;
-  showSuccessPopup = true;
+  showSuccessPopup = false;
   showErrorPopup = false;
 
   constructor(private authService: AuthService) { }
