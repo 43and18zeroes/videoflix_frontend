@@ -63,6 +63,7 @@ export class VideojsPlayerComponent
   private fadeOutTimer: any = null;
   private qualityReady: boolean = false;
   private statsIntervalId: any = null;
+  private touchPlayPauseListener: (() => void) | null = null;
 
   qualityLevels: { label: string; height: number | 'auto' }[] = [];
   selectedQuality: number | 'auto' = 'auto';
@@ -291,6 +292,7 @@ export class VideojsPlayerComponent
   private setupInteractionHandlers(): void {
     this.initCloseButtonBehavior();
     this.initPlayerEvents();
+    this.initTouchPlayPause();
   }
 
   private initAspectRatioHandling(): void {
@@ -341,6 +343,57 @@ export class VideojsPlayerComponent
     });
   }
 
+  private initTouchPlayPause(): void {
+    if (!this.playerElement || !this.player) {
+      return;
+    }
+
+    // Entferne den alten Listener, falls vorhanden, um Duplikate zu vermeiden
+    this.removeTouchPlayPauseListener();
+
+    // Füge einen Event Listener für 'click' oder 'touchstart' hinzu
+    // 'click' funktioniert oft auch auf Touch-Geräten, aber 'touchstart' ist spezifischer.
+    // Probiere zuerst 'click' und wechsle zu 'touchstart', falls es Probleme gibt.
+    this.touchPlayPauseListener = this.renderer.listen(
+      this.playerElement,
+      'click', // Oder 'touchstart'
+      (event: Event) => {
+        // Verhindere, dass der Event auf Elemente innerhalb des Players
+        // weitergeleitet wird (z.B. Kontrollleisten), die eigene Logik haben.
+        // Dies stellt sicher, dass ein Klick auf das Video selbst reagiert.
+        const target = event.target as HTMLElement;
+        const className = target.className;
+
+        // Überprüfen, ob der Klick auf ein Steuerelement oder einen Button erfolgte
+        if (
+          className.includes('vjs-control') ||
+          className.includes('vjs-button') ||
+          target.closest('.vjs-control-bar')
+        ) {
+          return; // Ignoriere Klicks auf die Kontrollleiste
+        }
+
+        // Wenn der Player pausiert ist, spiele ihn ab.
+        // Wenn der Player abspielt, pausiere ihn.
+        if (this.player) {
+          event.preventDefault(); // Verhindert Standardaktionen des Browsers
+          if (this.player.paused()) {
+            this.player.play();
+          } else {
+            this.player.pause();
+          }
+        }
+      }
+    );
+  }
+
+  private removeTouchPlayPauseListener(): void {
+    if (this.touchPlayPauseListener) {
+      this.touchPlayPauseListener(); // Ruft die Unsubscribe-Funktion auf
+      this.touchPlayPauseListener = null;
+    }
+  }
+
   private startFadeOutTimer(): void {
     if (!this.closeButtonRef?.nativeElement) return;
 
@@ -373,6 +426,7 @@ export class VideojsPlayerComponent
     }
 
     this.removeMouseListeners();
+    this.removeTouchPlayPauseListener();
     this.clearFadeOutTimer();
     this.disconnectResizeObserver();
     this.disposePlayerInstance();
