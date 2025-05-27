@@ -144,6 +144,9 @@ export class VideojsPlayerComponent
           type: 'application/x-mpegURL',
         },
       ],
+      controlBar: {
+        pictureInPictureToggle: false, // <-- Dies entfernt den Button
+      },
     });
 
     this.player.ready(() => {
