@@ -124,92 +124,96 @@ export class VideojsPlayerComponent
   }
 
   private initializeVideoJsInstance(): void {
-  this.player = videojs(this.videoPlayerRef!.nativeElement, {
-    controls: true,
-    autoplay: true,
-    preload: 'auto',
-    poster: this.poster || '',
-    html5: {
-      vhs: {
-        enableLowInitialPlaylist: true,
-        useDevicePixelRatio: false,
-        smoothQualityChange: true,
+    this.player = videojs(this.videoPlayerRef!.nativeElement, {
+      controls: true,
+      autoplay: true,
+      preload: 'auto',
+      poster: this.poster || '',
+      html5: {
+        vhs: {
+          enableLowInitialPlaylist: true,
+          useDevicePixelRatio: false,
+          smoothQualityChange: true,
+        },
       },
-    },
-    sources: [
-      {
-        src: this.videoUrl,
-        type: 'application/x-mpegURL',
-      },
-    ],
-  });
-
-  this.player.ready(() => {
-    const qualityList = (this.player as PlayerWithQualityLevels).qualityLevels();
-
-    qualityList.on('addqualitylevel', () => {
-      this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
-      for (let i = 0; i < qualityList.length; i++) {
-        const level = qualityList[i];
-        this.qualityLevels.push({
-          label: `${level.height}p`,
-          height: level.height,
-        });
-      }
-      this.qualityLevels.sort((a, b) => {
-        if (a.height === 'auto') return -1;
-        if (b.height === 'auto') return 1;
-        if (typeof a.height === 'number' && typeof b.height === 'number') {
-          return b.height - a.height;
-        }
-        return 0;
-      });
-
-      // NEUE LOGIK HIER STARTET
-      const preferredQuality = 1080; // Die gewünschte Qualität
-      let foundPreferredQuality = false;
-
-      // Versuche, 1080p zu finden und zu aktivieren
-      for (let i = 0; i < qualityList.length; i++) {
-        const level = qualityList[i];
-        if (level.height === preferredQuality) {
-          level.enabled = true; // Aktiviere diese Qualitätsstufe
-          this.selectedQuality = preferredQuality; // Setze die ausgewählte Qualität im Dropdown
-          foundPreferredQuality = true;
-        } else {
-          level.enabled = false; // Deaktiviere alle anderen Qualitätsstufen
-        }
-      }
-
-      // Falls 1080p nicht gefunden wurde, falle auf die höchste verfügbare Qualität zurück oder "Auto"
-      if (!foundPreferredQuality) {
-        console.warn(`1080p-Qualität nicht gefunden für Video: ${this.videoUrl}. Versuche, die höchste verfügbare Qualität zu verwenden.`);
-        // Optional: Hier könntest du die höchste verfügbare Qualität automatisch auswählen
-        const highestQuality = this.qualityLevels
-          .filter(q => typeof q.height === 'number')
-          .sort((a, b) => (b.height as number) - (a.height as number))[0];
-
-        if (highestQuality) {
-            this.selectedQuality = highestQuality.height;
-            for (let i = 0; i < qualityList.length; i++) {
-                const level = qualityList[i];
-                level.enabled = (level.height === highestQuality.height);
-            }
-        } else {
-            this.selectedQuality = 'auto'; // Fallback auf Auto, wenn keine nummerische Qualität gefunden
-        }
-      }
-      // NEUE LOGIK HIER ENDET
-
-      this.qualityReady = true;
+      sources: [
+        {
+          src: this.videoUrl,
+          type: 'application/x-mpegURL',
+        },
+      ],
     });
 
-    if (this.statsIntervalId) {
-      clearInterval(this.statsIntervalId);
-    }
-    this.logCurrentPlaybackStats();
-  });
-}
+    this.player.ready(() => {
+      const qualityList = (
+        this.player as PlayerWithQualityLevels
+      ).qualityLevels();
+
+      qualityList.on('addqualitylevel', () => {
+        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
+        for (let i = 0; i < qualityList.length; i++) {
+          const level = qualityList[i];
+          this.qualityLevels.push({
+            label: `${level.height}p`,
+            height: level.height,
+          });
+        }
+        this.qualityLevels.sort((a, b) => {
+          if (a.height === 'auto') return -1;
+          if (b.height === 'auto') return 1;
+          if (typeof a.height === 'number' && typeof b.height === 'number') {
+            return b.height - a.height;
+          }
+          return 0;
+        });
+
+        // NEUE LOGIK HIER STARTET
+        const preferredQuality = 1080; // Die gewünschte Qualität
+        let foundPreferredQuality = false;
+
+        // Versuche, 1080p zu finden und zu aktivieren
+        for (let i = 0; i < qualityList.length; i++) {
+          const level = qualityList[i];
+          if (level.height === preferredQuality) {
+            level.enabled = true; // Aktiviere diese Qualitätsstufe
+            this.selectedQuality = preferredQuality; // Setze die ausgewählte Qualität im Dropdown
+            foundPreferredQuality = true;
+          } else {
+            level.enabled = false; // Deaktiviere alle anderen Qualitätsstufen
+          }
+        }
+
+        // Falls 1080p nicht gefunden wurde, falle auf die höchste verfügbare Qualität zurück oder "Auto"
+        if (!foundPreferredQuality) {
+          console.warn(
+            `1080p-Qualität nicht gefunden für Video: ${this.videoUrl}. Versuche, die höchste verfügbare Qualität zu verwenden.`
+          );
+          // Optional: Hier könntest du die höchste verfügbare Qualität automatisch auswählen
+          const highestQuality = this.qualityLevels
+            .filter((q) => typeof q.height === 'number')
+            .sort((a, b) => (b.height as number) - (a.height as number))[0];
+
+          if (highestQuality) {
+            this.selectedQuality = highestQuality.height;
+            for (let i = 0; i < qualityList.length; i++) {
+              const level = qualityList[i];
+              level.enabled = level.height === highestQuality.height;
+            }
+          } else {
+            this.selectedQuality = 'auto'; // Fallback auf Auto, wenn keine nummerische Qualität gefunden
+          }
+        }
+        // NEUE LOGIK HIER ENDET
+
+        this.qualityReady = true;
+      });
+
+      if (this.statsIntervalId) {
+        clearInterval(this.statsIntervalId);
+      }
+      this.logCurrentPlaybackStats();
+    });
+  }
 
   private initQualitySelector(): void {
     const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
@@ -356,21 +360,26 @@ export class VideojsPlayerComponent
     // Probiere zuerst 'click' und wechsle zu 'touchstart', falls es Probleme gibt.
     this.touchPlayPauseListener = this.renderer.listen(
       this.playerElement,
-      'click', // Oder 'touchstart'
+      'touchstart', // Oder 'touchstart'
       (event: Event) => {
         // Verhindere, dass der Event auf Elemente innerhalb des Players
         // weitergeleitet wird (z.B. Kontrollleisten), die eigene Logik haben.
         // Dies stellt sicher, dass ein Klick auf das Video selbst reagiert.
         const target = event.target as HTMLElement;
-        const className = target.className;
 
         // Überprüfen, ob der Klick auf ein Steuerelement oder einen Button erfolgte
         if (
-          className.includes('vjs-control') ||
-          className.includes('vjs-button') ||
-          target.closest('.vjs-control-bar')
+          target.closest('.vjs-control-bar') || // Kontrollleiste
+          target.closest('.vjs-big-play-button') || // Großer Play-Button
+          target.closest('.vjs-control') || // Einzelne Video.js-Steuerelemente
+          target.closest('.vjs-button') || // Allgemeine Video.js-Buttons
+          target.closest('.close-button') || // <--- NEU: Dein Schließen-Button
+          target.closest('.quality-selector') // <--- NEU: Dein Qualitätsauswahl
         ) {
-          return; // Ignoriere Klicks auf die Kontrollleiste
+          // Wenn der Touch auf einem dieser interaktiven Elemente war,
+          // lassen wir den Browser seine Standardaktion ausführen (z.B. den Klick des Buttons).
+          // Daher KEIN event.preventDefault() hier.
+          return;
         }
 
         // Wenn der Player pausiert ist, spiele ihn ab.
