@@ -50,7 +50,6 @@ export class VideoOfferComponent {
 
   ngOnInit(): void {
     this.loadSections();
-    // this.playVideo('16');
   }
 
   ngOnDestroy(): void {
