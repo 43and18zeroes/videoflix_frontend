@@ -11,7 +11,7 @@
       formControlName="password"
       placeholder="Enter a Password"
       autocomplete="new-password"
-      name="new_password"
+      name="password"
     />
     <small
       [class.hidden]="
@@ -29,7 +29,7 @@
       formControlName="confirmPassword"
       placeholder="Confirm Password"
       autocomplete="new-password"
-      name="new_password"
+      name="password"
     />
     <small
       [class.hidden]="!(setPasswordForm.errors?.['passwordMismatch'] && setPasswordForm.get('confirmPassword')?.touched)"
