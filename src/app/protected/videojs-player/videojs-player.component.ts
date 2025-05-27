@@ -123,61 +123,92 @@ export class VideojsPlayerComponent
   }
 
   private initializeVideoJsInstance(): void {
-    this.player = videojs(this.videoPlayerRef!.nativeElement, {
-      controls: true,
-      autoplay: true,
-      preload: 'auto',
-      poster: this.poster || '',
-      html5: {
-        vhs: {
-          enableLowInitialPlaylist: true,
-          useDevicePixelRatio: false,
-          smoothQualityChange: true,
-        },
+  this.player = videojs(this.videoPlayerRef!.nativeElement, {
+    controls: true,
+    autoplay: true,
+    preload: 'auto',
+    poster: this.poster || '',
+    html5: {
+      vhs: {
+        enableLowInitialPlaylist: true,
+        useDevicePixelRatio: false,
+        smoothQualityChange: true,
       },
-      sources: [
-        {
-          src: this.videoUrl,
-          type: 'application/x-mpegURL',
-        },
-      ],
-    });
+    },
+    sources: [
+      {
+        src: this.videoUrl,
+        type: 'application/x-mpegURL',
+      },
+    ],
+  });
 
-    this.player.ready(() => {
-      const qualityLevels = (this.player as any).qualityLevels?.();
-      const qualityList = (
-        this.player as PlayerWithQualityLevels
-      ).qualityLevels();
+  this.player.ready(() => {
+    const qualityList = (this.player as PlayerWithQualityLevels).qualityLevels();
 
-      qualityList.on('addqualitylevel', () => {
-        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
-        for (let i = 0; i < qualityList.length; i++) {
-          const level = qualityList[i];
-
-          this.qualityLevels.push({
-            label: `${level.height}p`,
-            height: level.height,
-          });
-        }
-        this.qualityLevels.sort((a, b) => {
-          if (a.height === 'auto') return -1;
-          if (b.height === 'auto') return 1;
-          if (typeof a.height === 'number' && typeof b.height === 'number') {
-            return b.height - a.height;
-          }
-          return 0;
+    qualityList.on('addqualitylevel', () => {
+      this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
+      for (let i = 0; i < qualityList.length; i++) {
+        const level = qualityList[i];
+        this.qualityLevels.push({
+          label: `${level.height}p`,
+          height: level.height,
         });
-
-        this.selectedQuality = 'auto';
-        this.qualityReady = true;
+      }
+      this.qualityLevels.sort((a, b) => {
+        if (a.height === 'auto') return -1;
+        if (b.height === 'auto') return 1;
+        if (typeof a.height === 'number' && typeof b.height === 'number') {
+          return b.height - a.height;
+        }
+        return 0;
       });
 
-      if (this.statsIntervalId) {
-        clearInterval(this.statsIntervalId);
+      // NEUE LOGIK HIER STARTET
+      const preferredQuality = 1080; // Die gewünschte Qualität
+      let foundPreferredQuality = false;
+
+      // Versuche, 1080p zu finden und zu aktivieren
+      for (let i = 0; i < qualityList.length; i++) {
+        const level = qualityList[i];
+        if (level.height === preferredQuality) {
+          level.enabled = true; // Aktiviere diese Qualitätsstufe
+          this.selectedQuality = preferredQuality; // Setze die ausgewählte Qualität im Dropdown
+          foundPreferredQuality = true;
+        } else {
+          level.enabled = false; // Deaktiviere alle anderen Qualitätsstufen
+        }
       }
-      this.logCurrentPlaybackStats();
+
+      // Falls 1080p nicht gefunden wurde, falle auf die höchste verfügbare Qualität zurück oder "Auto"
+      if (!foundPreferredQuality) {
+        console.warn(`1080p-Qualität nicht gefunden für Video: ${this.videoUrl}. Versuche, die höchste verfügbare Qualität zu verwenden.`);
+        // Optional: Hier könntest du die höchste verfügbare Qualität automatisch auswählen
+        const highestQuality = this.qualityLevels
+          .filter(q => typeof q.height === 'number')
+          .sort((a, b) => (b.height as number) - (a.height as number))[0];
+
+        if (highestQuality) {
+            this.selectedQuality = highestQuality.height;
+            for (let i = 0; i < qualityList.length; i++) {
+                const level = qualityList[i];
+                level.enabled = (level.height === highestQuality.height);
+            }
+        } else {
+            this.selectedQuality = 'auto'; // Fallback auf Auto, wenn keine nummerische Qualität gefunden
+        }
+      }
+      // NEUE LOGIK HIER ENDET
+
+      this.qualityReady = true;
     });
-  }
+
+    if (this.statsIntervalId) {
+      clearInterval(this.statsIntervalId);
+    }
+    this.logCurrentPlaybackStats();
+  });
+}
 
   private initQualitySelector(): void {
     const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
