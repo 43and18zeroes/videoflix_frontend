@@ -64,11 +64,12 @@ export class VideojsPlayerComponent
   private qualityReady: boolean = false;
   private statsIntervalId: any = null;
   private touchPlayPauseListener: (() => void) | null = null;
+  private overlayClickListener: (() => void) | null = null;
 
   qualityLevels: { label: string; height: number | 'auto' }[] = [];
   selectedQuality: number | 'auto' = 'auto';
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
   ngOnInit(): void {}
 
@@ -116,6 +117,7 @@ export class VideojsPlayerComponent
     this.setupVideoJsPlayer();
     this.initAspectRatioHandling();
     this.setupInteractionHandlers();
+    this.initOverlayClose();
   }
 
   private setupVideoJsPlayer(): void {
@@ -299,6 +301,41 @@ export class VideojsPlayerComponent
     this.initTouchPlayPause();
   }
 
+  private initOverlayClose(): void {
+    // Entferne den alten Listener, falls vorhanden
+    this.removeOverlayClickListener();
+
+    // Listener auf dem Host-Element (dem gesamten Overlay-Div) anbringen
+    // Wir nutzen 'click' hier, da es auch Touch-Taps abdeckt und einfacher ist.
+    // Falls "touchstart" auf dem Overlay nicht funktioniert (z.B. weil es von dem Player
+    // selbst mit preventDefault überschrieben wird), kann man hier auch "click" lassen.
+    this.overlayClickListener = this.renderer.listen(
+      this.elementRef.nativeElement, // Das ist das Host-Element (<app-videojs-player>)
+      'click', // Kann auch 'touchend' oder 'mousedown' sein, je nach gewünschtem Verhalten
+      (event: MouseEvent | TouchEvent) => {
+        const target = event.target as HTMLElement;
+
+        // Überprüfen, ob der Klick/Tap auf dem Videoplayer oder einem seiner Steuerelemente erfolgte
+        // Wenn der Klick auf dem Player selbst oder dessen Controls war, tun wir nichts.
+        // Das playerElement ist der Container für den VideoJS-Player.
+        if (this.playerElement && this.playerElement.contains(target)) {
+          return; // Der Klick war innerhalb des Players, nicht auf dem Hintergrund
+        }
+
+        // Wenn der Klick nicht auf dem Player oder seinen Controls war,
+        // dann wurde der Hintergrund (das Overlay) geklickt.
+        this.handleClose();
+      }
+    );
+  }
+
+  private removeOverlayClickListener(): void {
+    if (this.overlayClickListener) {
+      this.overlayClickListener();
+      this.overlayClickListener = null;
+    }
+  }
+
   private initAspectRatioHandling(): void {
     if (!this.playerElement) return;
 
@@ -436,6 +473,7 @@ export class VideojsPlayerComponent
 
     this.removeMouseListeners();
     this.removeTouchPlayPauseListener();
+    this.removeOverlayClickListener();
     this.clearFadeOutTimer();
     this.disconnectResizeObserver();
     this.disposePlayerInstance();
