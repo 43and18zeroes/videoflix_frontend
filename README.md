@@ -1,9 +1,9 @@
-# VideoflixFrontend
+# Videoflix Frontend
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
 
 > [!NOTE]
-> The corresponding backend for this backend can be found here:
+> The corresponding backend for this backend can be found here:<br>
 > <a href="https://github.com/43and18zeroes/videoflix_backend" target="_blank">**https://github.com/43and18zeroes/videoflix_backend**</a>
 
 ## Development server
