@@ -350,59 +350,53 @@ export class VideojsPlayerComponent
   }
 
   private initTouchPlayPause(): void {
-    if (!this.playerElement || !this.player) {
+    if (!this.playerElement || !this.player) return;
+
+    this.removeTouchPlayPauseListener();
+
+    this.touchPlayPauseListener = () => {
+      this.playerElement?.addEventListener(
+        'touchstart',
+        this.touchStartHandler,
+        { passive: true }
+      );
+    };
+
+    this.touchPlayPauseListener();
+  }
+
+  private touchStartHandler = (event: TouchEvent): void => {
+    const target = event.target as HTMLElement;
+
+    if (
+      target.closest('.vjs-control-bar') ||
+      target.closest('.vjs-big-play-button') ||
+      target.closest('.vjs-control') ||
+      target.closest('.vjs-button') ||
+      target.closest('.close-button') ||
+      target.closest('.quality-selector')
+    ) {
       return;
     }
 
-    // Entferne den alten Listener, falls vorhanden, um Duplikate zu vermeiden
-    this.removeTouchPlayPauseListener();
-
-    // Füge einen Event Listener für 'click' oder 'touchstart' hinzu
-    // 'click' funktioniert oft auch auf Touch-Geräten, aber 'touchstart' ist spezifischer.
-    // Probiere zuerst 'click' und wechsle zu 'touchstart', falls es Probleme gibt.
-    this.touchPlayPauseListener = this.renderer.listen(
-      this.playerElement,
-      'touchstart', // Oder 'touchstart'
-      (event: Event) => {
-        // Verhindere, dass der Event auf Elemente innerhalb des Players
-        // weitergeleitet wird (z.B. Kontrollleisten), die eigene Logik haben.
-        // Dies stellt sicher, dass ein Klick auf das Video selbst reagiert.
-        const target = event.target as HTMLElement;
-
-        // Überprüfen, ob der Klick auf ein Steuerelement oder einen Button erfolgte
-        if (
-          target.closest('.vjs-control-bar') || // Kontrollleiste
-          target.closest('.vjs-big-play-button') || // Großer Play-Button
-          target.closest('.vjs-control') || // Einzelne Video.js-Steuerelemente
-          target.closest('.vjs-button') || // Allgemeine Video.js-Buttons
-          target.closest('.close-button') || // <--- NEU: Dein Schließen-Button
-          target.closest('.quality-selector') // <--- NEU: Dein Qualitätsauswahl
-        ) {
-          // Wenn der Touch auf einem dieser interaktiven Elemente war,
-          // lassen wir den Browser seine Standardaktion ausführen (z.B. den Klick des Buttons).
-          // Daher KEIN event.preventDefault() hier.
-          return;
-        }
-
-        // Wenn der Player pausiert ist, spiele ihn ab.
-        // Wenn der Player abspielt, pausiere ihn.
-        if (this.player) {
-          event.preventDefault(); // Verhindert Standardaktionen des Browsers
-          if (this.player.paused()) {
-            this.player.play();
-          } else {
-            this.player.pause();
-          }
-        }
+    // Kein preventDefault wegen passive: true
+    if (this.player) {
+      if (this.player.paused()) {
+        this.player.play();
+      } else {
+        this.player.pause();
       }
-    );
-  }
+    }
+  };
 
   private removeTouchPlayPauseListener(): void {
-    if (this.touchPlayPauseListener) {
-      this.touchPlayPauseListener(); // Ruft die Unsubscribe-Funktion auf
-      this.touchPlayPauseListener = null;
+    if (this.playerElement && this.touchStartHandler) {
+      this.playerElement.removeEventListener(
+        'touchstart',
+        this.touchStartHandler
+      );
     }
+    this.touchPlayPauseListener = null;
   }
 
   private startFadeOutTimer(): void {
