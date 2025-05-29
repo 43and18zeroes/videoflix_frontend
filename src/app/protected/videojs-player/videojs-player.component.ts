@@ -473,50 +473,36 @@ export class VideojsPlayerComponent
 
       const width = this.player.videoWidth?.();
       const height = this.player.videoHeight?.();
-      let playingQualityLabel = 'unbekannt';
-      let currentBandwidthInfo = 'unbekannt';
+      const resolution = width && height ? `${width}x${height}` : 'unbekannt';
 
-      if (width && height) {
-        playingQualityLabel = `${width}x${height}`;
-      } else if (this.player.readyState() === 0) {
-        playingQualityLabel = 'nicht initialisiert';
-      } else if (this.player.readyState() < 2) {
-        playingQualityLabel = 'lade Metadaten...';
-      }
+      let bitrate: string = 'unbekannt';
+      let qualityLabel: string = 'unbekannt';
 
       try {
-        const qualityLevelsPluginInstance = (
+        const qualityLevelsPlugin = (
           this.player as PlayerWithQualityLevels
-        )?.qualityLevels();
+        ).qualityLevels?.();
 
-        if (
-          qualityLevelsPluginInstance &&
-          qualityLevelsPluginInstance.selectedIndex !== -1
-        ) {
-          const selectedLevelData =
-            qualityLevelsPluginInstance[
-              qualityLevelsPluginInstance.selectedIndex
-            ];
+        if (qualityLevelsPlugin && qualityLevelsPlugin.selectedIndex !== -1) {
+          const currentLevel =
+            qualityLevelsPlugin[qualityLevelsPlugin.selectedIndex];
 
-          if (selectedLevelData) {
-            if (typeof selectedLevelData.bitrate === 'number') {
-              currentBandwidthInfo = `${Math.round(
-                selectedLevelData.bitrate / 1000
-              )} kbps (vom Plugin)`;
-            } else {
-              currentBandwidthInfo = `Level ${selectedLevelData.height}p (Plugin, keine Bitrate Info)`;
-            }
+          if (currentLevel) {
+            qualityLabel = `${currentLevel.height}p`;
+            bitrate = currentLevel.bitrate
+              ? `${Math.round(currentLevel.bitrate / 1000)} kbps`
+              : 'keine Bitrate verfügbar';
           }
-        } else if (
-          this.selectedQuality === 'auto' &&
-          qualityLevelsPluginInstance &&
-          qualityLevelsPluginInstance.length > 0
-        ) {
-          currentBandwidthInfo = 'Auto (ABR aktiv)';
         }
       } catch (e) {
-        currentBandwidthInfo = 'Fehler beim Plugin-Abruf';
+        qualityLabel = 'Fehler beim Auslesen';
+        bitrate = '–';
       }
-    }, 3000);
+
+      // ▶️ Ausgabe in der DOM-Console
+      console.log(
+        `[Playback] Auflösung: ${resolution}, Qualität: ${qualityLabel}, Bitrate: ${bitrate}`
+      );
+    }, 2000);
   }
 }
