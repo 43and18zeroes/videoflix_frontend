@@ -144,12 +144,10 @@ export class VideojsPlayerComponent
           type: 'application/x-mpegURL',
         },
       ],
-      controlBar: {
-        pictureInPictureToggle: false, // <-- Dies entfernt den Button
-      },
     });
 
     this.player.ready(() => {
+      const qualityLevels = (this.player as any).qualityLevels?.();
       const qualityList = (
         this.player as PlayerWithQualityLevels
       ).qualityLevels();
@@ -158,6 +156,7 @@ export class VideojsPlayerComponent
         this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
         for (let i = 0; i < qualityList.length; i++) {
           const level = qualityList[i];
+
           this.qualityLevels.push({
             label: `${level.height}p`,
             height: level.height,
@@ -172,44 +171,7 @@ export class VideojsPlayerComponent
           return 0;
         });
 
-        // NEUE LOGIK HIER STARTET
-        const preferredQuality = 1080; // Die gewünschte Qualität
-        let foundPreferredQuality = false;
-
-        // Versuche, 1080p zu finden und zu aktivieren
-        for (let i = 0; i < qualityList.length; i++) {
-          const level = qualityList[i];
-          if (level.height === preferredQuality) {
-            level.enabled = true; // Aktiviere diese Qualitätsstufe
-            this.selectedQuality = preferredQuality; // Setze die ausgewählte Qualität im Dropdown
-            foundPreferredQuality = true;
-          } else {
-            level.enabled = false; // Deaktiviere alle anderen Qualitätsstufen
-          }
-        }
-
-        // Falls 1080p nicht gefunden wurde, falle auf die höchste verfügbare Qualität zurück oder "Auto"
-        if (!foundPreferredQuality) {
-          console.warn(
-            `1080p-Qualität nicht gefunden für Video: ${this.videoUrl}. Versuche, die höchste verfügbare Qualität zu verwenden.`
-          );
-          // Optional: Hier könntest du die höchste verfügbare Qualität automatisch auswählen
-          const highestQuality = this.qualityLevels
-            .filter((q) => typeof q.height === 'number')
-            .sort((a, b) => (b.height as number) - (a.height as number))[0];
-
-          if (highestQuality) {
-            this.selectedQuality = highestQuality.height;
-            for (let i = 0; i < qualityList.length; i++) {
-              const level = qualityList[i];
-              level.enabled = level.height === highestQuality.height;
-            }
-          } else {
-            this.selectedQuality = 'auto'; // Fallback auf Auto, wenn keine nummerische Qualität gefunden
-          }
-        }
-        // NEUE LOGIK HIER ENDET
-
+        this.selectedQuality = 'auto';
         this.qualityReady = true;
       });
 
