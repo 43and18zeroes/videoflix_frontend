@@ -144,6 +144,9 @@ export class VideojsPlayerComponent
           type: 'application/x-mpegURL',
         },
       ],
+      controlBar: {
+        pictureInPictureToggle: false,
+      }
     });
 
     this.player.ready(() => {
