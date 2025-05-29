@@ -417,16 +417,21 @@ export class VideojsPlayerComponent
     }
 
     this.statsIntervalId = setInterval(() => {
-      if (!this.player || this.player.isDisposed()) {
-        return;
-      }
+      if (!this.player || this.player.isDisposed()) return;
 
-      const width = this.player.videoWidth?.();
-      const height = this.player.videoHeight?.();
-      const resolution = width && height ? `${width}x${height}` : 'unbekannt';
+      // Tatsächliche Auflösung des wiedergegebenen Videos
+      const videoWidth = this.player.videoWidth?.();
+      const videoHeight = this.player.videoHeight?.();
+      const resolution =
+        videoWidth && videoHeight
+          ? `${videoWidth}x${videoHeight}`
+          : 'unbekannt';
 
-      let bitrate: string = 'unbekannt';
-      let qualityLabel: string = 'unbekannt';
+      // Aktives QualityLevel laut Plugin
+      let pluginLabel = 'unbekannt';
+      let pluginBitrate = 'unbekannt';
+      let pluginHeight = 'unbekannt';
+      let pluginInfo = null;
 
       try {
         const qualityLevelsPlugin = (
@@ -438,20 +443,20 @@ export class VideojsPlayerComponent
             qualityLevelsPlugin[qualityLevelsPlugin.selectedIndex];
 
           if (currentLevel) {
-            qualityLabel = `${currentLevel.height}p`;
-            bitrate = currentLevel.bitrate
+            pluginHeight = `${currentLevel.height}p`;
+            pluginBitrate = currentLevel.bitrate
               ? `${Math.round(currentLevel.bitrate / 1000)} kbps`
               : 'keine Bitrate verfügbar';
+            pluginInfo = currentLevel;
           }
         }
       } catch (e) {
-        qualityLabel = 'Fehler beim Auslesen';
-        bitrate = '–';
+        pluginLabel = 'Fehler beim Auslesen';
       }
 
-      // ▶️ Ausgabe in der DOM-Console
       console.log(
-        `[Playback] Auflösung: ${resolution}, Qualität: ${qualityLabel}, Bitrate: ${bitrate}`
+        `[Stream Check] Auflösung im Player: ${resolution} | Aktives Plugin-Level: ${pluginHeight} @ ${pluginBitrate}`,
+        pluginInfo
       );
     }, 2000);
   }
