@@ -182,76 +182,26 @@ export class VideojsPlayerComponent
     });
   }
 
-  private initQualitySelector(): void {
-    const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
-    const reps = tech?.hls?.representations?.();
-
-    if (!reps || reps.length === 0) {
-      return;
-    }
-
-    this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
-
-    reps.forEach((rep: any) => {
-      if (!this.qualityLevels.find((q) => q.height === rep.height)) {
-        this.qualityLevels.push({
-          label: `${rep.height}p`,
-          height: rep.height,
-        });
-      }
-    });
-
-    this.selectedQuality = 'auto';
-    this.qualityReady = true;
-  }
-
-  private initQualityOptions(): void {
-    this.player?.ready(() => {
-      const tech = this.player?.tech({ IWillNotUseThisInPlugins: true }) as any;
-
-      if (tech?.hls?.representations) {
-        const reps = tech.hls.representations();
-        this.qualityLevels = [{ label: 'Auto', height: 'auto' }];
-
-        reps.forEach((rep: any) => {
-          this.qualityLevels.push({
-            label: `${rep.height}p`,
-            height: rep.height,
-          });
-        });
-
-        reps.forEach((rep: any) => rep.enabled(true));
-      }
-    });
-  }
-
   onQualityChange(): void {
-    if (!this.qualityReady || !this.player) {
-      return;
-    }
+    if (!this.qualityReady || !this.player) return;
 
-    const tech = this.player.tech({ IWillNotUseThisInPlugins: true }) as any;
-    const reps = tech?.hls?.representations?.();
+    const qualityLevels = (
+      this.player as PlayerWithQualityLevels
+    ).qualityLevels?.();
+    if (!qualityLevels || qualityLevels.length === 0) return;
 
-    if (!reps || !Array.isArray(reps) || reps.length === 0) {
-      const fallbackLevels = (
-        this.player as PlayerWithQualityLevels
-      ).qualityLevels();
-      for (let i = 0; i < fallbackLevels.length; i++) {
-        const level = fallbackLevels[i];
-        level.enabled =
-          this.selectedQuality === 'auto' ||
-          level.height === this.selectedQuality;
+    for (let i = 0; i < qualityLevels.length; i++) {
+      const level = qualityLevels[i];
+
+      // "Auto" = alle Levels aktivieren, sonst nur das eine passende
+      if (this.selectedQuality === 'auto') {
+        level.enabled = true;
+      } else {
+        level.enabled = level.height === this.selectedQuality;
       }
-
-      return;
     }
 
-    reps.forEach((rep: any) => {
-      rep.enabled(
-        this.selectedQuality === 'auto' || rep.height === this.selectedQuality
-      );
-    });
+    console.log(`[QualityChange] Auswahl: ${this.selectedQuality}`);
   }
 
   private storePlayerElement(): void {
