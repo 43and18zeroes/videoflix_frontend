@@ -56,6 +56,9 @@ export class VideojsPlayerComponent
   @ViewChild('closeButton', { static: false })
   closeButtonRef?: ElementRef<HTMLButtonElement>;
 
+  @ViewChild('qualitySelector', { static: false })
+  qualitySelectorRef?: ElementRef<HTMLDivElement>;
+
   player?: Player;
   private playerElement: HTMLElement | null = null;
   private resizeObserver: ResizeObserver | null = null;
@@ -146,7 +149,7 @@ export class VideojsPlayerComponent
       ],
       controlBar: {
         pictureInPictureToggle: false,
-      }
+      },
     });
 
     this.player.ready(() => {
@@ -368,13 +371,24 @@ export class VideojsPlayerComponent
   }
 
   private showCloseButton(): void {
-    if (!this.closeButtonRef?.nativeElement) return;
-    this.renderer.removeClass(this.closeButtonRef.nativeElement, 'fade-out');
+    if (this.closeButtonRef?.nativeElement) {
+      this.renderer.removeClass(this.closeButtonRef.nativeElement, 'fade-out');
+    }
+    if (this.qualitySelectorRef?.nativeElement) {
+      this.renderer.removeClass(
+        this.qualitySelectorRef.nativeElement,
+        'fade-out'
+      );
+    }
   }
 
   private hideCloseButton(): void {
-    if (!this.closeButtonRef?.nativeElement) return;
-    this.renderer.addClass(this.closeButtonRef.nativeElement, 'fade-out');
+    if (this.closeButtonRef?.nativeElement) {
+      this.renderer.addClass(this.closeButtonRef.nativeElement, 'fade-out');
+    }
+    if (this.qualitySelectorRef?.nativeElement) {
+      this.renderer.addClass(this.qualitySelectorRef.nativeElement, 'fade-out');
+    }
   }
 
   private cleanupPlayer(): void {

@@ -47,6 +47,13 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    transition: color 0.15s ease-in-out;
+
+    &.fade-out {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.75s ease-in-out;
+    }
 
     label {
       margin: 0;

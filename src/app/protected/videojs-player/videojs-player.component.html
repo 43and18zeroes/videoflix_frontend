@@ -10,8 +10,8 @@
   ></video>
 
   <!-- QUALITY SELECTOR INSIDE PLAYER -->
-  <div class="quality-selector" *ngIf="qualityLevels.length > 0">
-    <label for="qualitySelect">Qualität:</label>
+  <div #qualitySelector class="quality-selector" *ngIf="qualityLevels.length > 0">
+    <label for="qualitySelect">Quality:</label>
     <select
       id="qualitySelect"
       [(ngModel)]="selectedQuality"
