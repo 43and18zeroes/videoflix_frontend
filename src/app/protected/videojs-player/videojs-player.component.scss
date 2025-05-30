@@ -37,12 +37,11 @@
     // display: none !important;
 
     position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    background-color: rgba(43, 51, 63, 0.7);
     color: white;
     padding: 0.25rem 0.5rem;
-    border-radius: 4px;
     font-size: 0.9rem;
     z-index: 10;
     display: flex;
