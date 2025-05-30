@@ -19,9 +19,9 @@ export const passwordComplexityValidator: ValidatorFn = (control: AbstractContro
     errors.lowercase = true;
   }
 
-  if (!/[^A-Za-z0-9]/.test(password)) {
-    errors.specialChar = true;
-  }
+  // if (!/[^A-Za-z0-9]/.test(password)) {
+  //   errors.specialChar = true;
+  // }
 
   return Object.keys(errors).length > 0 ? errors : null;
 };
