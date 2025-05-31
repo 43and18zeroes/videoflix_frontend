@@ -82,15 +82,14 @@ export class VideoOfferComponent {
           })
         );
 
-        // Sortiere das Array, um "New on Videoflix" an den Anfang zu setzen
         sectionsArray.sort((a, b) => {
           if (a.title === 'New on Videoflix') {
-            return -1; // a kommt vor b
+            return -1;
           }
           if (b.title === 'New on Videoflix') {
-            return 1; // b kommt vor a
+            return 1;
           }
-          return 0; // Keine Änderung der Reihenfolge für andere Elemente
+          return 0;
         });
 
         this.sections = sectionsArray;

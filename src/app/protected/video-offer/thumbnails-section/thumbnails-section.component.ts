@@ -35,37 +35,29 @@ export class ThumbnailsSectionComponent {
   swiperInstance: Swiper | null = null;
 
   ngAfterViewInit(): void {
-    // Initialisiere Swiper, nachdem die View aufgebaut wurde
     if (this.swiperContainer && this.swiperContainer.nativeElement) {
       this.swiperInstance = new Swiper(this.swiperContainer.nativeElement, {
-        // Konfigurationsoptionen
-        modules: [Navigation], // Module hier übergeben
-        slidesPerView: 4, // Zeige 3 Slides gleichzeitig (anpassbar)
+        modules: [Navigation],
+        slidesPerView: 4,
         slidesPerGroup: 4,
-        spaceBetween: 28, // Setze den Abstand (wie dein 'gap')
-        loop: false, // Ob die Slideshow in einer Schleife laufen soll
+        spaceBetween: 28,
+        loop: false,
         pagination: false,
         navigation: {
-          nextEl: '.swiper-button-next', // Selektor für nächsten Button
-          prevEl: '.swiper-button-prev', // Selektor für vorherigen Button
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
-        // slidesOffsetBefore: 100,
-        // slidesOffsetAfter: 100,
-        // Breakpoints für responsives Verhalten (Beispiel)
         breakpoints: {
-          // wenn Fensterbreite >= 320px
           320: {
             slidesPerView: 2,
             slidesPerGroup: 2,
             spaceBetween: 10,
           },
-          // wenn Fensterbreite >= 768px
           768: {
             slidesPerView: 3,
             slidesPerGroup: 3,
             spaceBetween: 20,
           },
-          // wenn Fensterbreite >= 1024px
           992: {
             slidesPerView: 4,
             slidesPerGroup: 4,
@@ -77,8 +69,6 @@ export class ThumbnailsSectionComponent {
             spaceBetween: 28,
           },
         },
-        // Weitere Optionen findest du in der Swiper API Dokumentation:
-        // https://swiperjs.com/swiper-api
       });
     } else {
       console.error('Swiper container not found!');
@@ -86,7 +76,6 @@ export class ThumbnailsSectionComponent {
   }
 
   ngOnDestroy(): void {
-    // Zerstöre die Swiper-Instanz, um Speicherlecks zu vermeiden
     if (this.swiperInstance) {
       this.swiperInstance.destroy(true, true);
       this.swiperInstance = null;

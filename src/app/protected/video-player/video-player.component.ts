@@ -42,16 +42,16 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
   }
 
   private loadVideoUrl(videoId: string): void {
-    this.videoOfferService.getVideoUrlById(videoId).subscribe(response => {
-      this.videoUrl = this.appendResolution(response.videoUrl);
+    // this.videoOfferService.getVideoUrlById(videoId).subscribe(response => {
+    //   this.videoUrl = this.appendResolution(response.videoUrl);
   
-      // Video neu laden, wenn Element existiert
-      setTimeout(() => {
-        if (this.videoEl?.nativeElement) {
-          this.videoEl.nativeElement.load();
-        }
-      });
-    });
+    //   // Video neu laden, wenn Element existiert
+    //   setTimeout(() => {
+    //     if (this.videoEl?.nativeElement) {
+    //       this.videoEl.nativeElement.load();
+    //     }
+    //   });
+    // });
   }
 
   private appendResolution(baseUrl: string): string {
@@ -62,15 +62,13 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
       : width < 1280
         ? '-1280x720'
         : '-1920x1080';
-  
-    // Insert resolution before ".mp4"
     return baseUrl.replace(/\.mp4$/, `${resolution}.mp4`);
   }
   
 
   private adjustVideoQuality(): void {
     if (this.videoUrl && this.videoId) {
-      this.loadVideoUrl(this.videoId); // neu laden mit angepasster Auflösung
+      this.loadVideoUrl(this.videoId);
     }
   }
 

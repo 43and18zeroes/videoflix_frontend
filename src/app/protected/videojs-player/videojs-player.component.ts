@@ -199,7 +199,6 @@ export class VideojsPlayerComponent
     for (let i = 0; i < qualityLevels.length; i++) {
       const level = qualityLevels[i];
 
-      // "Auto" = alle Levels aktivieren, sonst nur das eine passende
       if (this.selectedQuality === 'auto') {
         level.enabled = true;
       } else {
@@ -223,28 +222,15 @@ export class VideojsPlayerComponent
   }
 
   private initOverlayClose(): void {
-    // Entferne den alten Listener, falls vorhanden
     this.removeOverlayClickListener();
-
-    // Listener auf dem Host-Element (dem gesamten Overlay-Div) anbringen
-    // Wir nutzen 'click' hier, da es auch Touch-Taps abdeckt und einfacher ist.
-    // Falls "touchstart" auf dem Overlay nicht funktioniert (z.B. weil es von dem Player
-    // selbst mit preventDefault überschrieben wird), kann man hier auch "click" lassen.
     this.overlayClickListener = this.renderer.listen(
-      this.elementRef.nativeElement, // Das ist das Host-Element (<app-videojs-player>)
-      'click', // Kann auch 'touchend' oder 'mousedown' sein, je nach gewünschtem Verhalten
+      this.elementRef.nativeElement,
+      'click',
       (event: MouseEvent | TouchEvent) => {
         const target = event.target as HTMLElement;
-
-        // Überprüfen, ob der Klick/Tap auf dem Videoplayer oder einem seiner Steuerelemente erfolgte
-        // Wenn der Klick auf dem Player selbst oder dessen Controls war, tun wir nichts.
-        // Das playerElement ist der Container für den VideoJS-Player.
         if (this.playerElement && this.playerElement.contains(target)) {
-          return; // Der Klick war innerhalb des Players, nicht auf dem Hintergrund
+          return;
         }
-
-        // Wenn der Klick nicht auf dem Player oder seinen Controls war,
-        // dann wurde der Hintergrund (das Overlay) geklickt.
         this.handleClose();
       }
     );
@@ -335,7 +321,6 @@ export class VideojsPlayerComponent
       return;
     }
 
-    // Kein preventDefault wegen passive: true
     if (this.player) {
       if (this.player.paused()) {
         this.player.play();
@@ -435,8 +420,6 @@ export class VideojsPlayerComponent
 
     this.statsIntervalId = setInterval(() => {
       if (!this.player || this.player.isDisposed()) return;
-
-      // Tatsächliche Auflösung des wiedergegebenen Videos
       const videoWidth = this.player.videoWidth?.();
       const videoHeight = this.player.videoHeight?.();
       const resolution =
@@ -444,7 +427,6 @@ export class VideojsPlayerComponent
           ? `${videoWidth}x${videoHeight}`
           : 'unbekannt';
 
-      // Aktives QualityLevel laut Plugin
       let pluginLabel = 'unbekannt';
       let pluginBitrate = 'unbekannt';
       let pluginHeight = 'unbekannt';
