@@ -1,7 +1,6 @@
 <div data-vjs-player>
   <button #closeButton class="close-button" (click)="handleClose()">×</button>
   
-  <!-- VIDEO -->
   <video
     #videoPlayer
     class="video-js vjs-default-skin vjs-big-play-centered"
@@ -9,7 +8,6 @@
     playsinline
   ></video>
 
-  <!-- QUALITY SELECTOR INSIDE PLAYER -->
   <div #qualitySelector class="quality-selector" *ngIf="qualityLevels.length > 0">
     <label for="qualitySelect">Quality:</label>
     <select
