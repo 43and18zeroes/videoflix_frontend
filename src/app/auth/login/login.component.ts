@@ -44,7 +44,6 @@ export class LoginComponent {
         if (email) {
           this.emailFromQuery = email;
           this.credentials.email = email;
-          console.log('mail exists');
         }
       });
     }
