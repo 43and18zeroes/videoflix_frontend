@@ -27,6 +27,7 @@ export class LoginComponent {
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   emailError = false;
   loading = false;
+  emailFromQuery: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -39,9 +40,11 @@ export class LoginComponent {
       this.router.navigate(['/video-offer']);
     } else {
       this.route.queryParams.subscribe((params) => {
-        const emailFromQuery = params['email'];
-        if (emailFromQuery) {
-          this.credentials.email = emailFromQuery;
+        const email = params['email'];
+        if (email) {
+          this.emailFromQuery = email;
+          this.credentials.email = email;
+          console.log('mail exists');
         }
       });
     }

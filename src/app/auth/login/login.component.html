@@ -3,7 +3,7 @@
 
   <form class="form__white__bg" (submit)="login()">
     <h1 class="login__header">Login</h1>
-    <small [class.hidden]="!(credentials.email)" class="success-message">E-mail already known, if you have forgotten your password, use the password reset link below.</small>
+    <small [class.hidden]="!(emailFromQuery)" class="success-message">E-mail already known, if you have forgotten your password, use the "Forgot password" link below.</small>
     <input class="form__margin__bottom" type="email" name="email" [(ngModel)]="credentials.email" placeholder="Email Address" required autocomplete="email">
     <input type="password" name="password" [(ngModel)]="credentials.password" placeholder="Password" required autocomplete="current-password">
     <small [class.hidden]="!(loginError || emailError)" class="error-message">Invalid email or password.</small>
