@@ -27,7 +27,7 @@ export class AuthHeaderComponent {
   }
 
   updateLoginButtonVisibility(url: string) {
-    this.showLoginButton = url !== '/login';
+    this.showLoginButton = !url.startsWith('/login');
   }
 
   navigateToLogin() {
